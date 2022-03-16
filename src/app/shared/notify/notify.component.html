@@ -1,0 +1,12 @@
+<div 
+        class="notify {{notifyCssClass}}" 
+        *ngIf="displayNotification" 
+        [@notification] 
+        style="cursor: pointer;"
+        (click)="onClick()">
+      <h4>{{notification.title}}</h4>
+</div>
+
+
+
+
