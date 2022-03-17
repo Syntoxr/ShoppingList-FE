@@ -1,17 +1,21 @@
 <div class="row">
-    <div class="col-xs-10">
+    <div class="container col-xs-10">
         <app-shopping-list-edit></app-shopping-list-edit>
         <hr>
-        <ul class="list-group">
-            <a 
-                class="list-group-item" 
-                style="cursor: pointer"
-                *ngFor="let item of items; let i = index"
-                (click)="onEditItem(i)"
-                routerLinkActive="active"
-            >
-            {{ item.name}} <span class="ingredient">{{item.amount}}</span>
-        </a>
-        </ul>
+        <div class=" col-xs-12 list-group">
+            <div 
+            class="btn-group btn-group-justified list-group-item clearfix" 
+            role="group" 
+            ria-label=""
+            class="btn-group btn-group-justified"
+            *ngFor="let item of items; let i = index">
+                <div class="btn-group btn-group-left" role="group">
+                    <a type="button" class="btn btn-default btn-left list-group-item-text" (click)="onEditItem(i)">{{ item.name}} <span class="ingredient">{{item.amount}}</span></a>
+                </div>
+                <div class="btn-group btn-group-right" role="group">
+                    <a type="button" class="btn btn-success btn-right" (click)="onCheckItem()"><span class="glyphicon glyphicon-ok"></span></a>
+                </div>
+            </div>
+          </div>
     </div>
 </div>
