@@ -1,3 +1,3 @@
-# Shoppinglist
+# Shoppinglist-UI
 
-A simple shopping list
+A simple shopping list frontent developed with Angular
