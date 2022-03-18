@@ -14,17 +14,15 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   editingSubscription: Subscription
   editMode = false;
-  editedItemIndex: number;
   editedItem: Item;
 
   constructor(private shoppingListService: ShoppingListService) { }
 
   ngOnInit() {
     this.editingSubscription = this.shoppingListService.startedEditing.subscribe(
-      (index: number) => {
-        this.editedItemIndex = index;
+      (id: number) => {
         this.editMode = true;
-        this.editedItem = this.shoppingListService.getItem(index);
+        this.editedItem = this.shoppingListService.getItem(id);
         this.slForm.setValue({
           name: this.editedItem.name,
           amount: this.editedItem.amount
@@ -34,12 +32,14 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm){
-    const value = form.value;
-    const item = new Item(value.name, value.amount)
+    const formValue = form.value;
+
     if (this.editMode) {
-      this.shoppingListService.updateItem(this.editedItemIndex, item)
+      const updatedItem = new Item(formValue.name, formValue.amount, this.editedItem.id)
+      this.shoppingListService.updateItem(updatedItem)
     } else {
-      this.shoppingListService.addItem(item);
+      const newItem = new Item(formValue.name, formValue.amount, Date.now())
+      this.shoppingListService.addItem(newItem);
     }   
     this.clearForm();
     
@@ -51,7 +51,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.shoppingListService.removeItem(this.editedItemIndex);
+    this.shoppingListService.removeItem(this.editedItem);
     this.clearForm();
   }
 

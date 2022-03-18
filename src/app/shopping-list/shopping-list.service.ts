@@ -14,45 +14,61 @@ export class ShoppingListService {
         new Item ('Tomato', 3, 11)
       ];
 
+
+    getItem(id: number) {
+        const index = this.items.findIndex(obj => obj.id === id);
+        return this.items[index];
+    }
+
     getItems() {
         return this.items.slice();
     }
 
 
-    private addAndMergeItem(item: Item) {
-        let duplicate= false;
-        this.items.find((o ,i) => {
-            if (o.name === item.name) {
-                this.items[i].amount = +this.items[i].amount + +item.amount;
-                duplicate = true;
-            }})
-
-        if (duplicate === false){
-              this.items.push(item);
-           }
-    }
 
     addItem(item: Item) {
-        this.addAndMergeItem(item);
-        this.itemsUpdated.next(this.items.slice());
+        const index = this.items.findIndex(obj => obj.name === item.name); //get index of item with name item.name
+        if (index === -1) {  //if Item does not exist
+            this.items.push(item);
+            this.itemsUpdated.next(this.items.slice());
+        } else { //if item exists -> update item
+            this.updateItem(item);
+        }
+        
     }
 
     addItems(items: Item[]){
-        items.forEach(item => {this.addAndMergeItem(item)});
+        items.forEach(item => {
+            const index = this.items.findIndex(obj => obj.name === item.name); //get index of item with name item.name
+            if (index === -1) {  //if Item does not exist
+                this.items.push(item);
+                this.itemsUpdated.next(this.items.slice());
+            } else { //if item exists -> update item
+                this.updateItem(item);
+            }
+        });
         this.itemsUpdated.next(this.items.slice());
     }
 
-    getItem(index: number) {
-        return this.items[index];
-    }
 
-    removeItem(index: number) {
+    
+    removeItem(item: Item) {
+        const index = this.getItemIndex(item);
         this.items.splice(index, 1);
+
         this.itemsUpdated.next(this.items.slice());
     }
 
-    updateItem(index: number, item: Item) {
-        this.items[index] = item;
+    updateItem(item: Item) {
+        const index = this.getItemIndex(item);
+        this.items[index] = item
+
         this.itemsUpdated.next(this.items.slice());
+    }
+
+
+
+    private getItemIndex(item: Item) {
+        return this.items.findIndex(obj => obj.id === item.id);
     }
 }
