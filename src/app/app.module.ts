@@ -8,15 +8,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListEditComponent } from './shopping-list/shopping-list-edit/shopping-list-edit.component';
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
+// import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
+// import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
+// import { RecipesComponent } from './recipes/recipes.component';
+import { FormsModule } from '@angular/forms'; //, ReactiveFormsModule
 import { DropdownDirective } from './shared/dropdown.directive';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { RecipeService } from './recipes/recipe.service';
+// import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
+// import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+// import { RecipeService } from './recipes/recipe.service';
 import { NotifyComponent } from './shared/notify/notify.component';
 
 @NgModule({
@@ -25,13 +25,13 @@ import { NotifyComponent } from './shared/notify/notify.component';
     HeaderComponent,
     ShoppingListComponent,
     ShoppingListEditComponent,
-    RecipeListComponent,
-    RecipeItemComponent,
-    RecipeDetailComponent,
-    RecipesComponent,
+    // RecipeListComponent,
+    // RecipeItemComponent,
+    // RecipeDetailComponent,
+    // RecipesComponent,
     DropdownDirective,
-    RecipeStartComponent,
-    RecipeEditComponent,
+    // RecipeStartComponent,
+    // RecipeEditComponent,
     NotifyComponent
   ],
   imports: [
@@ -39,10 +39,11 @@ import { NotifyComponent } from './shared/notify/notify.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
+    // ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [RecipeService],
+  // providers: [RecipeService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
