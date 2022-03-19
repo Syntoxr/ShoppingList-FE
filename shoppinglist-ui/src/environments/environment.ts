@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiEndpoints: {
+    shoppinglist: "http://192.168.10.60:1880/endpoint/angular/api/shoppinglist"
+  }
 };
 
 /*
