@@ -9,12 +9,14 @@
             ria-label=""
             class="btn-group btn-group-justified"
             *ngFor="let item of items; let i = index">
-                <div class="btn-group btn-group-left" role="group">
-                    <a type="button" class="btn btn-default btn-left list-group-item-text" (click)="onEditItem(item.id)">{{ item.name}} <span class="label label-primary">{{item.amount}}</span></a>
-                </div>
-                <div class="btn-group btn-group-right" role="group">
-                    <a type="button" class="btn btn-success btn-right" (click)="onCheckItem()"><span class="glyphicon glyphicon-ok"></span></a>
-                </div>
+                <ng-container *ngIf="item.visible">
+                    <div class="btn-group btn-group-left" role="group">
+                        <a type="button" class="btn btn-default btn-left list-group-item-text" (click)="onEditItem(item.id)">{{ item.name}} <span class="label label-primary">{{item.amount}}</span></a>
+                    </div>
+                    <div class="btn-group btn-group-right" role="group">
+                        <a type="button" class="btn btn-success btn-right" (click)="onCheckItem(item)"><span class="glyphicon glyphicon-ok"></span></a>
+                    </div>
+                </ng-container>
             </div>
           </div>
     </div>

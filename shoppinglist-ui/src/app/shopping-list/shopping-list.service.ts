@@ -10,13 +10,13 @@ export class ShoppingListService {
 
 
     private items: Item[] = [
-        new Item ('Apples', 5, 10),
-        new Item ('Tomato', 3, 11)
+        new Item ('Apples', 5, 10, true),
+        new Item ('Tomato', 3, 11, true)
       ];
 
 
     getItem(id: number) {
-        const index = this.items.findIndex(obj => obj.id === id);
+        const index = this.getItemIndexById(id);;
         return this.items[index];
     }
 
@@ -66,9 +66,18 @@ export class ShoppingListService {
         this.itemsUpdated.next(this.items.slice());
     }
 
+    updateItemId(oldId: number, newId: number) {
+        const index = this.getItemIndexById(oldId);
+        this.items[oldId].id = newId;
+    }
+
 
 
     private getItemIndex(item: Item) {
         return this.items.findIndex(obj => obj.id === item.id);
+    }
+
+    private getItemIndexById (id: number) {
+        return this.items.findIndex(obj => obj.id === id)
     }
 }

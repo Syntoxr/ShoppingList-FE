@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Item } from 'src/app/shared/item.model';
 import { ShoppingListService } from '../shopping-list.service';
 
@@ -16,7 +17,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   editMode = false;
   editedItem: Item;
 
-  constructor(private shoppingListService: ShoppingListService) { }
+  constructor(private shoppingListService: ShoppingListService, private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
     this.editingSubscription = this.shoppingListService.startedEditing.subscribe(
@@ -35,11 +36,12 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     const formValue = form.value;
 
     if (this.editMode) {
-      const updatedItem = new Item(formValue.name, formValue.amount, this.editedItem.id)
+      const updatedItem = new Item(formValue.name, formValue.amount, this.editedItem.id, true)
       this.shoppingListService.updateItem(updatedItem)
     } else {
-      const newItem = new Item(formValue.name, formValue.amount, Date.now())
+      const newItem = new Item(formValue.name, formValue.amount, Date.now(), true)
       this.shoppingListService.addItem(newItem);
+      this.dataStorageService.addItem(newItem)
     }   
     this.clearForm();
     
