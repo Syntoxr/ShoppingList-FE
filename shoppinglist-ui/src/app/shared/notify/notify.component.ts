@@ -17,10 +17,10 @@ import { NotificationLevels, WebNotification } from './web-notification.model';
         style({
           transform: 'translateY(-100%)'
         }),
-        animate(200)
+        animate(150)
       ]),
       transition('* => void',
-        animate(200, style({
+        animate(150, style({
           transform: 'translateY(-100%)'
         })))
     ])
@@ -31,7 +31,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
   notification = new WebNotification('');
   notifySub: Subscription;
   notifyCssClass = '';
-  displayStyle = "none";
+  displayNotification = false;
 
 
   constructor(private notifyService: NotifyService) { }
@@ -40,7 +40,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
     this.notifySub = this.notifyService.newNotification.subscribe(notification => {
       this.notification = notification;
       console.log(notification.level);
-      this.openPopup();
+      this.displayNotification = true;
 
       switch (notification.level) {
         case NotificationLevels.Info:
@@ -60,12 +60,12 @@ export class NotifyComponent implements OnInit, OnDestroy {
           break;
 
         default:
-          this.notifyCssClass = "notify-warn";
+          this.notifyCssClass = "notify-info";
       }
       console.log(this.notifyCssClass); 
 
       setTimeout(() => {
-        this.closePopup();
+        this.displayNotification = false;
       } ,this.notification.duration);
     })
   }
@@ -78,16 +78,5 @@ export class NotifyComponent implements OnInit, OnDestroy {
 
   onClick() {
     alert(this.notification.message);
-  }
-
-
-  
-  
-  
-  openPopup() {
-    this.displayStyle = "block";
-  }
-  closePopup() {
-    this.displayStyle = "none";
   }
 }

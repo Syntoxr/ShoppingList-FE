@@ -1,31 +1,12 @@
-<!-- <div 
-        class="notify {{notifyCssClass}}" 
-        *ngIf="displayNotification" 
-        [@notification] 
-        style="cursor: pointer;"
-        (click)="onClick()">
-      <h4>{{notification.title}}</h4>
-</div> -->
-
-<div
-*ngIf="displayStyle == 'block'"
-  [@notification]
-  class="modal"
-  tabindex="-1"
-  role="dialog"
-  [ngStyle]="{'display':displayStyle}">
-  <div class="modal-dialog notify-dialog" (click)="closePopup()" >
-    <div class="modal-content notify-content">
-      <div class="modal-header notify {{notifyCssClass}}">
-        <h4 class="modal-title">{{notification.title}}</h4>
+<div class="main">
+  <div class="notification-wrapper" *ngIf="displayNotification" @notification (click)="displayNotification = false">
+    <div class="notification-body">
+      <div class="notification-header {{notifyCssClass}}">
+        <h2>{{notification.title}}</h2>
       </div>
-      <div class="modal-body">
-        <p>{{ notification.message}}</p>
+      <div class="notification-message">
+        <p>{{notification.message}}</p>
       </div>
     </div>
-    <p style="text-align: center; color: lightslategray;">zum schließen klicken</p>
   </div>
 </div>
-
-
-

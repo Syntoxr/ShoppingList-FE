@@ -1,34 +1,66 @@
 @import "../../../styles.less";
+@import "/node_modules/bootstrap-less/bootstrap/bootstrap.less";
 
+@border-radius: 5px;
 
-.notify-dialog {
-    float: right;
-    margin-right: 30px;
-    padding: 0;
-    max-width: 32%;
+.main {
+    position:relative;
+    height:0px;
+  }
+  
+.notification-wrapper {
+  position:absolute;
+  top:0;
+  right:0;
+  height:50px;
+  margin-right: 20px;
+  z-index: 100;
+  max-width: 300px;
+  min-width: 200px;
+}
+
+.notification-body {
+    background-color: transparent;
+    box-shadow: 5px 5px 5px grey;
+    border-radius: @border-radius;
     cursor: pointer;
-
 }
 
-.notify-content {
-    word-wrap:break-word;
-    padding: 0;
-    border: 0;
-}
-
-.notify {
+.notification-header {
+    padding: 5px;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
 }
 
-.notify-info {
-    background-color: @standard-blue;
+.notification-message {
+    padding: 5px;
+    background-color: white;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    border: 1px solid @border-grey;
+    border-top: 0;
+}
+
+
+h2 {
     margin: 0;
+    word-wrap:break-word;
+}
+
+p {
+    margin: 0;
+    word-wrap:break-word;
+}
+
+
+
+
+.notify-info {
+    background-color: @standard-blue; 
 }
 
 .notify-success {
     background-color: @standard-green;
-    margin: 0;
 }
 
 .notify-warn {
@@ -39,5 +71,3 @@
     background-color: @standard-red;
     color: white;
 }
-
-  
