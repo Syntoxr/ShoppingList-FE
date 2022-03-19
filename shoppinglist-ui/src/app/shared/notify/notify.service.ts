@@ -24,6 +24,18 @@ export class NotifyService {
 
   }
 
+  success(title: string, description?: string, duration?: number) {
+    const notification = new WebNotification(
+      title,
+      description,
+      NotificationLevels.Success,
+      duration
+    );
+
+    this.newNotification.next(notification);
+
+  }
+
   warn(title: string, description?: string, duration?: number) {
     const notification = new WebNotification(
       title,

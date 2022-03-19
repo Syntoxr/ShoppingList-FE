@@ -11,27 +11,27 @@ import { NotificationLevels, WebNotification } from './web-notification.model';
   animations: [
     trigger('notification', [
       state('in', style({
-        transform: 'translateX(0)'
+        transform: 'translateY(0)'
       })),
       transition('void => *', [
         style({
-          transform: 'translateX(100%)'
+          transform: 'translateY(-100%)'
         }),
-        animate(100)
+        animate(200)
       ]),
       transition('* => void',
-        animate(100, style({
-          transform: 'translateX(100%)'
+        animate(200, style({
+          transform: 'translateY(-100%)'
         })))
     ])
   ]
 })
 
 export class NotifyComponent implements OnInit, OnDestroy {
-  displayNotification = false;
-  notification: WebNotification;
+  notification = new WebNotification('');
   notifySub: Subscription;
   notifyCssClass = '';
+  displayStyle = "none";
 
 
   constructor(private notifyService: NotifyService) { }
@@ -39,12 +39,16 @@ export class NotifyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.notifySub = this.notifyService.newNotification.subscribe(notification => {
       this.notification = notification;
-      this.displayNotification = true
       console.log(notification.level);
+      this.openPopup();
 
       switch (notification.level) {
         case NotificationLevels.Info:
           this.notifyCssClass = "notify-info";
+          break;
+
+        case NotificationLevels.Success:
+          this.notifyCssClass = "notify-success";
           break;
 
         case NotificationLevels.Warn:
@@ -61,7 +65,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
       console.log(this.notifyCssClass); 
 
       setTimeout(() => {
-        this.displayNotification = false
+        this.closePopup();
       } ,this.notification.duration);
     })
   }
@@ -73,7 +77,17 @@ export class NotifyComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    alert(this.notification.description);
+    alert(this.notification.message);
   }
 
+
+  
+  
+  
+  openPopup() {
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
+  }
 }
