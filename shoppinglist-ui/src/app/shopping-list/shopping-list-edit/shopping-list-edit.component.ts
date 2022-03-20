@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Item } from 'src/app/shared/item.model';
@@ -11,29 +11,38 @@ import { ShoppingListService } from '../shopping-list.service';
   styleUrls: ['./shopping-list-edit.component.less']
 })
 export class ShoppingListEditComponent implements OnInit, OnDestroy {
-  @ViewChild('f', {static: false}) slForm: NgForm;
+  editForm: FormGroup;
 
-  editingSubscription: Subscription
+  editingSubscription: Subscription;
+  itemsSubscription: Subscription;
   editMode = false;
   editedItem: Item;
+  items: Item[];
 
   constructor(private shoppingListService: ShoppingListService, private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
-    this.editingSubscription = this.shoppingListService.startedEditing.subscribe(
+    this.editForm = new FormGroup({ 
+      'name': new FormControl(null, Validators.required), 
+      'amount': new FormControl(1, Validators.required) 
+    });
+
+    this.editingSubscription = this.shoppingListService.startedEditing.subscribe(  //if Item is selected, fill form with values of selected item
       (id: number) => {
         this.editMode = true;
         this.editedItem = this.shoppingListService.getItem(id);
-        this.slForm.setValue({
+        this.editForm.setValue({
           name: this.editedItem.name,
           amount: this.editedItem.amount
         });
       }
     );
+
+    this.itemsSubscription = this.shoppingListService.itemsUpdated.subscribe(items => this.items = items); //subscribe to item list. Required for Autocomplete
   }
 
-  onSubmit(form: NgForm){
-    const formValue = form.value;
+  onSubmit(){
+    const formValue = this.editForm.value;
 
     if (this.editMode) {
       const updatedItem = new Item(formValue.name, formValue.amount, this.editedItem.id, true)
@@ -49,7 +58,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   clearForm() {
     this.editMode = false;
-    this.slForm.reset({amount: 1});
+    this.editForm.reset({amount: 1});
   }
 
   onDelete() {
