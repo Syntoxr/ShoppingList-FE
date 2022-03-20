@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +19,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 // import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 // import { RecipeService } from './recipes/recipe.service';
 import { NotifyComponent } from './shared/notify/notify.component';
+import { ClickOutsideDirective } from './shared/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import { NotifyComponent } from './shared/notify/notify.component';
     // RecipeDetailComponent,
     // RecipesComponent,
     DropdownDirective,
+    ClickOutsideDirective,
     // RecipeStartComponent,
     // RecipeEditComponent,
     NotifyComponent
@@ -43,7 +44,6 @@ import { NotifyComponent } from './shared/notify/notify.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatAutocompleteModule
   ],
   // providers: [RecipeService],
   providers: [],
