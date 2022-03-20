@@ -1,19 +1,41 @@
 <div class="row">
     <div class="col-xs-12">
-        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
             <div class="row">
-                <div class="col-sm-5 form-group">
+                
+                <div class="col-xs-12" style="z-index: 100; margin-bottom: 15px;">
+                    <button 
+                        class="btn btn-success" 
+                        style="margin-left: 0px;"
+                        [disabled]="!editForm.valid"
+                        type="submit">{{ editMode ? 'Update':'Hinzufügen'}}</button>
+                    <button class="btn btn-danger" type="button" (click)="onDelete()" *ngIf="editMode">Löschen</button>
+                    <button class="btn btn-primary" type="button" (click)="clearForm()">Abbrechen</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5 form-group" (clickOutside)="showSelectDropdown = false" >
                     <label for="name">Name</label>
                     <input 
-                    type="text" 
-                    required='true'
-                    id="name"
-                    class="form-control"
-                    name="name"
+                    type="text"
                     placeholder="Zur Liste hinzufügen ..."
-                    ngModel
-                    required>
+                    arria-label="test"
+                    matInput
+                    class="form-control dropdown-toggle"
+                    formControlName="name"
+                    (input)="onTypeName()"
+                    (focus)="showSelectDropdown = true"
+                    >
+                    <div class="suggestion-main" *ngIf="((showSelectDropdown) && (suggestetItems.length != 0))">
+                        <div   class="list-group">
+                            <div class="list-group-item suggestion-item" *ngFor="let item of suggestetItems" (click)="onSelectSuggestion(item)" >
+                                <p class="dropdown-item list-group-item-text">{{item.name}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="col-sm-2 form group">
                     <label for="amount">Anzahl</label>
                     <input
@@ -21,20 +43,9 @@
                     id="amount" 
                     class="form-control"
                     min="1"
-                    placeholder="Zur Liste hinzufügen..."
+                    placeholder="Anzahl"
                     name="amount"
-                    ngModel="1"
-                    required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <button 
-                        class="btn btn-success" 
-                        [disabled]="f.invalid" 
-                        type="submit">{{ editMode ? 'Update':'Hinzufügen'}}</button>
-                    <button class="btn btn-danger" type="button" (click)="onDelete()" *ngIf="editMode">Löschen</button>
-                    <button class="btn btn-primary" type="button" (click)="clearForm()">Abbrechen</button>
+                    formControlName="amount">
                 </div>
             </div>
         </form>

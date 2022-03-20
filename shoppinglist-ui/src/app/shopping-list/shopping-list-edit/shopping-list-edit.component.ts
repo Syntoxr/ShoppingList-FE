@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Item } from 'src/app/shared/item.model';
@@ -11,29 +11,41 @@ import { ShoppingListService } from '../shopping-list.service';
   styleUrls: ['./shopping-list-edit.component.less']
 })
 export class ShoppingListEditComponent implements OnInit, OnDestroy {
-  @ViewChild('f', {static: false}) slForm: NgForm;
+  editForm: FormGroup;
 
-  editingSubscription: Subscription
+  editingSubscription: Subscription;
+  itemsSubscription: Subscription;
   editMode = false;
   editedItem: Item;
+  items: Item[];
+  suggestetItems: Item[] = [];
+  showSelectDropdown = false;
 
-  constructor(private shoppingListService: ShoppingListService, private dataStorageService: DataStorageService) { }
+  constructor(private shoppingListService: ShoppingListService, private dataStorageService: DataStorageService, private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.editingSubscription = this.shoppingListService.startedEditing.subscribe(
+    this.editForm = new FormGroup({ 
+      'name': new FormControl(null, Validators.required), 
+      'amount': new FormControl(1, Validators.required) 
+    });
+
+    this.editingSubscription = this.shoppingListService.startedEditing.subscribe(  //if Item is selected, fill form with values of selected item
       (id: number) => {
         this.editMode = true;
         this.editedItem = this.shoppingListService.getItem(id);
-        this.slForm.setValue({
+        this.editForm.setValue({
           name: this.editedItem.name,
           amount: this.editedItem.amount
         });
       }
     );
+    
+    this.items = this.shoppingListService.getItems(); //get item list and subscribe afterwards. Required for Autocomplete
+    this.itemsSubscription = this.shoppingListService.itemsUpdated.subscribe(items => this.items = items); 
   }
 
-  onSubmit(form: NgForm){
-    const formValue = form.value;
+  onSubmit(){
+    const formValue = this.editForm.value;
 
     if (this.editMode) {
       const updatedItem = new Item(formValue.name, formValue.amount, this.editedItem.id, true)
@@ -47,9 +59,19 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     
   }
 
+  onSelectSuggestion(item: Item) {
+    this.editMode = true;
+    this.editedItem = item;
+    this.editForm.setValue({
+      name: this.editedItem.name,
+      amount: this.editedItem.amount
+    });
+    this.showSelectDropdown = false;
+  }
+
   clearForm() {
     this.editMode = false;
-    this.slForm.reset({amount: 1});
+    this.editForm.reset({amount: 1});
   }
 
   onDelete() {
@@ -61,4 +83,18 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     this.editingSubscription.unsubscribe();
   }
   
+  onTypeName() {
+    console.log(this.showSelectDropdown);
+    this.suggestetItems = this.items.filter( item => { //compare searchstring with item names caseinsensitive and ignoring accents
+      return item.name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleUpperCase()
+        .includes(this.editForm.controls['name'].value
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLocaleUpperCase())
+    });
+    if (this.suggestetItems.length > 0) {this.showSelectDropdown = true}
+  }
 }

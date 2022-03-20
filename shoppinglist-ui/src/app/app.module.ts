@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -12,12 +13,13 @@ import { ShoppingListEditComponent } from './shopping-list/shopping-list-edit/sh
 // import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
 // import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 // import { RecipesComponent } from './recipes/recipes.component';
-import { FormsModule } from '@angular/forms'; //, ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { DropdownDirective } from './shared/dropdown.directive';
 // import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 // import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 // import { RecipeService } from './recipes/recipe.service';
 import { NotifyComponent } from './shared/notify/notify.component';
+import { ClickOutsideDirective } from './shared/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { NotifyComponent } from './shared/notify/notify.component';
     // RecipeDetailComponent,
     // RecipesComponent,
     DropdownDirective,
+    ClickOutsideDirective,
     // RecipeStartComponent,
     // RecipeEditComponent,
     NotifyComponent
@@ -39,8 +42,8 @@ import { NotifyComponent } from './shared/notify/notify.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    // ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   // providers: [RecipeService],
   providers: [],
