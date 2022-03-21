@@ -2,7 +2,7 @@
 name: Feature contribution
 about: Create a feature you want to work on yourself
 title: "[NEW FEATURE]"
-labels: new feature
+labels: enhancement
 assignees: ''
 
 ---
