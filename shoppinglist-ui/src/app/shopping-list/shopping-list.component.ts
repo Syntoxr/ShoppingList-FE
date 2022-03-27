@@ -1,42 +1,39 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataStorageService } from '../shared/data-storage.service';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { Item } from '../shared/item.model';
-import { ShoppingListService } from './shopping-list.service';
+import {
+  loadItems,
+  startEditing,
+  updateItem,
+} from './store/shopping-list.actions';
+import { selectAllItems } from './store/shopping-list.selectors';
 
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styleUrls: ['./shopping-list.component.less']
+  styleUrls: ['./shopping-list.component.less'],
 })
-export class ShoppingListComponent implements OnInit, OnDestroy {
-  items: Item[] = [];
-  private itemChangeSub: Subscription;
+export class ShoppingListComponent implements OnInit {
+  items: Item[];
 
+  constructor(private store: Store) {}
 
-  constructor(private shoppingListService: ShoppingListService, private dataStorageService: DataStorageService) {}
-
-    ngOnInit(){
-    this.dataStorageService.fetchItems();
-    this.items = this.shoppingListService.getItems();
-    this.itemChangeSub =  this.shoppingListService.itemsUpdated.subscribe(
-      (items: Item[]) => { this.items = items;}
-    );
+  ngOnInit() {
+    this.store.dispatch(loadItems());
+    this.store.select(selectAllItems).subscribe(items => {
+      this.items = items;
+    });
   }
 
-  ngOnDestroy() {
-    this.itemChangeSub.unsubscribe();
-  }
-
-  onEditItem(id: number) {
-    this.shoppingListService.startedEditing.next(id);
+  onEditItem(item: Item) {
+    this.store.dispatch(startEditing({ item: item }));
   }
 
   onCheckItem(item: Item) {
-    const updatedItem = item;
+    const updatedItem: Item = JSON.parse(JSON.stringify(item));
     updatedItem.visible = false;
-    this.shoppingListService.updateItem(updatedItem)
+    updatedItem.amount = 1;
+    this.store.dispatch(updateItem({ item: updatedItem }));
   }
-
 }
