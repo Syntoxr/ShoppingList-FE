@@ -5,14 +5,6 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ShoppingListService {
-  //   itemsUpdated = new Subject<Item[]>();
-  //   startedEditing = new Subject<number>();
-
-  //   private items: Item[] = [
-  //     new Item('Apples', 5, 10, true),
-  //     new Item('Tomato', 3, 11, true),
-  //   ];
-
   // get API endpoint URL from env file
   private readonly shoppinglistApiUrl = environment.apiEndpoints.shoppinglist;
 
