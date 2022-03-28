@@ -41,8 +41,8 @@ export const startEditing = createAction(
 
 export const stopEditing = createAction('[Shopping List] stop Editing');
 
-export const setEditingItem = createAction(
-  '[Shopping List] set Editing Item',
+export const setEditedItem = createAction(
+  '[Shopping List] set Edited Item',
   props<{ item: Item }>()
 );
 

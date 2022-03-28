@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { first, Observable, Subscription } from 'rxjs';
+import { first, Observable, Subscription, take } from 'rxjs';
 import { Item } from 'src/app/shared/item.model';
 import {
   addItem,
   deleteItem,
-  setEditingItem,
+  setEditedItem,
   setEditMode,
   updateItem,
 } from '../store/shopping-list.actions';
 import {
   selectAllItems,
-  selectEditingItem,
+  selectEditedItem,
   selectEditingMode,
 } from '../store/shopping-list.selectors';
 
@@ -21,27 +21,30 @@ import {
   templateUrl: './shopping-list-edit.component.html',
   styleUrls: ['./shopping-list-edit.component.less'],
 })
-export class ShoppingListEditComponent implements OnInit {
+export class ShoppingListEditComponent implements OnInit, OnDestroy {
   editForm: FormGroup;
 
-  itemsSubscription: Subscription;
   editMode: Observable<boolean>;
   editedItem: Item;
   items: Observable<Item[]>;
   suggestedItems: Item[] = [];
   showSelectDropdown = false;
+  editedItemSub: Subscription;
 
   constructor(private store: Store) {}
 
   ngOnInit() {
+    //create new reactive form with validators
     this.editForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       amount: new FormControl(1, Validators.required),
     });
 
+    //assign observable containing the item list to this.items
     this.items = this.store.select(selectAllItems); //subscribe to item list. Required for Autocomplete
 
-    this.store.select(selectEditingItem).subscribe(item => {
+    //subscribe to editedItem from store and update this.editedItem accordingly
+    this.editedItemSub = this.store.select(selectEditedItem).subscribe(item => {
       this.editedItem = item;
       if (item !== null) {
         this.editForm.setValue({
@@ -51,20 +54,19 @@ export class ShoppingListEditComponent implements OnInit {
       }
     });
 
+    //assign observable containing the edit Mode list to this.editMode
     this.editMode = this.store.select(selectEditingMode);
   }
 
   onSubmit() {
+    //get values from form
     const formValue = this.editForm.value;
+
+    //look if edit mode is activated
     let editMode: boolean;
+    this.editMode.pipe(first()).subscribe(mode => (editMode = mode));
 
-    this.store
-      .select(selectEditingMode)
-      .pipe(first())
-      .subscribe(mode => {
-        editMode = mode;
-      });
-
+    //when edit mode is active update according item
     if (editMode) {
       const updatedItem = new Item(
         formValue.name,
@@ -73,6 +75,7 @@ export class ShoppingListEditComponent implements OnInit {
         true
       );
       this.store.dispatch(updateItem({ item: updatedItem }));
+      //when not in edit mode add item
     } else {
       const newItem = new Item(
         formValue.name,
@@ -87,8 +90,9 @@ export class ShoppingListEditComponent implements OnInit {
 
   onSelectSuggestion(item: Item) {
     this.store.dispatch(setEditMode({ value: item.visible }));
-    this.store.dispatch(setEditingItem({ item }));
+    this.store.dispatch(setEditedItem({ item }));
 
+    //set form to selected item from suggestions
     this.editForm.setValue({
       name: this.editedItem.name,
       amount: this.editedItem.amount,
@@ -114,15 +118,6 @@ export class ShoppingListEditComponent implements OnInit {
   }
 
   updateSuggestions() {
-    let searchItems: Item[];
-    //get items from store
-    this.store
-      .select(selectAllItems)
-      .pipe(first())
-      .subscribe(items => {
-        searchItems = items;
-      });
-
     if (this.editForm.controls['name'].value) {
       let searchItems: Item[];
       //get items from store
@@ -132,6 +127,7 @@ export class ShoppingListEditComponent implements OnInit {
         .subscribe(items => {
           searchItems = items;
         });
+      console.log(searchItems);
 
       this.suggestedItems = searchItems.filter(item => {
         //compare searchstring with item names caseinsensitive and ignoring accents
@@ -146,6 +142,13 @@ export class ShoppingListEditComponent implements OnInit {
               .toLocaleUpperCase()
           );
       });
+      console.log(this.suggestedItems);
     }
   }
+
+  ngOnDestroy(): void {
+    this.editedItemSub.unsubscribe();
+  }
 }
+
+//dropdown doesn't get displayed

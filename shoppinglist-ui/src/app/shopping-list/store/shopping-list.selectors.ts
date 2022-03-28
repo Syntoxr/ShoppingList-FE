@@ -15,9 +15,9 @@ export const selectItem = (id: number) =>
     return state.items[index];
   });
 
-export const selectEditingItem = createSelector(
+export const selectEditedItem = createSelector(
   selectShoppingList,
-  (state: ShoppingListState) => state.editingItem
+  (state: ShoppingListState) => state.editedItem
 );
 
 export const selectEditingMode = createSelector(
