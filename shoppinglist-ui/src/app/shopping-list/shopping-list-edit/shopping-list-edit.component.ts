@@ -1,100 +1,154 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { DataStorageService } from 'src/app/shared/data-storage.service';
+import { Store } from '@ngrx/store';
+import { first, Observable, Subscription, take } from 'rxjs';
 import { Item } from 'src/app/shared/item.model';
-import { ShoppingListService } from '../shopping-list.service';
+import {
+  addItem,
+  deleteItem,
+  setEditedItem,
+  setEditMode,
+  updateItem,
+} from '../store/shopping-list.actions';
+import {
+  selectAllItems,
+  selectEditedItem,
+  selectEditingMode,
+} from '../store/shopping-list.selectors';
 
 @Component({
   selector: 'app-shopping-list-edit',
   templateUrl: './shopping-list-edit.component.html',
-  styleUrls: ['./shopping-list-edit.component.less']
+  styleUrls: ['./shopping-list-edit.component.less'],
 })
 export class ShoppingListEditComponent implements OnInit, OnDestroy {
   editForm: FormGroup;
 
-  editingSubscription: Subscription;
-  itemsSubscription: Subscription;
-  editMode = false;
+  editMode: Observable<boolean>;
   editedItem: Item;
-  items: Item[];
-  suggestetItems: Item[] = [];
+  items: Observable<Item[]>;
+  suggestedItems: Item[] = [];
   showSelectDropdown = false;
+  editedItemSub: Subscription;
 
-  constructor(private shoppingListService: ShoppingListService, private dataStorageService: DataStorageService, private renderer: Renderer2) { }
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    this.editForm = new FormGroup({ 
-      'name': new FormControl(null, Validators.required), 
-      'amount': new FormControl(1, Validators.required) 
+    //create new reactive form with validators
+    this.editForm = new FormGroup({
+      name: new FormControl(null, Validators.required),
+      amount: new FormControl(1, Validators.required),
     });
 
-    this.editingSubscription = this.shoppingListService.startedEditing.subscribe(  //if Item is selected, fill form with values of selected item
-      (id: number) => {
-        this.editMode = true;
-        this.editedItem = this.shoppingListService.getItem(id);
+    //assign observable containing the item list to this.items
+    this.items = this.store.select(selectAllItems); //subscribe to item list. Required for Autocomplete
+
+    //subscribe to editedItem from store and update this.editedItem accordingly
+    this.editedItemSub = this.store.select(selectEditedItem).subscribe(item => {
+      this.editedItem = item;
+      if (item !== null) {
         this.editForm.setValue({
           name: this.editedItem.name,
-          amount: this.editedItem.amount
+          amount: this.editedItem.amount,
         });
       }
-    );
-    
-    this.items = this.shoppingListService.getItems(); //get item list and subscribe afterwards. Required for Autocomplete
-    this.itemsSubscription = this.shoppingListService.itemsUpdated.subscribe(items => this.items = items); 
+    });
+
+    //assign observable containing the edit Mode list to this.editMode
+    this.editMode = this.store.select(selectEditingMode);
   }
 
-  onSubmit(){
+  onSubmit() {
+    //get values from form
     const formValue = this.editForm.value;
 
-    if (this.editMode) {
-      const updatedItem = new Item(formValue.name, formValue.amount, this.editedItem.id, true)
-      this.shoppingListService.updateItem(updatedItem)
+    //look if edit mode is activated
+    let editMode: boolean;
+    this.editMode.pipe(first()).subscribe(mode => (editMode = mode));
+
+    //when edit mode is active update according item
+    if (editMode) {
+      const updatedItem = new Item(
+        formValue.name,
+        formValue.amount,
+        this.editedItem.id,
+        true
+      );
+      this.store.dispatch(updateItem({ item: updatedItem }));
+      //when not in edit mode add item
     } else {
-      const newItem = new Item(formValue.name, formValue.amount, Date.now(), true)
-      this.shoppingListService.addItem(newItem);
-      this.dataStorageService.addItem(newItem)
-    }   
+      const newItem = new Item(
+        formValue.name,
+        formValue.amount,
+        Date.now(),
+        true
+      );
+      this.store.dispatch(addItem({ item: newItem }));
+    }
     this.clearForm();
-    
   }
 
   onSelectSuggestion(item: Item) {
-    this.editMode = true;
-    this.editedItem = item;
+    this.store.dispatch(setEditMode({ value: item.visible }));
+    this.store.dispatch(setEditedItem({ item }));
+
+    //set form to selected item from suggestions
     this.editForm.setValue({
       name: this.editedItem.name,
-      amount: this.editedItem.amount
+      amount: this.editedItem.amount,
     });
     this.showSelectDropdown = false;
   }
 
   clearForm() {
-    this.editMode = false;
-    this.editForm.reset({amount: 1});
+    this.store.dispatch(setEditMode({ value: false }));
+    this.editForm.reset({ amount: 1 });
   }
 
   onDelete() {
-    this.shoppingListService.removeItem(this.editedItem);
+    this.store.dispatch(deleteItem({ item: this.editedItem }));
     this.clearForm();
   }
 
-  ngOnDestroy(): void {
-    this.editingSubscription.unsubscribe();
-  }
-  
   onTypeName() {
-    console.log(this.showSelectDropdown);
-    this.suggestetItems = this.items.filter( item => { //compare searchstring with item names caseinsensitive and ignoring accents
-      return item.name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLocaleUpperCase()
-        .includes(this.editForm.controls['name'].value
+    this.updateSuggestions();
+    if (this.suggestedItems.length > 0) {
+      this.showSelectDropdown = true;
+    }
+  }
+
+  updateSuggestions() {
+    if (this.editForm.controls['name'].value) {
+      let searchItems: Item[];
+      //get items from store
+      this.store
+        .select(selectAllItems)
+        .pipe(first())
+        .subscribe(items => {
+          searchItems = items;
+        });
+      console.log(searchItems);
+
+      this.suggestedItems = searchItems.filter(item => {
+        //compare searchstring with item names caseinsensitive and ignoring accents
+        return item.name
           .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLocaleUpperCase())
-    });
-    if (this.suggestetItems.length > 0) {this.showSelectDropdown = true}
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLocaleUpperCase()
+          .includes(
+            this.editForm.controls['name'].value
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .toLocaleUpperCase()
+          );
+      });
+      console.log(this.suggestedItems);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.editedItemSub.unsubscribe();
   }
 }
+
+//dropdown doesn't get displayed

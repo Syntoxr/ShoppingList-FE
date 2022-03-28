@@ -1,83 +1,39 @@
-import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { Item } from "../shared/item.model";
+import { Injectable } from '@angular/core';
+import { Item } from '../shared/item.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
-@Injectable({providedIn: 'root'})
-
+@Injectable({ providedIn: 'root' })
 export class ShoppingListService {
-    itemsUpdated = new Subject<Item[]>();
-    startedEditing = new Subject<number>();
+  //   itemsUpdated = new Subject<Item[]>();
+  //   startedEditing = new Subject<number>();
 
+  //   private items: Item[] = [
+  //     new Item('Apples', 5, 10, true),
+  //     new Item('Tomato', 3, 11, true),
+  //   ];
 
-    private items: Item[] = [
-        new Item ('Apples', 5, 10, true),
-        new Item ('Tomato', 3, 11, true)
-      ];
+  // get API endpoint URL from env file
+  private readonly shoppinglistApiUrl = environment.apiEndpoints.shoppinglist;
 
+  constructor(private http: HttpClient) {}
 
-    getItem(id: number) {
-        const index = this.getItemIndexById(id);;
-        return this.items[index];
-    }
+  // get all shopping list items from backend
+  getItems() {
+    return this.http.get<Item[]>(this.shoppinglistApiUrl);
+  }
 
-    getItems() {
-        return this.items.slice();
-    }
+  //post new item with temporary id to backend.
+  //Returns old- and new id in order to update the local temp id
+  addItem(item: Item) {
+    return this.http.post<{ oldId: number; newId: number }>(
+      this.shoppinglistApiUrl,
+      item
+    );
+  }
 
-
-
-    addItem(item: Item) {
-        const index = this.items.findIndex(obj => obj.name === item.name); //get index of item with name item.name
-        if (index === -1) {  //if Item does not exist
-            this.items.push(item);
-            this.itemsUpdated.next(this.items.slice());
-        } else { //if item exists -> update item
-            this.updateItem(item);
-        }
-        
-    }
-
-    addItems(items: Item[]){
-        items.forEach(item => {
-            const index = this.items.findIndex(obj => obj.name === item.name); //get index of item with name item.name
-            if (index === -1) {  //if Item does not exist
-                this.items.push(item);
-                this.itemsUpdated.next(this.items.slice());
-            } else { //if item exists -> update item
-                this.updateItem(item);
-            }
-        });
-        this.itemsUpdated.next(this.items.slice());
-    }
-
-
-    
-    removeItem(item: Item) {
-        const index = this.getItemIndex(item);
-        this.items.splice(index, 1);
-
-        this.itemsUpdated.next(this.items.slice());
-    }
-
-    updateItem(item: Item) {
-        const index = this.getItemIndex(item);
-        this.items[index] = item
-
-        this.itemsUpdated.next(this.items.slice());
-    }
-
-    updateItemId(oldId: number, newId: number) {
-        const index = this.getItemIndexById(oldId);
-        this.items[oldId].id = newId;
-    }
-
-
-
-    private getItemIndex(item: Item) {
-        return this.items.findIndex(obj => obj.id === item.id);
-    }
-
-    private getItemIndexById (id: number) {
-        return this.items.findIndex(obj => obj.id === id)
-    }
+  //sends updated item to backend
+  updateItem(item: Item) {
+    return this.http.patch(this.shoppinglistApiUrl, item);
+  }
 }
