@@ -24,6 +24,12 @@ import { StoreModule } from '@ngrx/store';
 import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { de_DE } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
+
+registerLocaleData(de);
 
 @NgModule({
   declarations: [
@@ -53,7 +59,7 @@ import { environment } from 'src/environments/environment';
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   // providers: [RecipeService],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: de_DE }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
