@@ -26,6 +26,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { registerLocaleData } from '@angular/common';
 import de from '@angular/common/locales/de';
 
@@ -50,6 +51,7 @@ registerLocaleData(de);
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NzAutocompleteModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
