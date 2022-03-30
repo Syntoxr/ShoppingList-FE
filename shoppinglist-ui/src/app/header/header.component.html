@@ -1,30 +1,12 @@
-<nav class="navbar navbar-default" style="border: 0; border-radius: 0; margin: 0;"> 
-    <div class="container-fluid">
-
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" (click)="collapsed = !collapsed">
-              <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
-            </button>
-            <a routerLink="/" class="navbar-brand">Shopping List</a>
-          </div>
-          <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
-
-            <ul class="nav navbar-nav">
-                <li routerLinkActive="active"><a routerLink="/shopping-list" >Einkaufsliste</a></li>
-                <!-- <li routerLinkActive="active"><a routerLink="/recipes">Rezepte</a></li> -->
-                <li><button class="btn btn-primary" (click)="onNotify()">Notify!</button></li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" appDropdown>
-                    <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a style="cursor: pointer;" (click)="onSave()">save Data</a></li>
-                        <li><a style="cursor: pointer;" (click)="onFetch()">Fetch Data</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+<ul nz-menu class="menu" nzTheme="dark" nzMode="horizontal">
+    <li nz-menu-item [routerLink]="['/']" >
+        <i type="message" nz-icon nzType="shopping-cart" class="logo"></i>
+    </li>
+    <li nz-menu-item [routerLink]="['shoppinglist']">
+    <i nz-icon nzType="shopping-cart"></i>
+    Einkaufsliste</li>
+    <li nz-menu-item (click)="onNotify()">
+        <i nz-icon nzType="notification"></i>
+        Test Notify
+    </li>
+</ul>

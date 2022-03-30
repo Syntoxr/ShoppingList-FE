@@ -1,23 +1,23 @@
-<div class="row">
-    <div class="container col-md-8 col-sm-12">
-        <app-shopping-list-edit></app-shopping-list-edit>
-        <hr>
-        <div class=" col-xs-12 list-group">
-            <div 
-            class="btn-group btn-group-justified list-group-item clearfix" 
-            role="group" 
-            ria-label=""
-            class="btn-group btn-group-justified"
-            *ngFor="let item of items; let i = index">
-                <ng-container *ngIf="item.visible">
-                    <div class="btn-group btn-group-left" role="group">
-                        <a type="button" class="btn btn-default btn-left list-group-item-text" (click)="onEditItem(item)">{{ item.name}} <span class="label label-primary">{{item.amount}}</span></a>
-                    </div>
-                    <div class="btn-group btn-group-right" role="group">
-                        <a type="button" class="btn btn-success btn-right" (click)="onCheckItem(item)"><span class="glyphicon glyphicon-ok"></span></a>
-                    </div>
-                </ng-container>
-            </div>
-          </div>
-    </div>
-</div>
+
+
+<app-shopping-list-edit></app-shopping-list-edit>
+
+<nz-divider [nzText]="dividerContent" nzOrientation="right">
+    <ng-template #dividerContent>
+        <button nz-button nzType="default" type="button">Sortieren <i nz-icon nzType="down" nzTheme="outline"></i></button>
+    </ng-template>
+</nz-divider>
+        
+
+<nz-list>
+    <nz-list-item class="list-item" *ngFor="let item of items; let i = index">
+        <nz-button-group style="width: 100%;">
+            <ng-container *ngIf="item.visible">
+                <button nz-button class="btn-left" (click)="onEditItem(item)">{{ item.name }}  <nz-badge nzStandalone [nzStyle]="{ backgroundColor: '#001529' }" class="amount-badge" [nzCount]="item.amount"></nz-badge></button>
+                <button nz-button class="btn-right" nzType="primary" (click)="onCheckItem(item)"><i nz-icon nzType="check"
+                        nzTheme="outline"></i></button>
+            </ng-container>
+        </nz-button-group>
+    </nz-list-item>  
+</nz-list>
+

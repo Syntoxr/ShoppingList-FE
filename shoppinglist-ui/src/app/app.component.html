@@ -1,9 +1,22 @@
-<app-header></app-header>
+
 <app-notify></app-notify>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <router-outlet style="margin: 10px;"></router-outlet>
-    </div>
-  </div>
-</div>
+
+<nz-layout style="height: 100vh">
+  <nz-header>
+    <app-header></app-header>
+  </nz-header>
+
+
+    
+  <nz-content>
+    <nz-row nzJustify="center">
+      <!-- <div nz-col nzFlex="auto"></div> -->
+      <div nz-col nzXs="22" nzSm="22" nzMd="12">
+        <router-outlet></router-outlet>
+      </div>
+      <!-- <div nz-col nzFlex="auto"></div> -->
+    </nz-row>
+  </nz-content>
+
+  <nz-footer>Shoppinglist by Firefluxion & Syntox</nz-footer>
+</nz-layout>
