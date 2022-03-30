@@ -26,11 +26,11 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   editMode: Observable<boolean>;
   editedItem: Item;
-  items: Observable<Item[]>;
+  items: Item[] = [];
   suggestedItems: Item[] = [];
   showSelectDropdown = false;
-  editedItemSub: Subscription;
-
+  itemsSub$: Subscription;
+  editedItemSub$: Subscription;
   constructor(private store: Store) {}
 
   ngOnInit() {
@@ -41,18 +41,22 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     });
 
     //assign observable containing the item list to this.items
-    this.items = this.store.select(selectAllItems); //subscribe to item list. Required for Autocomplete
+    this.itemsSub$ = this.store
+      .select(selectAllItems)
+      .subscribe(items => (this.items = items)); //subscribe to item list. Required for Autocomplete
 
     //subscribe to editedItem from store and update this.editedItem accordingly
-    this.editedItemSub = this.store.select(selectEditedItem).subscribe(item => {
-      this.editedItem = item;
-      if (item !== null) {
-        this.editForm.setValue({
-          name: this.editedItem.name,
-          amount: this.editedItem.amount,
-        });
-      }
-    });
+    this.editedItemSub$ = this.store
+      .select(selectEditedItem)
+      .subscribe(item => {
+        this.editedItem = item;
+        if (item !== null) {
+          this.editForm.setValue({
+            name: this.editedItem.name,
+            amount: this.editedItem.amount,
+          });
+        }
+      });
 
     //assign observable containing the edit Mode list to this.editMode
     this.editMode = this.store.select(selectEditingMode);
@@ -110,6 +114,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     this.clearForm();
   }
 
+  //every time a letter is typed in name field
   onTypeName() {
     this.updateSuggestions();
     if (this.suggestedItems.length > 0) {
@@ -119,17 +124,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   updateSuggestions() {
     if (this.editForm.controls['name'].value) {
-      let searchItems: Item[];
-      //get items from store
-      this.store
-        .select(selectAllItems)
-        .pipe(first())
-        .subscribe(items => {
-          searchItems = items;
-        });
-      console.log(searchItems);
-
-      this.suggestedItems = searchItems.filter(item => {
+      this.suggestedItems = this.items.filter(item => {
         //compare searchstring with item names caseinsensitive and ignoring accents
         return item.name
           .normalize('NFD')
@@ -147,7 +142,8 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.editedItemSub.unsubscribe();
+    this.itemsSub$.unsubscribe();
+    this.editedItemSub$.unsubscribe();
   }
 }
 

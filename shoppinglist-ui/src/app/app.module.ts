@@ -17,6 +17,24 @@ import { StoreModule } from '@ngrx/store';
 import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { de_DE } from 'ng-zorro-antd/i18n';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+
+registerLocaleData(de);
 
 @NgModule({
   declarations: [
@@ -31,15 +49,30 @@ import { environment } from 'src/environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NzAutocompleteModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     HttpClientModule,
-    StoreModule.forRoot({ shoppingList: shoppingListReducer }),
+    NzInputModule,
+    NzFormModule,
+    NzInputNumberModule,
+    NzIconModule,
+    NzButtonModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzGridModule,
+    NzListModule,
+    NzBadgeModule,
+    NzDividerModule,
+    StoreModule.forRoot({
+      shoppingList: shoppingListReducer,
+    }),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
-  providers: [],
+  // providers: [RecipeService],
+  providers: [{ provide: NZ_I18N, useValue: de_DE }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
