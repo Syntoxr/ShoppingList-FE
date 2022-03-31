@@ -33,6 +33,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { EffectsModule } from '@ngrx/effects';
+import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
 
 registerLocaleData(de);
 
@@ -69,6 +71,7 @@ registerLocaleData(de);
     StoreModule.forRoot({
       shoppingList: shoppingListReducer,
     }),
+    EffectsModule.forRoot([ShoppingListEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   // providers: [RecipeService],
