@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { equalizeString } from 'src/app/shared/helper-functions';
 import { Item } from 'src/app/shared/item.model';
 import {
   addItem,
@@ -8,8 +9,10 @@ import {
   loadItemsSuccess as loadItemsSuccess,
   setEditedItem,
   setEditMode,
+  sortList,
   startEditing,
   stopEditing,
+  toggleSortOrder,
   updateItem,
   updateItemFailure,
   updateItemId,
@@ -18,6 +21,7 @@ import {
 
 export interface ShoppingListState {
   items: Item[];
+  sortOrder: 'ascending' | 'decending';
   editedItem: Item;
   editingMode: boolean;
   error: string;
@@ -26,6 +30,7 @@ export interface ShoppingListState {
 
 export const initialState: ShoppingListState = {
   items: [new Item('Apples', 5, 10, true), new Item('Tomato', 3, 11, true)],
+  sortOrder: 'ascending',
   editedItem: null,
   editingMode: false,
   error: null,
@@ -136,5 +141,29 @@ export const shoppingListReducer = createReducer(
     ...state,
     error: error,
     status: 'error',
-  }))
+  })),
+
+  /**
+   * Other
+   */
+  on(toggleSortOrder, state => {
+    const newSortOrder =
+      state.sortOrder === 'ascending' ? 'decending' : 'ascending';
+    return {
+      ...state,
+      sortOrder: newSortOrder,
+    };
+  }),
+  on(sortList, state => {
+    let newItems = [...state.items];
+    newItems.sort(function (a, b) {
+      const x = equalizeString(a.name);
+      const y = equalizeString(b.name);
+      return (state.sortOrder === 'ascending' ? x > y : x < y) ? 1 : -1;
+    });
+    return {
+      ...state,
+      items: [...newItems],
+    };
+  })
 );

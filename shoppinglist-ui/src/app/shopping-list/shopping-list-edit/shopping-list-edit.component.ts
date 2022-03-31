@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { first, Observable, Subscription, take } from 'rxjs';
+import { equalizeString } from 'src/app/shared/helper-functions';
 import { Item } from 'src/app/shared/item.model';
 import {
   addItem,
@@ -126,18 +127,10 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     if (this.editForm.controls['name'].value) {
       this.suggestedItems = this.items.filter(item => {
         //compare searchstring with item names caseinsensitive and ignoring accents
-        return item.name
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .toLocaleUpperCase()
-          .includes(
-            this.editForm.controls['name'].value
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .toLocaleUpperCase()
-          );
+        return equalizeString(item.name).includes(
+          equalizeString(this.editForm.controls['name'].value)
+        );
       });
-      console.log(this.suggestedItems);
     }
   }
 
@@ -146,5 +139,3 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     this.editedItemSub$.unsubscribe();
   }
 }
-
-//dropdown doesn't get displayed
