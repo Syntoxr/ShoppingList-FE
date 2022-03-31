@@ -5,7 +5,7 @@ import { Item } from 'src/app/shared/item.model';
  * Add
  */
 export const addItem = createAction(
-  '[Shopping List] Add Item',
+  '[Shopping List] Add item',
   props<{ item: Item }>()
 );
 
@@ -13,21 +13,21 @@ export const addItem = createAction(
  * Update
  */
 export const updateItem = createAction(
-  '[Shopping List] Update Item',
+  '[Shopping List] Update item',
   props<{ item: Item }>()
 );
 
 export const updateItemId = createAction(
-  '[Shopping List] Update Item Id',
+  '[Shopping List] Update item id',
   props<{ oldId: number; newId: number }>()
 );
 
 export const updateItemSuccess = createAction(
-  '[Shopping List] Update Item Success'
+  '[Shopping List] Update item success'
 );
 
 export const updateItemFailure = createAction(
-  '[Shopping List] Update Item Failure',
+  '[Shopping List] Update item failure',
   props<{ error: string }>()
 );
 
@@ -35,19 +35,19 @@ export const updateItemFailure = createAction(
  * Edit
  */
 export const startEditing = createAction(
-  '[Shopping List] start Editing',
+  '[Shopping List] start editing',
   props<{ item: Item }>()
 );
 
 export const stopEditing = createAction('[Shopping List] stop Editing');
 
 export const setEditedItem = createAction(
-  '[Shopping List] set Edited Item',
+  '[Shopping List] set edited item',
   props<{ item: Item }>()
 );
 
 export const setEditMode = createAction(
-  '[Shopping List] Set Edit Mode',
+  '[Shopping List] Set edit mode',
   props<{ value: boolean }>()
 );
 
@@ -55,7 +55,7 @@ export const setEditMode = createAction(
  * Delete
  */
 export const deleteItem = createAction(
-  '[Shopping List] Delete Item',
+  '[Shopping List] Delete item',
   props<{ item: Item }>()
 );
 
@@ -65,11 +65,20 @@ export const deleteItem = createAction(
 export const loadItems = createAction('[Shopping List] Load Items');
 
 export const loadItemsSuccess = createAction(
-  '[Shopping List] Load Items Success',
+  '[Shopping List] Load items success',
   props<{ items: Item[] }>()
 );
 
 export const loadItemsFailure = createAction(
-  '[Shopping List] Load Items Failure',
+  '[Shopping List] Load items failure',
   props<{ error: string }>()
 );
+
+/**
+ * Other
+ */
+export const toggleSortOrder = createAction(
+  '[Shopping List] Toggle sort order'
+);
+
+export const sortList = createAction('[Shopping List] Sort list');

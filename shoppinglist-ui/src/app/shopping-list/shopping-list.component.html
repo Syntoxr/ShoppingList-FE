@@ -4,7 +4,7 @@
 
 <nz-divider [nzText]="dividerContent" nzOrientation="right">
     <ng-template #dividerContent>
-        <button nz-button nzType="default" type="button">Sortieren <i nz-icon nzType="down" nzTheme="outline"></i></button>
+        <button (click)="onTogleSorting()" nz-button nzType="default" type="button">Sortieren <i nz-icon [nzType]="(sortOrder$ | async) === 'ascending' ? 'down':'up'" nzTheme="outline"></i></button>
     </ng-template>
 </nz-divider>
         

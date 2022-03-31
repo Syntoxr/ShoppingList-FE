@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, from, map, of, switchMap } from 'rxjs';
 import { AppState } from 'src/app/store/app.state';
 import { ShoppingListService } from '../shopping-list.service';
 import {
@@ -9,6 +9,8 @@ import {
   loadItems,
   loadItemsFailure,
   loadItemsSuccess,
+  sortList,
+  toggleSortOrder,
   updateItem,
   updateItemFailure,
   updateItemId,
@@ -62,6 +64,14 @@ export class ShoppingListEffects {
           map(({ oldId, newId }) => updateItemId({ oldId, newId }))
         )
       )
+    )
+  );
+
+  //sort list when order changed
+  sortList = createEffect(() =>
+    this.actions$.pipe(
+      ofType(toggleSortOrder, addItem, updateItem, loadItemsSuccess),
+      map(() => sortList())
     )
   );
 }
