@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
 
     steps:
       - name: Checkout
@@ -20,7 +20,7 @@ jobs:
 
       - name: Install and build
         working-directory: ./shoppinglist-ui
-        run: npm install && npm run build  --base-href=https://syntoxr.github.io/ShoppingList/
+        run: npm install && npm run build  --base-href="https://syntoxr.github.io/ShoppingList/"
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
