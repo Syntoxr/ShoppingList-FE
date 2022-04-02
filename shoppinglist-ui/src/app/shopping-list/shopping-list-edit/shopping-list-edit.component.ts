@@ -15,6 +15,7 @@ import {
   selectAllItems,
   selectEditedItem,
   selectEditingMode,
+  selectItemByName,
 } from '../store/shopping-list.selectors';
 
 @Component({
@@ -80,15 +81,42 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
         onShoppinglist: true,
       };
       this.store.dispatch(updateItem({ item: updatedItem }));
-      //when not in edit mode add item
     } else {
-      const newItem = {
-        name: formValue.name,
-        amount: formValue.amount,
-        id: Date.now(),
-        onShoppinglist: true,
-      };
-      this.store.dispatch(addItem({ item: newItem }));
+      //check if name of item already exists in list
+      const nameExists: boolean =
+        this.items.filter(
+          item => equalizeString(item.name) === formValue.name
+        ) !== [];
+
+      //update item if already exists
+      if (nameExists) {
+        let updatedItem: Item;
+        //get item by name from store
+        this.store
+          .select(selectItemByName(formValue.name))
+          .pipe(first())
+          .subscribe(selectedItem => {
+            updatedItem = JSON.parse(JSON.stringify(selectedItem));
+          });
+
+        //add submitted amount to item
+        updatedItem.amount = updatedItem.amount + formValue.amount;
+
+        //dispatch updated item to store
+        this.store.dispatch(updateItem({ item: updatedItem }));
+
+        //add item if it does not exists
+      } else {
+        //build new item
+        const newItem = {
+          name: formValue.name,
+          amount: formValue.amount,
+          id: Date.now(),
+          onShoppinglist: true,
+        };
+        //dispath new item to store
+        this.store.dispatch(addItem({ item: newItem }));
+      }
     }
     this.clearForm();
   }
