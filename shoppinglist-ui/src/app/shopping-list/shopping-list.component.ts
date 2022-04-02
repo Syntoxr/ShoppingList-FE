@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { Item } from '../shared/item.model';
+import { Item } from '../shared/types';
 import {
   loadItems,
   startEditing,
@@ -20,7 +20,7 @@ import {
   styleUrls: ['./shopping-list.component.less'],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  items: Item[];
+  shoppingItems: Item[];
   sortOrder$: Observable<string>;
 
   constructor(private store: Store) {}
@@ -29,7 +29,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadItems());
     this.sortOrder$ = this.store.select(selectSortOrder);
     this.store.select(selectAllItems).subscribe(items => {
-      this.items = items;
+      this.shoppingItems = items.filter(item => {
+        return item.onShoppinglist;
+      });
     });
   }
 
@@ -39,7 +41,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   onCheckItem(item: Item) {
     const updatedItem: Item = JSON.parse(JSON.stringify(item));
-    updatedItem.visible = false;
+    updatedItem.onShoppinglist = false;
     updatedItem.amount = 1;
     this.store.dispatch(updateItem({ item: updatedItem }));
   }
