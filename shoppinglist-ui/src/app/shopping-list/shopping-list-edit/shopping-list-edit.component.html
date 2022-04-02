@@ -2,10 +2,12 @@
     <!-- Button controls -->
     <nz-form-item>
         <nz-form-control>
-            <button nz-button nzType="primary" style="margin-left: 0px;" [disabled]="!editForm.valid" type="submit">{{ (editMode |
-                async) ? 'Update':'Hinzufügen' }}</button>
-            <button nz-button nzType="primary" nzDanger type="button" (click)="onDelete()" *ngIf="editMode">Löschen</button>
-            <button nz-button nzType="default" type="button" (click)="clearForm()">Abbrechen</button>
+            <div nz-row class="editButtons">
+                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="primary" style="margin-left: 0px;" [disabled]="!editForm.valid" type="submit">{{ (editMode |
+                    async) ? 'Update':'Hinzufügen' }}</button>
+                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="primary" nzDanger type="button" (click)="onDelete()" *ngIf="editMode">Löschen</button>
+                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="default" type="button" (click)="clearForm()">Abbrechen</button>
+                </div>
         </nz-form-control>
     </nz-form-item>
 
@@ -15,12 +17,12 @@
         <nz-form-control>
             <nz-input-group nzPrefixIcon="edit">
                 <input
-                type="text" 
-                placeholder="Zur Liste hinzufügen ..." 
-                nz-input 
-                class=" dropdown-toggle" 
+                type="text"
+                placeholder="Zur Liste hinzufügen ..."
+                nz-input
+                class=" dropdown-toggle"
                 formControlName="name"
-                (input)="onTypeName()" 
+                (input)="onTypeName()"
                 [nzAutocomplete]="auto"
                 nz>
             </nz-input-group>
@@ -33,16 +35,20 @@
     <!-- Number input -->
     <nz-form-item style="margin-bottom: 0px;">
         <nz-form-control>
-            <nz-input-group nzPrefixIcon="sliders">
-                <input 
-                type="number" 
-                id="amount" 
-                nz-input
-                min="1" 
-                placeholder="Anzahl" 
-                name="amount" 
-                formControlName="amount">
-            </nz-input-group>
+
+
+              <nz-input-group nzPrefixIcon="sliders" style="padding-right: 1px;">
+                <input type="number" id="amount" nz-input min="1" placeholder="Anzahl" name="amount" formControlName="amount">
+                <nz-button-group nz>
+                  <button nz-button type="button" nzType="primary" (click)="addAmount()"><i nz-icon nzType="plus"
+                      nzTheme="outline"></i></button>
+                  <button nz-button type="button" nzType="primary" (click)="substractAmount()"><i nz-icon nzType="minus"
+                      nzTheme="outline"></i></button>
+                </nz-button-group>
+              </nz-input-group>
+
+
+
         </nz-form-control>
     </nz-form-item>
 </form>

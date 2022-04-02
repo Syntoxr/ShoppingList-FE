@@ -105,6 +105,20 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     this.showSelectDropdown = false;
   }
 
+  addAmount() {
+    this.editForm.controls['amount'].patchValue(
+      this.editForm.controls['amount'].value + 1
+    );
+  }
+
+  substractAmount() {
+    const currentValue = this.editForm.controls['amount'].value;
+    if (currentValue === 1) {
+      return;
+    }
+    this.editForm.controls['amount'].patchValue(currentValue - 1);
+  }
+
   clearForm() {
     this.store.dispatch(setEditMode({ value: false }));
     this.editForm.reset({ amount: 1 });
