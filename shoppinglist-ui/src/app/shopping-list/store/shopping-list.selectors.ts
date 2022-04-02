@@ -15,6 +15,12 @@ export const selectItem = (id: number) =>
     return state.items[index];
   });
 
+export const selectItemByName = (name: string) =>
+  createSelector(selectShoppingList, state => {
+    const index = state.items.findIndex(obj => obj.name === name);
+    return state.items[index];
+  });
+
 export const selectSortOrder = createSelector(
   selectShoppingList,
   (state: ShoppingListState) => state.sortOrder
