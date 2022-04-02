@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Item } from '../shared/item.model';
+import { Item } from '../shared/types';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 

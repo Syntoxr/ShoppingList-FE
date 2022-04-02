@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { equalizeString } from 'src/app/shared/helper-functions';
-import { Item } from 'src/app/shared/item.model';
+import { Item } from 'src/app/shared/types';
 import {
   addItem,
   deleteItem,
@@ -29,7 +29,10 @@ export interface ShoppingListState {
 }
 
 export const initialState: ShoppingListState = {
-  items: [new Item('Apples', 5, 10, true), new Item('Tomato', 3, 11, true)],
+  items: [
+    { name: 'Apples', amount: 5, id: 10, onShoppinglist: true },
+    { name: 'Tomato', amount: 3, id: 11, onShoppinglist: true },
+  ],
   sortOrder: 'ascending',
   editedItem: null,
   editingMode: false,

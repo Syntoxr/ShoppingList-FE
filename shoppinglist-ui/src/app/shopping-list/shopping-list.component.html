@@ -7,17 +7,15 @@
         <button (click)="onTogleSorting()" nz-button nzType="default" type="button">Sortieren <i nz-icon [nzType]="(sortOrder$ | async) === 'ascending' ? 'down':'up'" nzTheme="outline"></i></button>
     </ng-template>
 </nz-divider>
-        
+
 
 <nz-list>
-    <nz-list-item class="list-item" *ngFor="let item of items; let i = index">
+    <nz-list-item class="list-item" *ngFor="let item of shoppingItems; let i = index">
         <nz-button-group style="width: 100%;">
-            <ng-container *ngIf="item.visible">
-                <button nz-button class="btn-left" (click)="onEditItem(item)">{{ item.name }}  <nz-badge nzStandalone [nzStyle]="{ backgroundColor: '#001529' }" class="amount-badge" [nzCount]="item.amount"></nz-badge></button>
-                <button nz-button class="btn-right" nzType="primary" (click)="onCheckItem(item)"><i nz-icon nzType="check"
-                        nzTheme="outline"></i></button>
-            </ng-container>
+          <button nz-button class="btn-left" (click)="onEditItem(item)">{{ item.name }}  <nz-badge nzStandalone [nzStyle]="{ backgroundColor: '#001529' }" class="amount-badge" [nzCount]="item.amount"></nz-badge></button>
+          <button nz-button class="btn-right" nzType="primary" (click)="onCheckItem(item)"><i nz-icon nzType="check"
+                  nzTheme="outline"></i></button>
         </nz-button-group>
-    </nz-list-item>  
+    </nz-list-item>
 </nz-list>
 

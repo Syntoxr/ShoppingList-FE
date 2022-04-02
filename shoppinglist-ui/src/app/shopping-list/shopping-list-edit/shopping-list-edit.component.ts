@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { first, Observable, Subscription, take } from 'rxjs';
 import { equalizeString } from 'src/app/shared/helper-functions';
-import { Item } from 'src/app/shared/item.model';
+import { Item } from 'src/app/shared/types';
 import {
   addItem,
   deleteItem,
@@ -73,28 +73,28 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
     //when edit mode is active update according item
     if (editMode) {
-      const updatedItem = new Item(
-        formValue.name,
-        formValue.amount,
-        this.editedItem.id,
-        true
-      );
+      const updatedItem = {
+        name: formValue.name,
+        amount: formValue.amount,
+        id: this.editedItem.id,
+        onShoppinglist: true,
+      };
       this.store.dispatch(updateItem({ item: updatedItem }));
       //when not in edit mode add item
     } else {
-      const newItem = new Item(
-        formValue.name,
-        formValue.amount,
-        Date.now(),
-        true
-      );
+      const newItem = {
+        name: formValue.name,
+        amount: formValue.amount,
+        id: Date.now(),
+        onShoppinglist: true,
+      };
       this.store.dispatch(addItem({ item: newItem }));
     }
     this.clearForm();
   }
 
   onSelectSuggestion(item: Item) {
-    this.store.dispatch(setEditMode({ value: item.visible }));
+    this.store.dispatch(setEditMode({ value: item.onShoppinglist })); //set edit mode true if item already on shoppinglist
     this.store.dispatch(setEditedItem({ item }));
 
     //set form to selected item from suggestions

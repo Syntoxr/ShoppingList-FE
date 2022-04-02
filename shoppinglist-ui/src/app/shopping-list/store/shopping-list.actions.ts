@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Item } from 'src/app/shared/item.model';
+import { Item } from 'src/app/shared/types';
 
 /**
  * Add
