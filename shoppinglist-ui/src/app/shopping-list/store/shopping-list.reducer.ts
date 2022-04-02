@@ -29,10 +29,7 @@ export interface ShoppingListState {
 }
 
 export const initialState: ShoppingListState = {
-  items: [
-    { name: 'Apples', amount: 5, id: 10, onShoppinglist: true },
-    { name: 'Tomato', amount: 3, id: 11, onShoppinglist: true },
-  ],
+  items: [],
   sortOrder: 'ascending',
   editedItem: null,
   editingMode: false,
@@ -74,7 +71,7 @@ export const shoppingListReducer = createReducer(
   //update id of single item
   on(updateItemId, (state, { oldId, newId }) => {
     //take copy of items
-    const items = [...state.items];
+    const items: Item[] = JSON.parse(JSON.stringify(state.items));
     //get index of item to update
     const index = items.findIndex(obj => obj.id === oldId);
     //override old item with new item

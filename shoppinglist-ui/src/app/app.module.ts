@@ -36,6 +36,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
 
+import { ShoppingListService } from './shopping-list/shopping-list.service';
+import { ShoppingListMockService } from './shopping-list/shopping-list.mock.service';
+
 registerLocaleData(de);
 
 @NgModule({
@@ -75,7 +78,22 @@ registerLocaleData(de);
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   // providers: [RecipeService],
-  providers: [{ provide: NZ_I18N, useValue: de_DE }],
+  providers: [
+    ...generateMockProviders(),
+    { provide: NZ_I18N, useValue: de_DE },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+function generateMockProviders() {
+  if (!environment.mock) {
+    return [];
+  }
+  return [
+    {
+      provide: ShoppingListService,
+      useClass: ShoppingListMockService,
+    },
+  ];
+}
