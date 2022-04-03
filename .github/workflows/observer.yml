@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-      - name: curl
-        uses: wei/curl@v1
-        with:
-          args: "$NOTIFICATION_URL" -F "title=Workflow error" -F "message=Workflow completed with errors" -F "priority=7"
+    - name: curl
+      uses: wei/curl@v1
+      with:
+        args: "$NOTIFICATION_URL" -F "title=Workflow error" -F "message=Workflow completed with errors" -F "priority=7"
