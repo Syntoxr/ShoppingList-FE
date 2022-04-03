@@ -8,19 +8,15 @@ on:
 
 jobs:
   #on-success:
-    #runs-on: ubuntu-latest
-    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    #steps:
-      #...
+  #runs-on: ubuntu-latest
+  #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  #steps:
+  #...
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-      - shell: bash
-        env:
-          NOTIFICATION_URL: ${{ secrets.NOTIFICATION_URL }}
-        run: |
-          CURL "$NOTIFICATION_URL" -F "title=Workflow error" -F "message=Workflow completed with errors" -F "priority=7" 
-
-
-
+      - name: curl
+        uses: wei/curl@v1
+        with:
+          args: "$NOTIFICATION_URL" -F "title=Workflow error" -F "message=Workflow completed with errors" -F "priority=7"
