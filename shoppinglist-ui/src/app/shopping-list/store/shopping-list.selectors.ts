@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { equalizeString } from 'src/app/shared/helper-functions';
 import { AppState } from 'src/app/store/app.state';
 import { ShoppingListState } from './shopping-list.reducer';
 
@@ -17,7 +18,9 @@ export const selectItem = (id: number) =>
 
 export const selectItemByName = (name: string) =>
   createSelector(selectShoppingList, state => {
-    const index = state.items.findIndex(obj => obj.name === name);
+    const index = state.items.findIndex(
+      obj => equalizeString(obj.name) === equalizeString(name)
+    );
     return state.items[index];
   });
 

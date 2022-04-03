@@ -85,25 +85,24 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
       //check if name of item already exists in list
       const nameExists: boolean =
         this.items.filter(
-          item => equalizeString(item.name) === formValue.name
-        ) !== [];
+          item => equalizeString(item.name) === equalizeString(formValue.name)
+        ).length !== 0;
 
       //update item if already exists
       if (nameExists) {
-        let updatedItem: Item;
         //get item by name from store
         this.store
           .select(selectItemByName(formValue.name))
           .pipe(first())
           .subscribe(selectedItem => {
-            updatedItem = JSON.parse(JSON.stringify(selectedItem));
+            const updatedItem: Item = JSON.parse(JSON.stringify(selectedItem));
+            //add submitted amount to item
+            updatedItem.amount = updatedItem.amount + formValue.amount;
+            updatedItem.onShoppinglist = true;
+
+            //dispatch updated item to store
+            this.store.dispatch(updateItem({ item: updatedItem }));
           });
-
-        //add submitted amount to item
-        updatedItem.amount = updatedItem.amount + formValue.amount;
-
-        //dispatch updated item to store
-        this.store.dispatch(updateItem({ item: updatedItem }));
 
         //add item if it does not exists
       } else {
