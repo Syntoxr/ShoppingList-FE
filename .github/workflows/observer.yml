@@ -22,7 +22,7 @@ jobs:
           GOTIFY_API_BASE: ${{ secrets.gotify_api_base }}
           GOTIFY_APP_TOKEN: ${{ secrets.gotify_app_token }}
         run: |
-          curl "$GOTIFY_API_BASE/message?token=$GOTIFY_APP_TOKEN" \
+          curl --silent --output /dev/null "$GOTIFY_API_BASE/message?token=$GOTIFY_APP_TOKEN" \
             -F "title=Workflow Error"
             -F "message=Error on Angular GitHub CI workflow" 
             -F "priority=6"
