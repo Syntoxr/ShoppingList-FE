@@ -1,5 +1,8 @@
-
 <h3 nz-typography>ShoppingList</h3>
+
+<!-- display suggestion button when in mock environment -->
+<button *ngIf="mock" nz-button nzType="primary" style="position: absolute; top: 15px; right: 10px;"><a href='https://github.com/Syntoxr/ShoppingList/issues/new/choose'>Verbesserung?</a></button>
+
 <!-- <ul nz-menu class="menu" nzTheme="dark" nzMode="horizontal">
     <li nz-menu-item [routerLink]="['/']" >
         <i type="message" nz-icon nzType="shopping-cart" class="logo"></i>
