@@ -38,7 +38,15 @@
 
 
               <nz-input-group nzPrefixIcon="sliders" style="padding-right: 1px;">
-                <input type="number" id="amount" nz-input min="1" placeholder="Anzahl" name="amount" formControlName="amount">
+                <input
+                type="number"
+                #amount
+                id="amount"
+                nz-input
+                min="1"
+                placeholder="Anzahl"
+                name="amount"
+                formControlName="amount">
                 <nz-button-group nz>
                   <button nz-button type="button" nzType="primary" (click)="addAmount()"><i nz-icon nzType="plus"
                       nzTheme="outline"></i></button>

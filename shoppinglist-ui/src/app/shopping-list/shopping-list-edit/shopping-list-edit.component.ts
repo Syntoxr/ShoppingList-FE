@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { first, Observable, Subscription, take } from 'rxjs';
@@ -24,6 +30,7 @@ import {
   styleUrls: ['./shopping-list-edit.component.less'],
 })
 export class ShoppingListEditComponent implements OnInit, OnDestroy {
+  @ViewChild('amount') amountInputElement: ElementRef;
   editForm: FormGroup;
 
   editMode: Observable<boolean>;
@@ -39,7 +46,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     //create new reactive form with validators
     this.editForm = new FormGroup({
       name: new FormControl(null, Validators.required),
-      amount: new FormControl(1, Validators.required),
+      amount: new FormControl(null),
     });
 
     //assign observable containing the item list to this.items
@@ -66,7 +73,12 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     //get values from form
-    const formValue = this.editForm.value;
+    let formAmount = this.editForm.value.amount;
+    const formName = this.editForm.value.name;
+
+    if (typeof formAmount !== 'number') {
+      formAmount = 1;
+    }
 
     //look if edit mode is activated
     let editMode: boolean;
@@ -75,8 +87,8 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     //when edit mode is active update according item
     if (editMode) {
       const updatedItem = {
-        name: formValue.name,
-        amount: formValue.amount,
+        name: formName,
+        amount: formAmount,
         id: this.editedItem.id,
         onShoppinglist: true,
       };
@@ -85,19 +97,19 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
       //check if name of item already exists in list
       const nameExists: boolean =
         this.items.filter(
-          item => equalizeString(item.name) === equalizeString(formValue.name)
+          item => equalizeString(item.name) === equalizeString(formName)
         ).length !== 0;
 
       //update item if already exists
       if (nameExists) {
         //get item by name from store
         this.store
-          .select(selectItemByName(formValue.name))
+          .select(selectItemByName(formName))
           .pipe(first())
           .subscribe(selectedItem => {
             const updatedItem: Item = JSON.parse(JSON.stringify(selectedItem));
             //add submitted amount to item
-            updatedItem.amount = updatedItem.amount + formValue.amount;
+            updatedItem.amount = updatedItem.amount + formAmount;
             updatedItem.onShoppinglist = true;
 
             //dispatch updated item to store
@@ -108,8 +120,8 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
       } else {
         //build new item
         const newItem = {
-          name: formValue.name,
-          amount: formValue.amount,
+          name: formName,
+          amount: formAmount,
           id: Date.now(),
           onShoppinglist: true,
         };
@@ -148,7 +160,8 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   clearForm() {
     this.store.dispatch(setEditMode({ value: false }));
-    this.editForm.reset({ amount: 1 });
+    this.editForm.reset();
+    this.amountInputElement.nativeElement.blur();
   }
 
   onDelete() {
