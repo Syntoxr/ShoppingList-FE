@@ -7,11 +7,18 @@ on:
     types: [completed]
 
 jobs:
-  #on-success:
-  #runs-on: ubuntu-latest
-  #if: ${{ github.event.workflow_run.conclusion == 'success' }}
-  #steps:
-  #...
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@master
+      - shell: bash
+        env:
+          GOTIFY_API_BASE: ${{ secrets.gotify_api_base }}
+          GOTIFY_APP_TOKEN: ${{ secrets.gotify_app_token }}
+        run: |
+          curl --silent --output /dev/null "$GOTIFY_API_BASE/message?token=$GOTIFY_APP_TOKEN" -F "title=Workflow Success" -F "message=Success on Angular GitHub CI workflow" -F "priority=6"
+
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
