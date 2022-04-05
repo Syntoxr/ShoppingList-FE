@@ -3,9 +3,8 @@
     <nz-form-item>
         <nz-form-control>
             <div nz-row class="editButtons">
-                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="primary" style="margin-left: 0px;" [disabled]="!editForm.valid" type="submit">{{ (editMode |
-                    async) ? 'Update':'Hinzufügen' }}</button>
-                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="primary" nzDanger type="button" (click)="onDelete()" *ngIf="editMode">Löschen</button>
+                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="primary" style="margin-left: 0px;" [disabled]="!editForm.valid" type="submit">{{ (editMode$ | async) ? 'Update':'Hinzufügen' }}</button>
+                <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="primary" nzDanger type="button" (click)="onDelete()" *ngIf="editMode$ | async">Löschen</button>
                 <button class="edit-button" nz-col nzFlex="auto" nz-button nzType="default" type="button" (click)="clearForm()">Abbrechen</button>
                 </div>
         </nz-form-control>

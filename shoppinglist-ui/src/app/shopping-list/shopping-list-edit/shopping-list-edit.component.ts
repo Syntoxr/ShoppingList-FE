@@ -15,6 +15,7 @@ import {
   deleteItem,
   setEditedItem,
   setEditMode,
+  startEditing,
   updateItem,
 } from '../store/shopping-list.actions';
 import {
@@ -33,9 +34,10 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   @ViewChild('amount') amountInputElement: ElementRef;
   editForm: FormGroup;
 
-  editMode: Observable<boolean>;
+  editMode$: Observable<boolean>;
   editedItem: Item;
   items: Item[] = [];
+  shoppingItems: Item[] = [];
   suggestedItems: Item[] = [];
   showSelectDropdown = false;
   itemsSub$: Subscription;
@@ -50,9 +52,10 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     });
 
     //assign observable containing the item list to this.items
-    this.itemsSub$ = this.store
-      .select(selectAllItems)
-      .subscribe(items => (this.items = items)); //subscribe to item list. Required for Autocomplete
+    this.itemsSub$ = this.store.select(selectAllItems).subscribe(items => {
+      this.items = items;
+      this.shoppingItems = items.filter(item => item.onShoppinglist);
+    }); //subscribe to item list. Required for Autocomplete
 
     //subscribe to editedItem from store and update this.editedItem accordingly
     this.editedItemSub$ = this.store
@@ -68,8 +71,16 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
       });
 
     //assign observable containing the edit Mode list to this.editMode
-    this.editMode = this.store.select(selectEditingMode);
+    this.editMode$ = this.store.select(selectEditingMode);
   }
+
+  /**
+   *
+   *
+   *
+   *
+   *
+   */
 
   onSubmit() {
     //get values from form
@@ -79,12 +90,11 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     if (typeof formAmount !== 'number') {
       formAmount = 1;
     }
-
-    //look if edit mode is activated
+    //get current edit mode from store
     let editMode: boolean;
-    this.editMode.pipe(first()).subscribe(mode => (editMode = mode));
+    this.editMode$.pipe(first()).subscribe(mode => (editMode = mode));
 
-    //when edit mode is active update according item
+    //when edit mode is active (item selected from shoppinglist) update according item
     if (editMode) {
       const updatedItem = {
         name: formName,
@@ -94,14 +104,14 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
       };
       this.store.dispatch(updateItem({ item: updatedItem }));
     } else {
-      //check if name of item already exists in list
+      //check if name of item already exists in item list
       const nameExists: boolean =
         this.items.filter(
           item => equalizeString(item.name) === equalizeString(formName)
         ).length !== 0;
 
-      //update item if already exists
       if (nameExists) {
+        //update item if already exists on item list
         //get item by name from store
         this.store
           .select(selectItemByName(formName))
@@ -109,15 +119,14 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
           .subscribe(selectedItem => {
             const updatedItem: Item = JSON.parse(JSON.stringify(selectedItem));
             //add submitted amount to item
-            updatedItem.amount = updatedItem.amount + formAmount;
+            updatedItem.amount = formAmount;
             updatedItem.onShoppinglist = true;
 
             //dispatch updated item to store
             this.store.dispatch(updateItem({ item: updatedItem }));
           });
-
-        //add item if it does not exists
       } else {
+        //add item if it does not exists on item list
         //build new item
         const newItem = {
           name: formName,
@@ -132,6 +141,14 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     this.clearForm();
   }
 
+  /**
+   *
+   *
+   *
+   *
+   *
+   */
+
   onSelectSuggestion(item: Item) {
     this.store.dispatch(setEditMode({ value: item.onShoppinglist })); //set edit mode true if item already on shoppinglist
     this.store.dispatch(setEditedItem({ item }));
@@ -144,12 +161,14 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     this.showSelectDropdown = false;
   }
 
+  //add 1 to current amount on button press
   addAmount() {
     this.editForm.controls['amount'].patchValue(
       this.editForm.controls['amount'].value + 1
     );
   }
 
+  //substract amount by on on button press
   substractAmount() {
     const currentValue = this.editForm.controls['amount'].value;
     if (currentValue === 1) {
@@ -161,6 +180,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   clearForm() {
     this.store.dispatch(setEditMode({ value: false }));
     this.editForm.reset();
+    this.suggestedItems = [];
     this.amountInputElement.nativeElement.blur();
   }
 
@@ -171,6 +191,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   //every time a letter is typed in name field
   onTypeName() {
+    this.updateEditMode();
     this.updateSuggestions();
     if (this.suggestedItems.length > 0) {
       this.showSelectDropdown = true;
@@ -185,6 +206,26 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
           equalizeString(this.editForm.controls['name'].value)
         );
       });
+    }
+  }
+
+  //if typed name already exists in shopping list set edit mode to true
+  updateEditMode() {
+    const existsOnShoppingList = this.shoppingItems.filter(item => {
+      return (
+        equalizeString(item.name) ===
+        equalizeString(this.editForm.controls['name'].value)
+      );
+    });
+
+    if (existsOnShoppingList.length > 0) {
+      this.store.dispatch(startEditing({ item: existsOnShoppingList[0] }));
+      this.editForm.controls['amount'].patchValue(
+        existsOnShoppingList[0].amount
+      );
+    } else {
+      this.store.dispatch(setEditMode({ value: false }));
+      this.editForm.controls['amount'].reset();
     }
   }
 
