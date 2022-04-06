@@ -8,7 +8,12 @@
 
 
 
-  <nz-content>
+  <nz-content style="position: relative;">
+    <div style="position: absolute; right: 20px;">
+      <nz-spin nzSimple *ngIf="(status$ | async) === 'loading' || (status$ | async) === 'saving'"></nz-spin>
+      <i *ngIf="(status$ | async) === 'error'" nz-icon nzType="warning" nzTheme="outline" style="font-size: 30px; color: orangered;"></i>
+    </div>
+
     <nz-row nzJustify="center">
       <!-- <div nz-col nzFlex="auto"></div> -->
       <div nz-col nzXs="22" nzSm="22" nzMd="12">
@@ -18,5 +23,5 @@
     </nz-row>
   </nz-content>
 
-  <nz-footer>Shoppinglist by Firefluxion & Syntox</nz-footer>
+  <nz-footer>ShoppingList by Firefluxion & Syntox</nz-footer>
 </nz-layout>

@@ -3,6 +3,8 @@ import { equalizeString } from 'src/app/shared/helper-functions';
 import { Item } from 'src/app/shared/types';
 import {
   addItem,
+  addItemFailure,
+  addItemSuccess,
   deleteItem,
   loadItems,
   loadItemsFailure,
@@ -15,7 +17,6 @@ import {
   toggleSortOrder,
   updateItem,
   updateItemFailure,
-  updateItemId,
   updateItemSuccess,
 } from './shopping-list.actions';
 
@@ -42,16 +43,42 @@ export const shoppingListReducer = createReducer(
   initialState,
 
   /**
+   *
    * Add
+   *
    */
   //add single Item
   on(addItem, (state, { item }) => ({
     ...state,
     items: [...state.items, item],
+    status: 'saving',
+  })),
+
+  on(addItemSuccess, (state, { oldId, newId }) => {
+    //take copy of items
+    const items: Item[] = JSON.parse(JSON.stringify(state.items));
+    //get index of item to update
+    const index = items.findIndex(obj => obj.id === oldId);
+    //override old item with new item
+    items[index].id = newId;
+    return {
+      ...state,
+      items: items,
+      error: null,
+      status: 'success',
+    };
+  }),
+
+  on(addItemFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error',
   })),
 
   /**
+   *
    * Update
+   *
    */
   //update single item by id
   on(updateItem, (state, { item }) => {
@@ -69,23 +96,12 @@ export const shoppingListReducer = createReducer(
   }),
 
   //update id of single item
-  on(updateItemId, (state, { oldId, newId }) => {
-    //take copy of items
-    const items: Item[] = JSON.parse(JSON.stringify(state.items));
-    //get index of item to update
-    const index = items.findIndex(obj => obj.id === oldId);
-    //override old item with new item
-    items[index].id = newId;
-    return {
-      ...state,
-      items: items,
-      status: 'saving',
-    };
-  }),
   on(updateItemSuccess, state => ({
     ...state,
+    error: null,
     status: 'success',
   })),
+
   on(updateItemFailure, (state, { error }) => ({
     ...state,
     error: error,
@@ -93,28 +109,35 @@ export const shoppingListReducer = createReducer(
   })),
 
   /**
+   *
    * Edit
+   *
    */
   on(startEditing, (state, { item }) => ({
     ...state,
     editingMode: true,
     editedItem: item,
   })),
+
   on(stopEditing, state => ({
     ...state,
     editingMode: false,
   })),
+
   on(setEditedItem, (state, { item }) => ({
     ...state,
     editedItem: item,
   })),
+
   on(setEditMode, (state, { value }) => ({
     ...state,
     editingMode: value,
   })),
 
   /**
+   *
    * Delete
+   *
    */
   //delete single Item
   on(deleteItem, (state, { item }) => ({
@@ -123,12 +146,15 @@ export const shoppingListReducer = createReducer(
   })),
 
   /**
+   *
    * Load
+   *
    */
   on(loadItems, state => ({
     ...state,
     status: 'loading',
   })),
+
   //loading of items from backend succeeded
   on(loadItemsSuccess, (state, { items }) => ({
     ...state,
@@ -136,6 +162,7 @@ export const shoppingListReducer = createReducer(
     error: null,
     status: 'success',
   })),
+
   //loading of items from backend failed
   on(loadItemsFailure, (state, { error }) => ({
     ...state,
@@ -144,7 +171,9 @@ export const shoppingListReducer = createReducer(
   })),
 
   /**
+   *
    * Other
+   *
    */
   on(toggleSortOrder, state => {
     const newSortOrder =
@@ -154,6 +183,7 @@ export const shoppingListReducer = createReducer(
       sortOrder: newSortOrder,
     };
   }),
+
   on(sortList, state => {
     let newItems = [...state.items];
     newItems.sort(function (a, b) {

@@ -9,7 +9,7 @@
 </nz-divider>
 
 
-<nz-list>
+<nz-list *ngIf="shoppingItems.length > 0">
     <nz-list-item class="list-item" *ngFor="let item of shoppingItems; let i = index">
         <nz-button-group style="width: 100%;">
           <button nz-button class="btn-left" (click)="onEditItem(item)">{{ item.name }}  <nz-badge nzStandalone [nzStyle]="{ backgroundColor: '#001529' }" class="amount-badge" [nzCount]="item.amount"></nz-badge></button>
@@ -19,3 +19,4 @@
     </nz-list-item>
 </nz-list>
 
+<nz-skeleton [nzActive]="true" *ngIf="shoppingItems.length === 0"></nz-skeleton>

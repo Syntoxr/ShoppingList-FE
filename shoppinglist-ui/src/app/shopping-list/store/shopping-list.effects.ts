@@ -6,6 +6,8 @@ import { AppState } from 'src/app/store/app.state';
 import { ShoppingListService } from '../shopping-list.service';
 import {
   addItem,
+  addItemFailure,
+  addItemSuccess,
   loadItems,
   loadItemsFailure,
   loadItemsSuccess,
@@ -13,7 +15,7 @@ import {
   toggleSortOrder,
   updateItem,
   updateItemFailure,
-  updateItemId,
+  updateItemSuccess,
 } from './shopping-list.actions';
 
 @Injectable()
@@ -48,6 +50,7 @@ export class ShoppingListEffects {
         ofType(updateItem),
         switchMap(payload =>
           from(this.shoppingListService.updateItem(payload.item)).pipe(
+            map(() => updateItemSuccess()),
             catchError(error => of(updateItemFailure({ error })))
           )
         )
@@ -55,13 +58,14 @@ export class ShoppingListEffects {
     { dispatch: false }
   );
 
-  //sends updated item to backend
+  //sends added item to backend
   saveAddedItem = createEffect(() =>
     this.actions$.pipe(
       ofType(addItem),
       switchMap(payload =>
         from(this.shoppingListService.addItem(payload.item)).pipe(
-          map(({ oldId, newId }) => updateItemId({ oldId, newId }))
+          map(({ oldId, newId }) => addItemSuccess({ oldId, newId })),
+          catchError(error => of(addItemFailure({ error })))
         )
       )
     )

@@ -2,24 +2,33 @@ import { createAction, props } from '@ngrx/store';
 import { Item } from 'src/app/shared/types';
 
 /**
+ *
  * Add
+ *
  */
 export const addItem = createAction(
   '[Shopping List] Add item',
   props<{ item: Item }>()
 );
 
+export const addItemSuccess = createAction(
+  '[Shopping List] Add item success',
+  props<{ oldId: number; newId: number }>()
+);
+
+export const addItemFailure = createAction(
+  '[Shopping List] Add item failure',
+  props<{ error: string }>()
+);
+
 /**
+ *
  * Update
+ *
  */
 export const updateItem = createAction(
   '[Shopping List] Update item',
   props<{ item: Item }>()
-);
-
-export const updateItemId = createAction(
-  '[Shopping List] Update item id',
-  props<{ oldId: number; newId: number }>()
 );
 
 export const updateItemSuccess = createAction(
@@ -32,7 +41,9 @@ export const updateItemFailure = createAction(
 );
 
 /**
+ *
  * Edit
+ *
  */
 export const startEditing = createAction(
   '[Shopping List] start editing',
@@ -52,7 +63,9 @@ export const setEditMode = createAction(
 );
 
 /**
+ *
  * Delete
+ *
  */
 export const deleteItem = createAction(
   '[Shopping List] Delete item',
@@ -60,7 +73,9 @@ export const deleteItem = createAction(
 );
 
 /**
+ *
  * Load
+ *
  */
 export const loadItems = createAction('[Shopping List] Load Items');
 
@@ -75,7 +90,9 @@ export const loadItemsFailure = createAction(
 );
 
 /**
+ *
  * Other
+ *
  */
 export const toggleSortOrder = createAction(
   '[Shopping List] Toggle sort order'
