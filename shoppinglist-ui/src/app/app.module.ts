@@ -33,6 +33,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
 
@@ -71,6 +74,8 @@ registerLocaleData(de);
     NzListModule,
     NzBadgeModule,
     NzDividerModule,
+    NzSkeletonModule,
+    NzSpinModule,
     StoreModule.forRoot({
       shoppingList: shoppingListReducer,
     }),
