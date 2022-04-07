@@ -10,7 +10,6 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListEditComponent } from './shopping-list/shopping-list-edit/shopping-list-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownDirective } from './shared/dropdown.directive';
-import { NotifyComponent } from './shared/notify/notify.component';
 import { ClickOutsideDirective } from './shared/click-outside.directive';
 
 import { StoreModule } from '@ngrx/store';
@@ -35,6 +34,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
@@ -52,7 +52,6 @@ registerLocaleData(de);
     ShoppingListEditComponent,
     DropdownDirective,
     ClickOutsideDirective,
-    NotifyComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +75,7 @@ registerLocaleData(de);
     NzDividerModule,
     NzSkeletonModule,
     NzSpinModule,
+    NzNotificationModule,
     StoreModule.forRoot({
       shoppingList: shoppingListReducer,
     }),

@@ -1,8 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { catchError, from, map, of, switchMap } from 'rxjs';
-import { AppState } from 'src/app/store/app.state';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { ShoppingListService } from '../shopping-list.service';
 import {
   addItem,
@@ -22,8 +22,8 @@ import {
 export class ShoppingListEffects {
   constructor(
     private actions$: Actions,
-    private store: Store<AppState>,
-    private shoppingListService: ShoppingListService
+    private shoppingListService: ShoppingListService,
+    private notification: NzNotificationService
   ) {}
 
   // get all shopping list items from backend
@@ -44,18 +44,18 @@ export class ShoppingListEffects {
 
   //post new item with temporary id to backend.
   //Returns old- and new id in order to update the local temp id
-  saveUpdatedItem = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(updateItem),
-        switchMap(payload =>
-          from(this.shoppingListService.updateItem(payload.item)).pipe(
-            map(() => updateItemSuccess()),
-            catchError(error => of(updateItemFailure({ error })))
-          )
+  saveUpdatedItem = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateItem),
+      switchMap(payload =>
+        from(this.shoppingListService.updateItem(payload.item)).pipe(
+          map(() => {
+            return updateItemSuccess();
+          }),
+          catchError(error => of(updateItemFailure({ error })))
         )
-      ),
-    { dispatch: false }
+      )
+    )
   );
 
   //sends added item to backend
@@ -64,7 +64,9 @@ export class ShoppingListEffects {
       ofType(addItem),
       switchMap(payload =>
         from(this.shoppingListService.addItem(payload.item)).pipe(
-          map(({ oldId, newId }) => addItemSuccess({ oldId, newId })),
+          map(({ oldId, newId }) => {
+            return addItemSuccess({ oldId, newId });
+          }),
           catchError(error => of(addItemFailure({ error })))
         )
       )
@@ -77,5 +79,23 @@ export class ShoppingListEffects {
       ofType(toggleSortOrder, addItem, updateItem, loadItemsSuccess),
       map(() => sortList())
     )
+  );
+
+  notifyOnError = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(loadItemsFailure, addItemFailure, updateItemFailure),
+        tap(error => {
+          const httpError = <HttpErrorResponse>(
+            JSON.parse(JSON.stringify(error.error))
+          );
+          this.notification.create(
+            'error',
+            'Error ' + httpError.status + ' ' + httpError.statusText,
+            JSON.stringify(httpError.message)
+          );
+        })
+      ),
+    { dispatch: false }
   );
 }
