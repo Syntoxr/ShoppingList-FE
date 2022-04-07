@@ -64,7 +64,7 @@ export class ShoppingListMockService extends ShoppingListService {
 
   //sends updated item to backend
   override updateItem(item: Item) {
-    const response$ = of().pipe(delay(this.delay));
+    const response$ = of(null).pipe(delay(this.delay));
 
     console.info('%c Update PATCH http request would be sent', 'color: green');
     return response$;
