@@ -6,6 +6,8 @@ import {
   addItemFailure,
   addItemSuccess,
   deleteItem,
+  deleteItemFailure,
+  deleteItemSuccess,
   loadItems,
   loadItemsFailure,
   loadItemsSuccess as loadItemsSuccess,
@@ -143,6 +145,18 @@ export const shoppingListReducer = createReducer(
   on(deleteItem, (state, { item }) => ({
     ...state,
     items: state.items.filter(it => it.id !== item.id),
+  })),
+
+  on(deleteItemSuccess, state => ({
+    ...state,
+    error: null,
+    status: 'success',
+  })),
+
+  on(deleteItemFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error',
   })),
 
   /**

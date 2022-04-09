@@ -8,6 +8,9 @@ import {
   addItem,
   addItemFailure,
   addItemSuccess,
+  deleteItem,
+  deleteItemFailure,
+  deleteItemSuccess,
   loadItems,
   loadItemsFailure,
   loadItemsSuccess,
@@ -25,6 +28,21 @@ export class ShoppingListEffects {
     private shoppingListService: ShoppingListService,
     private notification: NzNotificationService
   ) {}
+
+  //sends added item to backend
+  saveAddedItem = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addItem),
+      switchMap(payload =>
+        from(this.shoppingListService.addItem(payload.item)).pipe(
+          map(({ oldId, newId }) => {
+            return addItemSuccess({ oldId, newId });
+          }),
+          catchError(error => of(addItemFailure({ error })))
+        )
+      )
+    )
+  );
 
   // get all shopping list items from backend
   loadItems = createEffect(() =>
@@ -58,16 +76,16 @@ export class ShoppingListEffects {
     )
   );
 
-  //sends added item to backend
-  saveAddedItem = createEffect(() =>
+  //delete item from backend
+  deleteItem = createEffect(() =>
     this.actions$.pipe(
-      ofType(addItem),
+      ofType(deleteItem),
       switchMap(payload =>
-        from(this.shoppingListService.addItem(payload.item)).pipe(
-          map(({ oldId, newId }) => {
-            return addItemSuccess({ oldId, newId });
+        from(this.shoppingListService.deleteItem(payload.item)).pipe(
+          map(() => {
+            return deleteItemSuccess();
           }),
-          catchError(error => of(addItemFailure({ error })))
+          catchError(error => of(deleteItemFailure({ error })))
         )
       )
     )

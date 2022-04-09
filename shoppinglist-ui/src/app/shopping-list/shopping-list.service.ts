@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Item } from '../shared/types';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ShoppingListService {
-  // get API endpoint URL from env file
-  private readonly shoppinglistApiUrl = environment.apiEndpoints.shoppinglist;
-
   constructor(private http: HttpClient) {}
 
-  // get all shopping list items from backend
-  getItems() {
-    return this.http.get<Item[]>(this.shoppinglistApiUrl);
-  }
+  private readonly shoppinglistApiUrl = '/api/shoppingList/';
 
   //post new item with temporary id to backend.
   //Returns old- and new id in order to update the local temp id
   addItem(item: Item) {
     return this.http.post<{ oldId: number; newId: number }>(
-      this.shoppinglistApiUrl,
+      this.shoppinglistApiUrl + 'item/',
       item
     );
   }
 
+  // get all shopping list items from backend
+  getItems() {
+    return this.http.get<Item[]>(this.shoppinglistApiUrl + 'items/');
+  }
+
   //sends updated item to backend
   updateItem(item: Item) {
-    return this.http.patch(this.shoppinglistApiUrl, item);
+    return this.http.patch(this.shoppinglistApiUrl + 'item/' + item.id, item);
+  }
+
+  deleteItem(item: Item) {
+    return this.http.delete(this.shoppinglistApiUrl + 'item/' + item.id);
   }
 }
