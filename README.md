@@ -16,18 +16,17 @@ General shoppinglist endpoint: `/api/shoppinglist`
 
 The item list is a list of all entered items, regardless of whether they were checked or not. This is used for suggesting previously used items during input.
 
-
-| Name        | Reguest type | Consumes data | Response data                  | Description                                                                                 |
-| ------------- | :------------: | --------------- | :------------------------------- | --------------------------------------------------------------------------------------------- |
-| get items   |     GET     | -             | [ [Item](#item) ]               | Returns complete list of items in an array of items                                         |
-| add item    |     POST     | [Item](#item) | ```{ oldId: number, newId: number }``` | Consumes an item with a temporary id and updates backend. Responds with the old- and new id |
-| update item |    PATCH    | [Item](#item) | -                              | Consumes an item and updates backend accordingly                                            |
+| **Name**    | **Endpoint**  | **Reguest type** | **Consumes data** | **Response data**                  | **Description**                                                                             |
+| ----------- | ------------- | :--------------: | ----------------- | :--------------------------------- | ------------------------------------------------------------------------------------------- |
+| add item    | `/item/`      |       POST       | [Item](#item)     | `{ oldId: number, newId: number }` | Consumes an item with a temporary id and updates backend. Responds with the old- and new id |
+| get items   | `/items/`     |       GET        | -                 | [Item](#item)                      | Returns complete list of items in an array of items                                         |
+| update item | `/item/{id}/` |      PATCH       | [Item](#item)     | -                                  | Consumes an item and updates backend accordingly                                            |
+| delete item | `/item/{id}/` |      DELETE      | -                 | -                                  | Deletes item on backend                                                                     |
 
 #### Item
 
-
 | property       | datatype | description                                    |
-| ---------------- | ---------- | ------------------------------------------------ |
+| -------------- | -------- | ---------------------------------------------- |
 | name           | string   | Guess you can get that                         |
 | amount         | number   | as well as this                                |
 | id             | number   | unique id to identify item                     |

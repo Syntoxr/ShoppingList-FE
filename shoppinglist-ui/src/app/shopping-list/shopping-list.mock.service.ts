@@ -41,14 +41,6 @@ export class ShoppingListMockService extends ShoppingListService {
     return Date.now() * Math.floor(Math.random() * 99);
   }
 
-  // get all shopping list items from backend
-  override getItems() {
-    const items$ = of(this.fakeBackendItems).pipe(delay(this.delay));
-
-    console.info('%c Get items GET http request would be sent', 'color: green');
-    return items$;
-  }
-
   //post new item with temporary id to backend.
   //Returns old- and new id in order to update the local temp id
   override addItem(item: Item) {
@@ -58,15 +50,42 @@ export class ShoppingListMockService extends ShoppingListService {
     itemCopy.id = newId;
     const newId$ = of({ oldId: oldId, newId: newId }).pipe(delay(this.delay));
 
-    console.info('%c Add item POST http request would be sent', 'color: green');
+    console.info(
+      '%c Add item [POST] http request would be sent',
+      'color: green'
+    );
     return newId$;
+  }
+
+  // get all shopping list items from backend
+  override getItems() {
+    const items$ = of(this.fakeBackendItems).pipe(delay(this.delay));
+
+    console.info(
+      '%c Get items [GET] http request would be sent',
+      'color: green'
+    );
+    return items$;
   }
 
   //sends updated item to backend
   override updateItem(item: Item) {
     const response$ = of(null).pipe(delay(this.delay));
 
-    console.info('%c Update PATCH http request would be sent', 'color: green');
+    console.info(
+      '%c Update item [PATCH] http request would be sent',
+      'color: green'
+    );
+    return response$;
+  }
+
+  override deleteItem(item: Item) {
+    const response$ = of(null).pipe(delay(this.delay));
+
+    console.info(
+      '%c Delete item [DELETE] http request would be sent',
+      'color: green'
+    );
     return response$;
   }
 }

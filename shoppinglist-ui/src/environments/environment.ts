@@ -5,9 +5,6 @@
 export const environment = {
   production: false,
   mock: true,
-  apiEndpoints: {
-    shoppinglist: 'api_url_not_needed',
-  },
 };
 
 /*

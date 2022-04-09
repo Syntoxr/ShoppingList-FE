@@ -72,6 +72,15 @@ export const deleteItem = createAction(
   props<{ item: Item }>()
 );
 
+export const deleteItemSuccess = createAction(
+  '[Shopping List] Delete item success'
+);
+
+export const deleteItemFailure = createAction(
+  '[Shopping List] Delete item failure',
+  props<{ error: string }>()
+);
+
 /**
  *
  * Load
