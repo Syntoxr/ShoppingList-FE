@@ -8,7 +8,7 @@ const database = new DatabaseWrapper();
 
 const app = express();
 // Server port
-const HTTP_PORT = 8000;
+const HTTP_PORT = 8080;
 // Start server
 app.listen(HTTP_PORT, () => {
   console.log(
@@ -21,9 +21,13 @@ app.use(bodyParser.json());
 
 const baseSlEndpoint = "/api/shoppinglist";
 
-// Root endpoint
-app.get("/api/", (req, res, next) => {
+// Root endpoints
+app.get("/", (req, res, next) => {
   res.json({ message: "Ok" });
+});
+
+app.get("/api/", (req, res, next) => {
+  res.json({ message: "API Ok" });
 });
 
 //Add item

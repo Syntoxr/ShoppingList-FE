@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx ts-node ./src/app/server.ts"
+    "start": "node ./dist/server.js"
   },
   "author": "Syntoxr",
   "license": "MIT",
