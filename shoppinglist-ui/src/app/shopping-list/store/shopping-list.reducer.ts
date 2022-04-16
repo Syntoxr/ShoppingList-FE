@@ -11,11 +11,7 @@ import {
   loadItems,
   loadItemsFailure,
   loadItemsSuccess as loadItemsSuccess,
-  setEditedItem,
-  setEditMode,
   sortList,
-  startEditing,
-  stopEditing,
   toggleSortOrder,
   updateItem,
   updateItemFailure,
@@ -25,8 +21,6 @@ import {
 export interface ShoppingListState {
   items: Item[];
   sortOrder: 'ascending' | 'decending';
-  editedItem: Item;
-  editingMode: boolean;
   error: string;
   status: 'pending' | 'loading' | 'saving' | 'error' | 'success';
 }
@@ -34,8 +28,6 @@ export interface ShoppingListState {
 export const initialState: ShoppingListState = {
   items: [],
   sortOrder: 'ascending',
-  editedItem: null,
-  editingMode: false,
   error: null,
   status: 'pending',
 };
@@ -108,32 +100,6 @@ export const shoppingListReducer = createReducer(
     ...state,
     error: error,
     status: 'error',
-  })),
-
-  /**
-   *
-   * Edit
-   *
-   */
-  on(startEditing, (state, { item }) => ({
-    ...state,
-    editingMode: true,
-    editedItem: item,
-  })),
-
-  on(stopEditing, state => ({
-    ...state,
-    editingMode: false,
-  })),
-
-  on(setEditedItem, (state, { item }) => ({
-    ...state,
-    editedItem: item,
-  })),
-
-  on(setEditMode, (state, { value }) => ({
-    ...state,
-    editingMode: value,
   })),
 
   /**

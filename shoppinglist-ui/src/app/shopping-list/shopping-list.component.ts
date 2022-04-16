@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Item } from '../shared/types';
 import {
   loadItems,
-  startEditing,
   toggleSortOrder,
   updateItem,
 } from './store/shopping-list.actions';
@@ -22,6 +21,8 @@ import {
 export class ShoppingListComponent implements OnInit, OnDestroy {
   shoppingItems: Item[];
   sortOrder$: Observable<string>;
+  editItem: Item;
+  showEdit = false;
 
   constructor(private store: Store) {}
 
@@ -35,15 +36,16 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     });
   }
 
-  onEditItem(item: Item) {
-    this.store.dispatch(startEditing({ item: item }));
-  }
-
   onCheckItem(item: Item) {
     const updatedItem: Item = JSON.parse(JSON.stringify(item));
     updatedItem.onShoppinglist = false;
     updatedItem.amount = 1;
     this.store.dispatch(updateItem({ item: updatedItem }));
+  }
+
+  onEditItem(item: Item) {
+    this.editItem = item;
+    this.showEdit = true;
   }
 
   onTogleSorting() {

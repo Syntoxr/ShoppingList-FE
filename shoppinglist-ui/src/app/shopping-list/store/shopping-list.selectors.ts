@@ -29,16 +29,6 @@ export const selectSortOrder = createSelector(
   (state: ShoppingListState) => state.sortOrder
 );
 
-export const selectEditedItem = createSelector(
-  selectShoppingList,
-  (state: ShoppingListState) => state.editedItem
-);
-
-export const selectEditingMode = createSelector(
-  selectShoppingList,
-  (state: ShoppingListState) => state.editingMode
-);
-
 export const selectError = createSelector(
   selectShoppingList,
   (state: ShoppingListState) => state.error
