@@ -33,6 +33,7 @@ testem.log
 /typings
 *.sqlite
 /dist/*
+/data
 
 # System files
 .DS_Store

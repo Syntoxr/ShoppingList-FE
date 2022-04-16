@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import { Item } from "./types";
+import { Item, customError } from "./types";
 import { mkdirSync } from "fs";
 
 export class DatabaseWrapper {
@@ -32,10 +32,16 @@ export class DatabaseWrapper {
     }
     const stmt = this.database
       .prepare(
-        `INSERT INTO shoppinglist (name, amount, onShoppinglist)
-                  VALUES (?, ?, ?)`
+        `
+        INSERT INTO shoppinglist (name, amount, onShoppinglist) 
+        VALUES (@name, @amount, @onShoppinglist)
+        `
       )
-      .run(item.name, item.amount, item.onShoppinglist ? 1 : 0);
+      .run({
+        name: item.name,
+        amount: item.amount,
+        onShoppinglist: item.onShoppinglist ? 1 : 0,
+      });
     return stmt.lastInsertRowid;
   }
 
@@ -46,11 +52,12 @@ export class DatabaseWrapper {
     }
     const items: Item[] = this.database
       .prepare(
-        `SELECT *
-    FROM shoppinglist;`
+        `
+        SELECT *
+        FROM shoppinglist;
+        `
       )
       .all();
-    return items;
   }
 
   updateItem(id: number, item: Item) {
@@ -60,11 +67,18 @@ export class DatabaseWrapper {
     }
     this.database
       .prepare(
-        `UPDATE shoppinglist 
-      SET name = ?, amount = ?, onShoppinglist = ? 
-      WHERE id = ?;`
+        `
+        UPDATE shoppinglist 
+        SET name = @name, amount = @amount, onShoppinglist = @onShoppinglist 
+        WHERE id = @id;
+        `
       )
-      .run(item.name, item.amount, item.onShoppinglist ? 1 : 0, id);
+      .run({
+        name: item.name,
+        amount: item.amount,
+        onShoppinglist: item.onShoppinglist ? 1 : 0,
+        id: id,
+      });
   }
 
   deleteItem(id: number) {
@@ -74,16 +88,18 @@ export class DatabaseWrapper {
     }
     this.database
       .prepare(
-        `DELETE FROM shoppinglist
-    WHERE id = ?`
+        `
+        DELETE FROM shoppinglist
+        WHERE id = @id`
       )
-      .run(id);
+      .run({ id: id });
   }
 
   private handleError(type: "noDb") {
     switch (type) {
       case "noDb":
-        throw "database not defined";
+        const error = new customError("database not defined");
+        throw error;
     }
   }
 }

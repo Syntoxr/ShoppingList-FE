@@ -4,3 +4,7 @@ export interface Item {
   id: number;
   onShoppinglist: boolean;
 }
+
+export class customError {
+  constructor(public message: string) {}
+}
