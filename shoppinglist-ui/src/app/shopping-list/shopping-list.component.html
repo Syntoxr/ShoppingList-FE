@@ -1,6 +1,8 @@
 
 
-<app-shopping-list-edit></app-shopping-list-edit>
+<app-add-item></app-add-item>
+
+<app-edit-item *ngIf="showEdit" (close)="showEdit = false" [editItem]="editItem"></app-edit-item>
 
 <nz-divider [nzText]="dividerContent" nzOrientation="right">
     <ng-template #dividerContent>

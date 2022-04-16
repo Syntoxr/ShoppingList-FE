@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingListEditComponent } from './shopping-list/shopping-list-edit/shopping-list-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { ClickOutsideDirective } from './shared/click-outside.directive';
@@ -35,12 +34,15 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
 
 import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { ShoppingListMockService } from './shopping-list/shopping-list.mock.service';
+import { AddItemComponent } from './shopping-list/add-item/add-item.component';
+import { EditItemComponent } from './shopping-list/edit-item/edit-item.component';
 
 registerLocaleData(de);
 
@@ -49,9 +51,10 @@ registerLocaleData(de);
     AppComponent,
     HeaderComponent,
     ShoppingListComponent,
-    ShoppingListEditComponent,
     DropdownDirective,
     ClickOutsideDirective,
+    AddItemComponent,
+    EditItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ registerLocaleData(de);
     NzSkeletonModule,
     NzSpinModule,
     NzNotificationModule,
+    NzModalModule,
     StoreModule.forRoot({
       shoppingList: shoppingListReducer,
     }),

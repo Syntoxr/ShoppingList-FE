@@ -1,0 +1,20 @@
+
+
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()" (clickOutside)="addForm.markAsUntouched">
+
+  <!-- Name input -->
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-control>
+      <nz-input-group nzPrefixIcon="edit">
+        <input type="text" placeholder="Zur Liste hinzufügen ..." nz-input class=" dropdown-toggle" formControlName="name"
+          (input)="onType()" [nzAutocomplete]="auto">
+      </nz-input-group>
+
+      <nz-autocomplete #auto>
+        <nz-auto-option *ngFor="let suggestedItem of suggestedItems" [nzValue]="suggestedItem.name" (selectionChange)="onSelectionChange($event, suggestedItem)">{{ suggestedItem.name }}</nz-auto-option>
+      </nz-autocomplete>
+
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

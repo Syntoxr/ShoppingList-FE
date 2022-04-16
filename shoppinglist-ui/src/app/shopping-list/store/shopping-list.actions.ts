@@ -42,28 +42,6 @@ export const updateItemFailure = createAction(
 
 /**
  *
- * Edit
- *
- */
-export const startEditing = createAction(
-  '[Shopping List] start editing',
-  props<{ item: Item }>()
-);
-
-export const stopEditing = createAction('[Shopping List] stop Editing');
-
-export const setEditedItem = createAction(
-  '[Shopping List] set edited item',
-  props<{ item: Item }>()
-);
-
-export const setEditMode = createAction(
-  '[Shopping List] Set edit mode',
-  props<{ value: boolean }>()
-);
-
-/**
- *
  * Delete
  *
  */

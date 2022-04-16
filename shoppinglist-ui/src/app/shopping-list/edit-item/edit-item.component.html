@@ -1,0 +1,53 @@
+<nz-modal [nzVisible]="true" nzTitle="Bearbeiten..." (nzOnCancel)="onCancel()" [nzFooter]="modalFooter">
+  <ng-container *nzModalContent>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()" nz-form>
+
+
+      <!-- Name input -->
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="edit">
+            <input type="text" nz-input formControlName="name">
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <!-- Number input -->
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="sliders" style="padding-right: 1px;">
+            <input type="number" #amount id="amount" nz-input min="1" placeholder="Anzahl" name="amount"
+              formControlName="amount">
+
+            <nz-button-group>
+              <button nz-button type="button" nzType="primary" (click)="addAmount()"><i nz-icon nzType="arrow-up"
+                  nzTheme="outline"></i></button>
+              <button nz-button type="button" nzType="primary" (click)="substractAmount()"><i nz-icon nzType="arrow-down"
+                  nzTheme="outline"></i></button>
+            </nz-button-group>
+
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- hidden id field -->
+      <input type="number" hidden="true" formControlName="id">
+
+
+    </form>
+
+  </ng-container>
+</nz-modal>
+
+<ng-template #modalFooter>
+  <div nz-row>
+    <button nz-col nzFlex="auto" nz-button nzSize="large" nzType="primary" [disabled]="!editForm.valid" type="button"
+      (click)="onSubmit()">Update</button>
+
+    <button nz-col nzFlex="auto" nz-button nzSize="large" nzType="default" type="button" (click)="close.emit()">Abbrechen</button>
+
+    <button nz-col nzFlex="auto" nz-button nzSize="large" nzType="primary" nzDanger type="button" (click)="onDelete()">Löschen</button>
+  </div>
+
+</ng-template>
