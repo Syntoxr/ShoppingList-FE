@@ -14,9 +14,10 @@ This is my first web application so feel free to report any issues you find.
 
 > In order to run docker containers, you obviously need to install docker and optionally docker-compose.
 
-The shopping list can be run in two separate docker containers: 
-* shoppinglist-ui (frontend)
-* shoppinglist-be (backend)
+The shopping list can be run in two separate docker containers:
+
+- shoppinglist-ui (frontend)
+- shoppinglist-be (backend)
 
 I suggest using docker-compose to run them in a stack:
 
@@ -36,16 +37,18 @@ services:
     hostname: shoppinglist-ui
     environment:
       - API_HOST= http://shoppinglist-be:8080
-  
+
   backend:
     image: ghcr.io/syntoxr/shoppinglist-be:latest
     container_name: shoppinglist-backend
     expose:
-     - 8080
+      - 8080
     hostname: shoppinglist-be
     volumes:
       - backend_data:/usr/local/server/data
-``` 
+```
+
+can also be seen [here](docker-compose.yml)
 
 ## API
 
