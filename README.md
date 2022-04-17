@@ -29,7 +29,7 @@ volumes:
 
 services:
   frontend:
-    image: syntox/shoppinglist-ui
+    image: ghcr.io/syntoxr/shoppinglist-ui:latest
     container_name: shoppinglist-frontend
     ports:
       - 80:80
@@ -38,7 +38,7 @@ services:
       - API_HOST= http://shoppinglist-be:8080
   
   backend:
-    image: syntox/shoppinglist-be
+    image: ghcr.io/syntoxr/shoppinglist-be:latest
     container_name: shoppinglist-backend
     expose:
      - 8080
