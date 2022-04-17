@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - shoppinglist-ui/**
+      
   workflow_dispatch:
 
 jobs:
