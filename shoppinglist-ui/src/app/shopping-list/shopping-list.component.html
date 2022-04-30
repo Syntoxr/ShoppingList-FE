@@ -10,7 +10,7 @@
     </ng-template>
 </nz-divider>
 
-
+<ng-container *ngIf="shoppingItems$ | async as shoppingItems">
 <nz-list *ngIf="shoppingItems.length > 0">
     <nz-list-item class="list-item" *ngFor="let item of shoppingItems; let i = index">
         <nz-button-group style="width: 100%;">
@@ -22,3 +22,4 @@
 </nz-list>
 
 <nz-skeleton [nzActive]="true" *ngIf="shoppingItems.length === 0"></nz-skeleton>
+</ng-container>

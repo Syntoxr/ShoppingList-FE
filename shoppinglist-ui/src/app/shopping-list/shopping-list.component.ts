@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Item } from '../shared/types';
 import {
@@ -19,7 +19,7 @@ import {
   styleUrls: ['./shopping-list.component.less'],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  shoppingItems: Item[];
+  shoppingItems$ = new BehaviorSubject<Item[]>([]);
   sortOrder$: Observable<string>;
   editItem: Item;
   showEdit = false;
@@ -30,9 +30,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadItems());
     this.sortOrder$ = this.store.select(selectSortOrder);
     this.store.select(selectAllItems).subscribe(items => {
-      this.shoppingItems = items.filter(item => {
-        return item.onShoppinglist;
-      });
+      this.shoppingItems$.next(items.filter(item => item.onShoppinglist));
     });
   }
 

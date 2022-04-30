@@ -11,6 +11,9 @@ import {
   loadItems,
   loadItemsFailure,
   loadItemsSuccess as loadItemsSuccess,
+  socketAddItem,
+  socketDeleteItem,
+  socketUpdateItem,
   sortList,
   toggleSortOrder,
   updateItem,
@@ -46,6 +49,11 @@ export const shoppingListReducer = createReducer(
     ...state,
     items: [...state.items, item],
     status: 'saving',
+  })),
+
+  on(socketAddItem, (state, { item }) => ({
+    ...state,
+    items: [...state.items, item],
   })),
 
   on(addItemSuccess, (state, { oldId, newId }) => {
@@ -89,6 +97,19 @@ export const shoppingListReducer = createReducer(
     };
   }),
 
+  on(socketUpdateItem, (state, { item }) => {
+    //take copy of items
+    const items = [...state.items];
+    //get index of item to update
+    const index = items.findIndex(obj => obj.id === item.id);
+    //override old item with new item
+    items[index] = item;
+    return {
+      ...state,
+      items: items,
+    };
+  }),
+
   //update id of single item
   on(updateItemSuccess, state => ({
     ...state,
@@ -111,6 +132,11 @@ export const shoppingListReducer = createReducer(
   on(deleteItem, (state, { item }) => ({
     ...state,
     items: state.items.filter(it => it.id !== item.id),
+  })),
+
+  on(socketDeleteItem, (state, { id }) => ({
+    ...state,
+    items: state.items.filter(item => item.id !== id),
   })),
 
   on(deleteItemSuccess, state => ({
