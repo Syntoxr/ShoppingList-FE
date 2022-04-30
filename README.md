@@ -48,6 +48,8 @@ services:
       - backend_data:/usr/local/server/data
 ```
 
+can also be seen [here](docker-compose.yml)
+
 ## API
 
 General API endpoint: `/api/`
