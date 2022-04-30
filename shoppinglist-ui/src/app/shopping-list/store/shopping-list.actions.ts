@@ -11,6 +11,11 @@ export const addItem = createAction(
   props<{ item: Item }>()
 );
 
+export const socketAddItem = createAction(
+  '[Shopping List] Socket Add item',
+  props<{ item: Item }>()
+);
+
 export const addItemSuccess = createAction(
   '[Shopping List] Add item success',
   props<{ oldId: number; newId: number }>()
@@ -31,6 +36,11 @@ export const updateItem = createAction(
   props<{ item: Item }>()
 );
 
+export const socketUpdateItem = createAction(
+  '[Shopping List] Socket Update item',
+  props<{ item: Item }>()
+);
+
 export const updateItemSuccess = createAction(
   '[Shopping List] Update item success'
 );
@@ -48,6 +58,11 @@ export const updateItemFailure = createAction(
 export const deleteItem = createAction(
   '[Shopping List] Delete item',
   props<{ item: Item }>()
+);
+
+export const socketDeleteItem = createAction(
+  '[Shopping List] Socket delete item',
+  props<{ id: number }>()
 );
 
 export const deleteItemSuccess = createAction(

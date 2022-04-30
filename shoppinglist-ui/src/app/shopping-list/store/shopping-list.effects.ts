@@ -14,6 +14,9 @@ import {
   loadItems,
   loadItemsFailure,
   loadItemsSuccess,
+  socketAddItem,
+  socketDeleteItem,
+  socketUpdateItem,
   sortList,
   toggleSortOrder,
   updateItem,
@@ -28,6 +31,8 @@ export class ShoppingListEffects {
     private shoppingListService: ShoppingListService,
     private notification: NzNotificationService
   ) {}
+
+  // #region CRUD operations
 
   //sends added item to backend
   saveAddedItem = createEffect(() =>
@@ -81,7 +86,7 @@ export class ShoppingListEffects {
     this.actions$.pipe(
       ofType(deleteItem),
       switchMap(payload =>
-        from(this.shoppingListService.deleteItem(payload.item)).pipe(
+        from(this.shoppingListService.deleteItem(payload.item.id)).pipe(
           map(() => {
             return deleteItemSuccess();
           }),
@@ -91,10 +96,20 @@ export class ShoppingListEffects {
     )
   );
 
+  // #endregion
+
   //sort list when order changed
   sortList = createEffect(() =>
     this.actions$.pipe(
-      ofType(toggleSortOrder, addItem, updateItem, loadItemsSuccess),
+      ofType(
+        toggleSortOrder,
+        addItem,
+        updateItem,
+        loadItemsSuccess,
+        socketAddItem,
+        socketUpdateItem,
+        socketDeleteItem
+      ),
       map(() => sortList())
     )
   );
