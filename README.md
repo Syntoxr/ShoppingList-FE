@@ -56,7 +56,7 @@ General API endpoint: `/api/`
 
 ### Websocket
 
-The Frontend uses [socket.io](https://socket.io/) in order to communicate with the backend.
+The Frontend uses [socket.io](https://socket.io/) in order to communicate with the backend, wich is reachable under `/api/socket`.
 
 The following rooms are being used (from a client perspective):
 
