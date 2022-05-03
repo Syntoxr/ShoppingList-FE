@@ -2,7 +2,7 @@
 
 A simple selfhosted shopping list
 
-⚠️ This is still in development and not ready for release yet.
+> ## ⚠️ This is still in development and not ready for release yet.
 
 ## Demo
 
