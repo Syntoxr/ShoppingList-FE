@@ -26,12 +26,6 @@ import {
 
 @Injectable()
 export class ShoppingListEffects {
-  constructor(
-    private actions$: Actions,
-    private shoppingListService: ShoppingListService,
-    private notification: NzNotificationService
-  ) {}
-
   // #region CRUD operations
 
   //sends added item to backend
@@ -131,4 +125,10 @@ export class ShoppingListEffects {
       ),
     { dispatch: false }
   );
+
+  constructor(
+    private actions$: Actions,
+    private shoppingListService: ShoppingListService,
+    private notification: NzNotificationService
+  ) {}
 }

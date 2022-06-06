@@ -32,7 +32,7 @@ export const initialState: ShoppingListState = {
   items: [],
   sortOrder: 'ascending',
   error: null,
-  status: 'pending',
+  status: null,
 };
 
 export const shoppingListReducer = createReducer(
