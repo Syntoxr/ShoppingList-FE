@@ -1,0 +1,29 @@
+
+<h2 nz-typography>Login</h2>
+
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" placeholder="Benutzername" nz-input formControlName="username">
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" placeholder="Passwort" nz-input formControlName="password">
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div style="margin-bottom: 16px;">
+    <label nz-checkbox formControlName="remember">
+      <span>Eingeloggt bleiben</span>
+    </label>
+  </div>
+
+  <button type="submit" [disabled]="!authForm.valid" nz-button nzType="primary" nzBlock>Login</button>
+
+</form>
