@@ -1,5 +1,8 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
@@ -15,14 +18,17 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+
 import { ShoppingListComponent } from './shopping-list.component';
 import { AddItemComponent } from './add-item/add-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
-import { CommonModule } from '@angular/common';
-import { environment } from 'src/environments/environment';
 import { ShoppingListService } from './shopping-list.service';
 import { ShoppingListMockService } from './shopping-list.mock.service';
-import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { shoppingListReducer } from './store/shopping-list.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ShoppingListEffects } from './store/shopping-list.effects';
 
 @NgModule({
   declarations: [ShoppingListComponent, AddItemComponent, EditItemComponent],
@@ -44,6 +50,9 @@ import { HttpClientModule } from '@angular/common/http';
     NzDividerModule,
     NzSkeletonModule,
     NzModalModule,
+    NzNotificationModule,
+    StoreModule.forFeature('shoppingList', shoppingListReducer),
+    EffectsModule.forFeature([ShoppingListEffects]),
   ],
   providers: [...generateMockProviders()],
   exports: [ShoppingListComponent, AddItemComponent, EditItemComponent],
@@ -51,7 +60,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class ShoppingListModule {}
 
 function generateMockProviders() {
-  if (!environment.mock) {
+  if (environment.mock === false) {
     return [
       {
         //initialize ShoppingListService on startup

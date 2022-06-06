@@ -12,7 +12,30 @@ export class SocketService {
     private notification: NzNotificationService
   ) {}
 
-  init() {
+  async connect(token: string): Promise<void> {
+    this.socket.ioSocket.url = '';
+    this.socket.ioSocket.path = '/api/socket';
+    this.socket.ioSocket.io.opts.query = { token: token }; //new options
+
+    return new Promise((resolve, reject) => {
+      if (!token) {
+        reject('missing token');
+      }
+      try {
+        this.socket.connect();
+      } catch (error) {
+        console.error(error);
+        console.error('could not connect to backend');
+        reject(error);
+      }
+
+      console.info('connected to backend');
+      this.createRoomListeners();
+      resolve();
+    });
+  }
+
+  createRoomListeners() {
     console.log('connecting to backend');
 
     //listen on rooms

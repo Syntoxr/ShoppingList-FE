@@ -3,11 +3,21 @@ import { SocketService } from './socket.service';
 
 @Injectable()
 export class SocketMockService extends SocketService {
+  mockCredentials = { username: 'user', password: 'notSave' };
+
   constructor() {
     super(undefined, undefined);
   }
 
-  override init() {
-    console.log('would connecting to backend now');
+  override async connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.info('connected to backend');
+      this.createRoomListeners();
+      resolve();
+    });
+  }
+
+  override createRoomListeners() {
+    console.log('would register socket rooms now');
   }
 }
