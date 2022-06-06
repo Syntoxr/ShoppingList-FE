@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Item } from 'src/app/shared/types';
 import { deleteItem, updateItem } from '../store/shopping-list.actions';
@@ -12,16 +12,16 @@ import { deleteItem, updateItem } from '../store/shopping-list.actions';
 export class EditItemComponent implements OnInit {
   @Input() editItem: Item;
   @Output() close = new EventEmitter<void>();
-  editForm: FormGroup;
+  editForm: UntypedFormGroup;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     // prepare edit form
-    this.editForm = new FormGroup({
-      name: new FormControl(this.editItem.name, Validators.required),
-      amount: new FormControl(this.editItem.amount),
-      id: new FormControl(this.editItem.id),
+    this.editForm = new UntypedFormGroup({
+      name: new UntypedFormControl(this.editItem.name, Validators.required),
+      amount: new UntypedFormControl(this.editItem.amount),
+      id: new UntypedFormControl(this.editItem.id),
     });
   }
 

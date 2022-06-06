@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { NzOptionSelectionChange } from 'ng-zorro-antd/auto-complete';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -15,7 +15,7 @@ import { selectAllItems } from '../store/shopping-list.selectors';
   styleUrls: ['./add-item.component.less'],
 })
 export class AddItemComponent implements OnInit, OnDestroy {
-  addForm: FormGroup;
+  addForm: UntypedFormGroup;
 
   items: Item[] = [];
   suggestedItems: Item[] = [];
@@ -28,8 +28,8 @@ export class AddItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //create new reactive form with validators
-    this.addForm = new FormGroup({
-      name: new FormControl(null, Validators.required),
+    this.addForm = new UntypedFormGroup({
+      name: new UntypedFormControl(null, Validators.required),
     });
 
     //assign observable containing the item list to this.items
