@@ -1,15 +1,25 @@
 import express from "express";
 import http from "http";
-import { Database } from "./database";
 import { Socket } from "./socket";
+
+import { Database } from "./database";
+
+import { router as baseRouter } from "../routes/base";
 import { router as shoppinglistRouter } from "../routes/shoppinglist";
-
-export const app = express();
-
-// listen to endpoint
-app.use(shoppinglistRouter);
+import { router as authRouter } from "../routes/auth";
 
 const httpPort = 8080;
+
+const app = express();
+
+// listen to auth endpoints
+baseRouter.use("/auth", authRouter);
+
+// listen to shoppinglist endpoints
+baseRouter.use("/shoppinglist", shoppinglistRouter);
+
+//use base url "api" for baseRouter
+app.use("/api", baseRouter);
 
 // create http server
 const server = http.createServer(app);

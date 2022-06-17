@@ -8,23 +8,11 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-const baseSlEndpoint = "/api/shoppinglist";
-
-// Root endpoint
-router.get("/", (req, res, next) => {
-  res.json({ message: "Ok" });
-});
-
-// API root endpoint
-router.get("/api/", (req, res, next) => {
-  res.json({ message: "API Ok" });
-});
-
 /**
  * CRUD operations
  */
 //Add item
-router.post(`${baseSlEndpoint}/item`, async (req, res, next) => {
+router.post("/item", async (req, res, next) => {
   const item: Item = req.body.item;
   await database
     .addItem(item)
@@ -41,8 +29,7 @@ router.post(`${baseSlEndpoint}/item`, async (req, res, next) => {
 });
 
 //Get items
-console.log("listening on GET");
-router.get(`${baseSlEndpoint}/items`, async (req, res, next) => {
+router.get("/items", async (req, res, next) => {
   console.log("GET requested");
   await database
     .getItems()
@@ -58,7 +45,7 @@ router.get(`${baseSlEndpoint}/items`, async (req, res, next) => {
 });
 
 //Update item
-router.patch(`${baseSlEndpoint}/item/:id`, async (req, res, next) => {
+router.patch("/item/:id", async (req, res, next) => {
   const body: Item = req.body;
   await database
     .updateItem(+req.params.id, body)
@@ -74,7 +61,7 @@ router.patch(`${baseSlEndpoint}/item/:id`, async (req, res, next) => {
 });
 
 //Delete item
-router.delete(`${baseSlEndpoint}/item/:id`, async (req, res, next) => {
+router.delete("/item/:id", async (req, res, next) => {
   await database
     .deleteItem(+req.params.id)
 
