@@ -2,11 +2,12 @@ import express from "express";
 import http from "http";
 import { Database } from "./database";
 import { Socket } from "./socket";
-import routes from "./routes";
+import { router as shoppinglistRouter } from "../routes/shoppinglist";
 
 export const app = express();
+
 // listen to endpoint
-app.use(routes);
+app.use(shoppinglistRouter);
 
 const httpPort = 8080;
 

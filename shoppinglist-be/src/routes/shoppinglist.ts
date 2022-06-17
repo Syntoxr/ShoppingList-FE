@@ -1,7 +1,7 @@
 import express from "express";
-import { database, socket } from "./server";
-import { handleError } from "./util/helpers";
-import { Item, SocketRooms } from "./util/types";
+import { database, socket } from "../app/server";
+import { handleError } from "../app/util/helpers";
+import { Item, SocketRooms } from "../app/util/types";
 
 const router = express.Router();
 
@@ -99,4 +99,4 @@ router.use((error, req, res, next) => {
   next(); // (optional) invoking next middleware
 });
 
-export default router;
+export { router };
