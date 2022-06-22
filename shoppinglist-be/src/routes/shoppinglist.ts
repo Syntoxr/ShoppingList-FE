@@ -1,6 +1,6 @@
 import express from "express";
 import { database, socket } from "../app/server";
-import { handleError } from "../app/util/helpers";
+import { handleError } from "../app/util/helpers/error-handler";
 import { Item, SocketRooms } from "../app/util/types";
 
 const router = express.Router();

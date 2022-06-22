@@ -1,12 +1,12 @@
 import express from "express";
 import http from "http";
-import { Socket } from "./socket";
 
-import { Database } from "./database";
+import { Socket } from "./util/socket";
+import { Database } from "./util/database";
 
 import { router as baseRouter } from "../routes/base";
 import { router as shoppinglistRouter } from "../routes/shoppinglist";
-import { router as authRouter } from "../routes/auth";
+import { router as authRouter } from "./auth/routes";
 
 const httpPort = 8080;
 

@@ -1,8 +1,8 @@
 import { Server } from "socket.io";
 import http from "http";
-import { Item, SocketResponse, SocketRooms } from "./util/types";
+import { Item, SocketResponse, SocketRooms } from "./types";
 import { Database } from "./database";
-import { handleError } from "./util/helpers";
+import { handleError } from "./helpers/error-handler";
 
 export class Socket {
   io?: Server;
