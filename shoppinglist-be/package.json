@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon src/app/server.ts",
-    "start": "node ./dist/server.js"
+    "start": "node ./dist/app/server.js"
   },
   "author": "Syntoxr",
   "license": "MIT",
