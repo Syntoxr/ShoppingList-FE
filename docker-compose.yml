@@ -22,3 +22,7 @@ services:
     hostname: shoppinglist-be
     volumes:
       - backend_data:/usr/local/server/data
+    environment:
+      - 'USERS=[{"name": "user", "password": "notSave"}]'
+      - TOKEN_SECRET=RaNdOm-StRiNg
+      - TOKEN_LIFETIME=3600
