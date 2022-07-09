@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
 
@@ -8,17 +8,17 @@ import { AuthService } from './auth.service';
   templateUrl: './auth.component.html',
 })
 export class AuthComponent implements OnInit {
-  authForm: UntypedFormGroup;
+  authForm: FormGroup;
 
   constructor(private authService: AuthService, private store: Store) {}
 
   ngOnInit(): void {
     this.authService.autoLogin();
 
-    this.authForm = new UntypedFormGroup({
-      username: new UntypedFormControl(null, Validators.required),
-      password: new UntypedFormControl(null, Validators.required),
-      remember: new UntypedFormControl(false),
+    this.authForm = new FormGroup({
+      username: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required),
+      remember: new FormControl(false),
     });
   }
 
