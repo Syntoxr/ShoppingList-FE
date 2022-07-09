@@ -10,7 +10,7 @@ export class AuthService {
   token: string = null;
   isAuthorized = false;
 
-  private loginPath = '/api/login';
+  private loginPath = '/api/auth/login';
 
   constructor(private http: HttpClient, private router: Router) {}
 

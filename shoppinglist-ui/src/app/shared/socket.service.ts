@@ -15,7 +15,9 @@ export class SocketService {
   async connect(token: string): Promise<void> {
     this.socket.ioSocket.url = '';
     this.socket.ioSocket.path = '/api/socket';
-    this.socket.ioSocket.io.opts.query = { token: token }; //new options
+    this.socket.ioSocket.io.opts.extraHeaders = {
+      authorization: `Bearer ${token}`,
+    };
 
     return new Promise((resolve, reject) => {
       if (!token) {
