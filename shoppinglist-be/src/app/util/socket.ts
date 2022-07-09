@@ -1,8 +1,9 @@
 import { Server } from "socket.io";
-import http from "http";
+import type http from "http";
 import { Item, SocketResponse, SocketRooms } from "./types";
 import { Database } from "./database";
 import { handleError } from "./helpers/error-handler";
+import { mwSocketTokenAuth } from "../auth/middleware";
 
 export class Socket {
   io?: Server;
@@ -10,6 +11,7 @@ export class Socket {
   constructor(server: http.Server, private database: Database) {
     //create websocket server
     this.io = new Server(server, { path: "/api/socket" });
+    this.io.use(mwSocketTokenAuth);
 
     //listen on websocket connections
     this.io.on("connection", (socket) => {

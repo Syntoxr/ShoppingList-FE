@@ -1,38 +1,35 @@
 import auth from "basic-auth";
-import { User } from "./types";
+import type { Request, Response, NextFunction } from "express";
+import type { Socket } from "socket.io";
+import { verify } from "jsonwebtoken";
+import { envUsers, tokenSecret } from "./variables";
+import { ExtendedError } from "socket.io/dist/namespace";
 
 // get users from environment
-var envUsers: unknown[];
 
-try {
-  envUsers = JSON.parse(process.env.USERS ?? "[]");
-} catch (e) {
-  envUsers = [];
-  console.warn("\x1b[33m%s\x1b[0m", "ERROR while parsing specified users: ", e);
-}
-
-const users = envUsers.filter<User>((user): user is User => isUser(user));
-
-if (users.length === 0) {
+if (envUsers.length === 0) {
   console.warn(
     "\x1b[33m%s\x1b[0m",
     "No valid users registered. You won't be able to log in"
   );
 } else {
   console.log(
-    `Valid usernames: ${JSON.stringify(users.map((user) => user.name))}`
+    `Usable usernames: ${JSON.stringify(envUsers.map((user) => user.name))}`
   );
 }
 
-export function mwBasicAuth(req, res, next) {
-  const user = auth(req);
+export function mwBasicAuth(req: Request, res: Response, next: NextFunction) {
+  const clientUser = auth(req);
 
-  const foundUser = users.find((storedUser) => {
-    return storedUser.name === user?.name && storedUser.password === user.pass;
+  const matchedUser = envUsers.find((registeredUser) => {
+    return (
+      registeredUser.name === clientUser?.name &&
+      registeredUser.password === clientUser.pass
+    );
   });
 
-  if (user && foundUser) {
-    req.username = user.name;
+  if (clientUser && matchedUser) {
+    res.locals.username = clientUser.name;
     next();
   } else {
     res.statusCode = 401;
@@ -40,12 +37,60 @@ export function mwBasicAuth(req, res, next) {
   }
 }
 
-/**Typeguard for User interface */
-function isUser(payload: unknown): payload is User {
-  return (
-    typeof payload === "object" &&
-    payload !== null &&
-    "name" in payload &&
-    "password" in payload
-  );
+export function mwTokenAuth(req: Request, res: Response, next: NextFunction) {
+  const bearerHeader = req.headers["authorization"];
+  if (!bearerHeader) {
+    console.warn(
+      `Unauthorized connection from ${
+        req.ip
+      } at ${new Date().toString()}. Reason: missing token`
+    );
+    res.json({ message: "missing token" }).sendStatus(403);
+    return;
+  }
+
+  const bearerToken = bearerHeader.split(" ")[1];
+  verify(bearerToken, tokenSecret, (err, decoded) => {
+    if (err) {
+      console.warn(
+        `Unauthorized connection from ${
+          req.ip
+        } at ${new Date().toString()}. Reason: ${err.message}`
+      );
+      res.json({ message: err.message }).status(403).end();
+    } else {
+      res.locals.decodedToken = decoded;
+      next();
+    }
+  });
+}
+
+export function mwSocketTokenAuth(
+  socket: Socket,
+  next: (err?: ExtendedError | undefined) => void
+) {
+  const bearerHeader = socket.handshake?.headers["authorization"];
+  if (!bearerHeader) {
+    console.warn(
+      `Unauthorized connection from ${
+        socket.handshake?.address
+      } at ${new Date().toString()}. Reason: missing token`
+    );
+    return next(new Error("missing token"));
+    // next(new Error("Authentication error"));
+  }
+  const bearerToken = bearerHeader.split(" ")[1];
+  verify(bearerToken, tokenSecret, (err, decoded) => {
+    if (err) {
+      console.warn(
+        `Unauthorized connection from ${
+          socket.handshake?.address
+        } at ${new Date().toString()}. Reason: ${err.message}`
+      );
+      return next(new Error(err.message));
+    } else {
+      socket.data.decodedToken = decoded;
+      next();
+    }
+  });
 }

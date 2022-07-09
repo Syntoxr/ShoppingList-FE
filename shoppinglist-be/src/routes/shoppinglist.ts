@@ -1,10 +1,12 @@
 import express from "express";
+import { mwTokenAuth } from "../app/auth/middleware";
 import { database, socket } from "../app/server";
 import { handleError } from "../app/util/helpers/error-handler";
 import { Item, SocketRooms } from "../app/util/types";
 
 const router = express.Router();
 
+router.use(mwTokenAuth);
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
