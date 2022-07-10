@@ -45,7 +45,7 @@ export function mwTokenAuth(req: Request, res: Response, next: NextFunction) {
         req.ip
       } at ${new Date().toString()}. Reason: missing token`
     );
-    res.json({ message: "missing token" }).sendStatus(403);
+    res.json({ message: "missing token" }).sendStatus(403).end();
     return;
   }
 
