@@ -24,7 +24,7 @@ export class AuthService {
 
     this.http
       .get<{ token: string }>(this.loginPath, httpOptions)
-      .pipe(retry(3), catchError(handleError))
+      .pipe(catchError(handleError))
       .subscribe({
         next: data => {
           this.token = data.token;
