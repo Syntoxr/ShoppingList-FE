@@ -1,4 +1,5 @@
 import { getEnvVar, isUserList } from "./helpers";
+import { randomBytes } from "crypto";
 
 export const envUsers = (function () {
   let envVar = getEnvVar("USERS");
@@ -9,7 +10,7 @@ export const envUsers = (function () {
 export const tokenSecret = (function () {
   let envVar = getEnvVar("TOKEN_SECRET");
   if (envVar && typeof envVar === "string") return envVar;
-  else return (Date.now() * Math.random()).toString();
+  else return randomBytes(256).toString("base64");
 })();
 
 export const tokenLifetime = (function () {
