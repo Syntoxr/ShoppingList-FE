@@ -1,7 +1,7 @@
 import { User } from "./types";
 
 export function getEnvVar(key: string) {
-  let envVar = process.env[key];
+  const envVar = process.env[key];
   if (!envVar) {
     console.warn(`Environment variable ${key} not set!`);
     return null;
