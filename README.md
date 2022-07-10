@@ -37,12 +37,12 @@ services:
     hostname: shoppinglist-ui
     environment:
       - API_HOST= http://shoppinglist-be:8080
-  
+
   backend:
     image: ghcr.io/syntoxr/shoppinglist-be:latest
     container_name: shoppinglist-backend
     expose:
-     - 8080
+      - 8080
     hostname: shoppinglist-be
     volumes:
       - backend_data:/usr/local/server/data
@@ -58,17 +58,19 @@ can also be seen [here](docker-compose.yml)
 
 #### Frontend
 
-| Key      | Default value  | Description                                       |
-| :------- | :------------: | :------------------------------------------------ |
-| API_HOST | -              | Host which the api requests should be proxied to. |
+| Key      | Default value | Description                                       |
+| :------- | :-----------: | :------------------------------------------------ |
+| API_HOST |       -       | Host which the api requests should be proxied to. |
 
 #### Backend
 
-| Key            | Default value | Description                                                                                                                                                                              |
-| :------------- | :-----------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| USERS          | [ ]           | JSON array which contains all users that schould be albe to login. If not provided no one will be able to login.                                                                         |
-| TOKEN_SECRET   | ?             | Secret which the JWTs should be signed with. If left empty, a new one will be generated at each startup. When changed all clients have to login again. The longer the secret the better. |
-| TOKEN_LIFETIME | 3600          | Number in seconds new tokens should be valid. Clients with expired tokens obviously can't acces resources anymore.                                                                       |
+| Key                | Default value | Description                                                                                                                                                                              |
+| :----------------- | :-----------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| USERS              |      [ ]      | JSON array which contains all users that schould be albe to login. If not provided no one will be able to login.                                                                         |
+| TOKEN_SECRET       |       ?       | Secret which the JWTs should be signed with. If left empty, a new one will be generated at each startup. When changed all clients have to login again. The longer the secret the better. |
+| TOKEN_LIFETIME     |     3600      | Number in seconds new tokens should be valid. Clients with expired tokens obviously can't acces resources anymore.                                                                       |
+| LOGIN_RATE_LIMT    |       5       | Allowed number of login requests per minute.                                                                                                                                             |
+| RESOURCE_RATE_LIMT |      50       | Allowed number of resource requests per minute.                                                                                                                                          |
 
 ## API
 
@@ -80,10 +82,10 @@ The Frontend uses [socket.io](https://socket.io/) in order to communicate with t
 
 The following rooms are being used (from a client perspective):
 
-| Name        | Sending        | Acknowledgement                                                  | Description                                                                                                                                 | Recieving      | Description                                                                                                                                               |
+| Name        |    Sending     | Acknowledgement                                                  | Description                                                                                                                                 |   Recieving    | Description                                                                                                                                               |
 | :---------- | :------------: | ---------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ADD_ITEM    | `{item: Item}` | `{code: number, body: {oldId: number, newId: number} \| string}` | JSON object containing the Item that should be added. Returns object containing code and body. Body can contain item ids or an error string | `{item: Item}` | JSON object containing the Item that was added from some other client. This is being send to all clients except the one that send ADD_ITEM.               |
-| GET_ITEMS   | `{}`           | `{code: number, body: Item[] \| string}`                         | Just an empty object in order to request items. Returns object containing code and body. Body can contain item array or an error string     | -              | -                                                                                                                                                         |
+| GET_ITEMS   |      `{}`      | `{code: number, body: Item[] \| string}`                         | Just an empty object in order to request items. Returns object containing code and body. Body can contain item array or an error string     |       -        | -                                                                                                                                                         |
 | UPDATE_ITEM | `{item: Item}` |                                                                  | JSON object containing the Item that should be updated                                                                                      | `{item: Item}` | JSON object containing the Item that was updated from some other client. This is being send to all clients except the one that send UPDATE_ITEM.          |
 | DELETE_ITEM | `{id: number}` |                                                                  | JSON object containing the id of an item that should be deleted                                                                             | `{id: number}` | JSON object containing the id of an item that was deleted from some other client. This is being send to all clients except the one that send DELETE_ITEM. |
 
@@ -93,14 +95,13 @@ The Rest endpoint can be used to easily interact with the backend through other 
 
 The REST endpoints are served under `/api/`
 
-
-| **Name**     | **Endpoint**  | **Reguest type** | **Consumes data** | **Response data**                  | **Description**                                                                             |
-| :----------  | :-----------: | :--------------: | :---------------: | :--------------------------------: | :------------------------------------------------------------------------------------------ |
-| authenticate | `/auth/api/login/`         | GET              | -                 | `{token: JWT}`                     | Requires basic auth cretentials as a Bearer Token authorization header. Responds with a JSON web token. |
-| add item     | `/shoppinglist/item/`      | POST             | [Item](#item)     | `{ oldId: number, newId: number }` | Consumes an item with a temporary id and updates backend. Responds with the old- and new id |
-| get items    | `/shoppinglist/items/`     | GET              | -                 | [Item](#item)                      | Returns complete list of items in an array of items                                         |
-| update item  | `/shoppinglist/item/{id}/` | PATCH            | [Item](#item)     | -                                  | Consumes an item and updates backend accordingly                                            |
-| delete item  | `/shoppinglist/item/{id}/` | DELETE           | -                 | -                                  | Deletes item on backend                                                                     |
+| **Name**     |        **Endpoint**        | **Reguest type** | **Consumes data** |         **Response data**          | **Description**                                                                                         |
+| :----------- | :------------------------: | :--------------: | :---------------: | :--------------------------------: | :------------------------------------------------------------------------------------------------------ |
+| authenticate |     `/auth/api/login/`     |       GET        |         -         |           `{token: JWT}`           | Requires basic auth cretentials as a Bearer Token authorization header. Responds with a JSON web token. |
+| add item     |   `/shoppinglist/item/`    |       POST       |   [Item](#item)   | `{ oldId: number, newId: number }` | Consumes an item with a temporary id and updates backend. Responds with the old- and new id             |
+| get items    |   `/shoppinglist/items/`   |       GET        |         -         |           [Item](#item)            | Returns complete list of items in an array of items                                                     |
+| update item  | `/shoppinglist/item/{id}/` |      PATCH       |   [Item](#item)   |                 -                  | Consumes an item and updates backend accordingly                                                        |
+| delete item  | `/shoppinglist/item/{id}/` |      DELETE      |         -         |                 -                  | Deletes item on backend                                                                                 |
 
 #### Item
 
@@ -121,5 +122,3 @@ With correct credentials the response will be a JSON web token (JWT) which can b
 #### Backend settings
 
 Valid users can be set via [environment variables](#environment-variables) .
-
-

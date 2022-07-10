@@ -18,3 +18,9 @@ export const tokenLifetime = (function () {
   if (envVar && typeof envVar === "number") return envVar;
   else return 3600;
 })();
+
+export const loginRateLimit = (function () {
+  let envVar = getEnvVar("LOGIN_RATE_LIMT");
+  if (envVar && typeof envVar === "number") return envVar;
+  else return 5;
+})();

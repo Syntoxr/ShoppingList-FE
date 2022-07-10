@@ -1,9 +1,20 @@
 import express from "express";
+import rateLimit from "express-rate-limit";
 import { sign } from "jsonwebtoken";
+
 import { mwBasicAuth } from "./middleware";
-import { tokenLifetime, tokenSecret } from "./variables";
+import { loginRateLimit, tokenLifetime, tokenSecret } from "./variables";
 
 const router = express.Router();
+// set up rate limiter: maximum of 'requestRateLimit' requests per minute
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: loginRateLimit,
+});
+
+// apply rate limiter to all requests
+router.use(limiter);
+
 router.use(mwBasicAuth);
 
 console.log(`Token lifetime: ${tokenLifetime} seconds`);
