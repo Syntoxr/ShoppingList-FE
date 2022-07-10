@@ -1,5 +1,5 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import { Item } from "./util/types";
+import { Item } from "./types";
 
 export class Database {
   private database = new Sequelize({

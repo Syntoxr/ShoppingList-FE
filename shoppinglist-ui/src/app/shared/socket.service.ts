@@ -12,9 +12,29 @@ export class SocketService {
     private notification: NzNotificationService
   ) {}
 
-  init() {
-    console.log('connecting to backend');
+  connect(token: string): Promise<void> {
+    this.socket.ioSocket.url = '';
+    this.socket.ioSocket.io.opts.extraHeaders = {
+      authorization: `Bearer ${token}`,
+    };
 
+    return new Promise((resolve, reject) => {
+      if (!token) {
+        reject('missing token');
+      }
+      try {
+        this.socket.connect();
+      } catch (error) {
+        console.error(error);
+        console.error('could not connect to backend');
+        reject(error);
+      }
+      this.createRoomListeners();
+      resolve();
+    });
+  }
+
+  createRoomListeners() {
     //listen on rooms
 
     this.socket.on('connect', () => {

@@ -1,0 +1,13 @@
+{
+    "actionButtons": {
+    "loadNpmCommands": false,
+    "commands": [
+        {
+            "name": "nodemon",
+            "singleInstance": true,
+            "color": "white",
+            "command": "npm run test",
+        },
+    ]
+    }
+}
