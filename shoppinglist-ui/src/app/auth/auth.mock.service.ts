@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { delay, of, throwError } from 'rxjs';
+import { SocketService } from '../shared/socket.service';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
@@ -12,8 +13,8 @@ export class AuthMockService extends AuthService {
   private localMockToken = null;
   private delay = 500;
 
-  constructor(router: Router) {
-    super(null, router);
+  constructor(router: Router, socketService: SocketService) {
+    super(null, router, socketService);
   }
 
   override authenticate(username: string, password: string, remember: boolean) {

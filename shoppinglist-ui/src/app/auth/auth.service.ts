@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, retry } from 'rxjs';
+import { SocketService } from '../shared/socket.service';
 import { handleError, validateToken } from './helpers';
 
 @Injectable({ providedIn: 'root' })
@@ -12,7 +13,11 @@ export class AuthService {
 
   private loginPath = '/api/auth/login';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private socketService: SocketService
+  ) {}
 
   authenticate(username: string, password: string, remember: boolean) {
     const httpOptions = {
@@ -53,6 +58,7 @@ export class AuthService {
 
   onAuthSuccess() {
     this.isAuthorized = true;
+    this.socketService.connect(this.token);
     console.log('Auth successful. Navigating to', this.requestedUrl ?? '/');
     this.router.navigate([this.requestedUrl ?? '/']);
   }
