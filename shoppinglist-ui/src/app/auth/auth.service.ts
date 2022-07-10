@@ -41,7 +41,9 @@ export class AuthService {
 
   autoLogin() {
     try {
-      validateToken(this.readToken());
+      const storedToken = this.readToken();
+      validateToken(storedToken);
+      this.token = storedToken;
     } catch (error) {
       console.info(`autologin failed: ${error}`);
       return;

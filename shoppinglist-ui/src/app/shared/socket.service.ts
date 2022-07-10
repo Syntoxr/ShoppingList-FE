@@ -12,9 +12,8 @@ export class SocketService {
     private notification: NzNotificationService
   ) {}
 
-  async connect(token: string): Promise<void> {
+  connect(token: string): Promise<void> {
     this.socket.ioSocket.url = '';
-    this.socket.ioSocket.path = '/api/socket';
     this.socket.ioSocket.io.opts.extraHeaders = {
       authorization: `Bearer ${token}`,
     };
@@ -38,8 +37,6 @@ export class SocketService {
   }
 
   createRoomListeners() {
-    console.log('connecting to backend');
-
     //listen on rooms
 
     this.socket.on('connect', () => {

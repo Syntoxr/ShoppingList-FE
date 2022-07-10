@@ -23,7 +23,7 @@ export function validateToken(token: string) {
 
   const decoded = decodeToken(token);
 
-  if (decoded.iat + decoded.exp < Date.now()) {
+  if (decoded.exp < Math.floor(Date.now() / 1000)) {
     throw new Error('token is expired');
   }
 }

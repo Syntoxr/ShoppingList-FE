@@ -33,7 +33,7 @@ registerLocaleData(de);
 
 const socketConfig: SocketIoConfig = {
   url: '', //temp url. Can be overwritten in socket.service.ts
-  options: { autoConnect: false },
+  options: { autoConnect: false, path: '/api/socket' },
 };
 
 //Module imports that should be used wether mock env is true or not

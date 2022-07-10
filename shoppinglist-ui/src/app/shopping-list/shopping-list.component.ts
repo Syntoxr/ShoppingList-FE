@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
+import { SocketService } from '../shared/socket.service';
 
 import { Item } from '../shared/types';
 import {
@@ -24,9 +26,14 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   editItem: Item;
   showEdit = false;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private socketService: SocketService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.socketService.connect(this.authService.token);
     this.store.dispatch(loadItems());
     this.sortOrder$ = this.store.select(selectSortOrder);
     this.store.select(selectAllItems).subscribe(items => {
