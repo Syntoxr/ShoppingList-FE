@@ -29,8 +29,6 @@ export class SocketService {
         console.error('could not connect to backend');
         reject(error);
       }
-
-      console.info('connected to backend');
       this.createRoomListeners();
       resolve();
     });
