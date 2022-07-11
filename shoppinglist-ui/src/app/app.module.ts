@@ -28,6 +28,7 @@ import { SocketService } from './shared/socket.service';
 import { SocketMockService } from './shared/socket.mock.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './auth/auth.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(de);
 
@@ -59,6 +60,12 @@ const mockImports = environment.mock
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     AuthModule,
     ShoppingListModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     ...generateMockProviders(),
