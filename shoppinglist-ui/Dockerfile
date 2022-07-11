@@ -10,6 +10,8 @@ WORKDIR /usr/local/app
 # Add the source code to app
 COPY ./ /usr/local/app/
 
+RUN npm config set legacy-peer-deps true
+
 # Install all the dependencies
 RUN npm install
 
