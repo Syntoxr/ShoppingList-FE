@@ -6,7 +6,10 @@ A simple selfhosted shopping list
 
 ## Demo
 
-An up to date demo with a simulated backend can be seen here: [https://syntoxr.github.io/ShoppingList/](https://syntoxr.github.io/ShoppingList/)
+An up to date demo with a simulated backend can be seen here: [https://syntoxr.github.io/ShoppingList/](https://syntoxr.github.io/ShoppingList/):
+
+- user name: `user`
+- password: `notSave`
 
 This is my first web application so feel free to report any issues you find.
 
