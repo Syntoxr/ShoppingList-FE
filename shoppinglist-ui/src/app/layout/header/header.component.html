@@ -1,0 +1,26 @@
+<div style="position: relative; margin-bottom: 20px;">
+  <div nz-row class="header">
+    <h2 nz-col class="name">ShoppingList</h2>
+    <div nz-col nzFlex="auto"></div>
+
+    <div nz-col class="info">
+      <ng-container *ngIf="status$ | async as status">
+        <nz-spin nzSimple *ngIf="status === 'loading' || status === 'saving' || status === 'pending'"></nz-spin>
+        <i *ngIf="status === 'error'" nz-icon nzType="warning" nzTheme="outline"
+          style="font-size: 30px; color: orangered;"></i>
+      </ng-container>
+    </div>
+
+    <div nz-col class="menu-wrapper">
+      <button nz-button *ngIf="authService.isAuthorized" nzType="text" (click)="showMenu = !showMenu">
+        <i class="menu-icon" nz-icon nzType="menu" nzTheme="outline"></i>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<app-menu *ngIf="showMenu && authService.isAuthorized" (close)="showMenu = false"></app-menu>
+
+
+
