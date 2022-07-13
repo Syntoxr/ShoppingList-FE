@@ -1,0 +1,17 @@
+<nz-modal [nzVisible]="true" nzTitle="Menu" (nzOnCancel)="close.emit()" [nzFooter]="modalFooter">
+  <ng-container *nzModalContent>
+
+    <ul nz-menu style="border-right: 0;">
+      <li nz-menu-item (click)="entryClicked(['/'])">
+        <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <span>Shopping list</span>
+      </li>
+    </ul>
+
+  </ng-container>
+</nz-modal>
+
+<ng-template #modalFooter>
+  <button nzFlex="auto" nz-button nzDanger nzBlock nzType="primary" type="button"
+    (click)="logout()">Logout</button>
+</ng-template>
