@@ -35,17 +35,17 @@ export class AuthMockService extends AuthService {
 
   // #region mock local storage operations
 
-  override storeToken(token: string) {
+  protected override storeToken(token: string) {
     console.log('JWT would be stored in local storage now');
     this.localMockToken = token;
   }
 
-  override readToken(): string {
+  protected override readToken(): string {
     console.log('JWT would be read from local storage now');
     return this.localMockToken;
   }
 
-  override deleteToken() {
+  protected override deleteToken() {
     console.log('JWT would be deleted from local storage now');
     this.localMockToken = null;
   }
