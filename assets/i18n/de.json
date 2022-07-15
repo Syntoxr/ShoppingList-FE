@@ -1,26 +1,51 @@
 {
-  "layout": {
     "menu": {
-      "Menu": "Menü",
-      "Shopping list": "Einkaufsliste",
-      "Language": "Sprache",
-      "Logout": "Ausloggen"
+        "Shopping list": "Einkaufsliste",
+        "Language": "Sprache"
+    },
+    "auth": {
+        "Login": "Einloggen",
+        "Username": "Benutzername",
+        "Password": "Passwort",
+        "Stay logged in": "Eingeloggt bleiben"
+    },
+    "layout": {
+        "menu": {
+            "Shopping list": "Einkaufsliste",
+            "Language": "Sprache",
+            "Menu": "Menü",
+            "Logout": "Ausloggen"
+        }
+    },
+    "shopping-list": {
+        "add-item": {
+            "Add to list": "Zu Liste hinzufügen"
+        },
+        "edit-item": {
+            "Amount": "Anzahl",
+            "Edit": "Bearbeiten",
+            "Update": "Aktualisieren",
+            "Cancel": "Abbrechen",
+            "Delete": "Löschen"
+        },
+        "list": {
+            "Sort": "Sortieren"
+        }
+    },
+    "socket": {
+        "notification": {
+            "reconnect": {
+                "title": "Verbindung OK",
+                "content": "Du wirst wieder  Live-Updates erhalten"
+            },
+            "connect-error": {
+                "title": "Konnte nicht zu Server verbinden",
+                "content": "Du wirst keine Live-Updates erhalten"
+            },
+            "disconnect": {
+                "title": "Verbindung zu Server unterbrochen",
+                "content": "Du wirst keine Live-Updates erhalten"
+            }
+        }
     }
-  },
-  "socket": {
-    "notification": {
-      "reconnect": {
-        "title": "Verbindung OK",
-        "content": "Du wirst wieder live-Updates erhalten"
-      },
-      "connect-error": {
-        "title": "Konnte nicht zu Server verbinden",
-        "content": "Du wirst keine live-Updates erhalten"
-      },
-      "disconnect": {
-        "title": "Verbindung zu Server unterbrochen",
-        "content": "Du wirst keine live-Updates erhalten"
-      }
-    }
-  }
 }

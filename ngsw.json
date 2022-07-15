@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1657919541224,
+  "timestamp": 1657921323607,
   "index": "https://syntoxr.github.io/ShoppingList/index.html",
   "assetGroups": [
     {
@@ -2069,7 +2069,7 @@
     "https://syntoxr.github.io/ShoppingList/assets/fill/zhihu-circle.svg": "be6280fa4e203b9ad098c82fa7e600257eb6058a",
     "https://syntoxr.github.io/ShoppingList/assets/fill/zhihu-square.js": "be7961c908ea2b910c9189519e120ca55daac42e",
     "https://syntoxr.github.io/ShoppingList/assets/fill/zhihu-square.svg": "116dde19e8e3275d1920e425031d120a51f18fa1",
-    "https://syntoxr.github.io/ShoppingList/assets/i18n/de.json": "cca59abe5026dcbdcf75bddd1850f6109284f1ca",
+    "https://syntoxr.github.io/ShoppingList/assets/i18n/de.json": "fa6c89fa63ddbb6139a428cc8bf9b1868bef1e25",
     "https://syntoxr.github.io/ShoppingList/assets/i18n/en.json": "726f6a9f588a6c367f471a5878624470e8909d8e",
     "https://syntoxr.github.io/ShoppingList/assets/icons/icon-128x128.png": "e0768131503b0f9a19c10daf45f5fb2b71935235",
     "https://syntoxr.github.io/ShoppingList/assets/icons/icon-144x144.png": "c243447145f3834c8818cdb3dbe61eec78db82d9",
