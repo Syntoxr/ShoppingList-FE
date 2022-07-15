@@ -31,6 +31,8 @@ import { AuthModule } from './auth/auth.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HeaderComponent } from './layout/header/header.component';
 import { MenuComponent } from './layout/menu/menu.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslocoRootModule } from './transloco-root.module';
 
 registerLocaleData(de);
 
@@ -70,6 +72,8 @@ const mockImports = environment.mock
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    HttpClientModule,
+    TranslocoRootModule,
   ],
   providers: [
     ...generateMockProviders(),
