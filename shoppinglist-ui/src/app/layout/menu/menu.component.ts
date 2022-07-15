@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -7,9 +8,20 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.less'],
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
-  constructor(public authService: AuthService, private router: Router) {}
+
+  languageList: AvailableLangs = [];
+
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    public translocoService: TranslocoService
+  ) {}
+
+  ngOnInit(): void {
+    this.languageList = this.translocoService.getAvailableLangs();
+  }
 
   logout() {
     this.close.emit();

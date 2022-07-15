@@ -1,0 +1,10 @@
+{
+  "layout": {
+    "menu": {
+      "Menu": "Menü",
+      "Shopping list": "Einkaufsliste",
+      "Language": "Sprache",
+      "Logout": "Ausloggen"
+    }
+  }
+}

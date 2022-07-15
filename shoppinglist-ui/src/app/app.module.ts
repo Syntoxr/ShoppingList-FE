@@ -20,6 +20,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 import { EffectsModule } from '@ngrx/effects';
 
@@ -61,6 +62,7 @@ const mockImports = environment.mock
     NzNotificationModule,
     NzIconModule,
     NzModalModule,
+    NzDropDownModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
