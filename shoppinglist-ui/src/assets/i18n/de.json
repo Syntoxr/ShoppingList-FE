@@ -6,5 +6,21 @@
       "Language": "Sprache",
       "Logout": "Ausloggen"
     }
+  },
+  "socket": {
+    "notification": {
+      "reconnect": {
+        "title": "Verbindung OK",
+        "content": "Du wirst wieder live-Updates erhalten"
+      },
+      "connect-error": {
+        "title": "Konnte nicht zu Server verbinden",
+        "content": "Du wirst keine live-Updates erhalten"
+      },
+      "disconnect": {
+        "title": "Verbindung zu Server unterbrochen",
+        "content": "Du wirst keine live-Updates erhalten"
+      }
+    }
   }
 }

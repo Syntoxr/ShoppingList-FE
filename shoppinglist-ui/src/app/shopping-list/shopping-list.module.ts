@@ -29,6 +29,7 @@ import { StoreModule } from '@ngrx/store';
 import { shoppingListReducer } from './store/shopping-list.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListEffects } from './store/shopping-list.effects';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [ShoppingListComponent, AddItemComponent, EditItemComponent],
@@ -51,6 +52,7 @@ import { ShoppingListEffects } from './store/shopping-list.effects';
     NzSkeletonModule,
     NzModalModule,
     NzNotificationModule,
+    TranslocoModule,
     StoreModule.forFeature('shoppingList', shoppingListReducer),
     EffectsModule.forFeature([ShoppingListEffects]),
   ],

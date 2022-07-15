@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { SocketService } from './socket.service';
 
 @Injectable()
 export class SocketMockService extends SocketService {
   mockCredentials = { username: 'user', password: 'notSave' };
 
-  constructor() {
-    super(undefined, undefined);
+  constructor(translocoService: TranslocoService) {
+    super(undefined, undefined, translocoService);
   }
 
   override async connect(): Promise<void> {

@@ -1,25 +1,29 @@
+<ng-container *transloco="let t; read: 'shopping-list.list'">
+  <app-add-item></app-add-item>
 
+  <app-edit-item *ngIf="showEdit" (close)="showEdit = false" [editItem]="editItem"></app-edit-item>
 
-<app-add-item></app-add-item>
-
-<app-edit-item *ngIf="showEdit" (close)="showEdit = false" [editItem]="editItem"></app-edit-item>
-
-<nz-divider [nzText]="dividerContent" nzOrientation="right">
+  <nz-divider [nzText]="dividerContent" nzOrientation="right">
     <ng-template #dividerContent>
-        <button (click)="onTogleSorting()" nz-button nzType="default" type="button">Sortieren <i nz-icon [nzType]="(sortOrder$ | async) === 'ascending' ? 'down':'up'" nzTheme="outline"></i></button>
+      <button (click)="onTogleSorting()" nz-button nzType="default" type="button">{{t('Sort')}} <i nz-icon
+          [nzType]="(sortOrder$ | async) === 'ascending' ? 'down':'up'" nzTheme="outline"></i></button>
     </ng-template>
-</nz-divider>
+  </nz-divider>
 
-<ng-container *ngIf="shoppingItems$ | async as shoppingItems">
-<nz-list *ngIf="shoppingItems.length > 0">
-    <nz-list-item class="list-item" *ngFor="let item of shoppingItems; let i = index">
+  <ng-container *ngIf="shoppingItems$ | async as shoppingItems">
+    <nz-list *ngIf="shoppingItems.length > 0">
+      <nz-list-item class="list-item" *ngFor="let item of shoppingItems; let i = index">
         <nz-button-group style="width: 100%;">
-          <button nz-button class="btn-left" (click)="onEditItem(item)">{{ item.name }}  <nz-badge nzStandalone [nzStyle]="{ backgroundColor: '#001529' }" class="amount-badge" [nzCount]="item.amount"></nz-badge></button>
+          <button nz-button class="btn-left" (click)="onEditItem(item)">{{ item.name }} <nz-badge nzStandalone
+              [nzStyle]="{ backgroundColor: '#001529' }" class="amount-badge" [nzCount]="item.amount"></nz-badge></button>
           <button nz-button class="btn-right" nzType="primary" (click)="onCheckItem(item)"><i nz-icon nzType="check"
-                  nzTheme="outline"></i></button>
+              nzTheme="outline"></i></button>
         </nz-button-group>
-    </nz-list-item>
-</nz-list>
+      </nz-list-item>
+    </nz-list>
 
-<nz-skeleton [nzActive]="true" *ngIf="shoppingItems.length === 0"></nz-skeleton>
+    <nz-skeleton [nzActive]="true" *ngIf="shoppingItems.length === 0"></nz-skeleton>
+  </ng-container>
 </ng-container>
+
+
