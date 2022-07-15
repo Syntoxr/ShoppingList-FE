@@ -9,6 +9,10 @@ import {
 } from '@ngneat/transloco';
 import { Injectable, NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
+import {
+  TranslocoPersistLangModule,
+  TRANSLOCO_PERSIST_LANG_STORAGE,
+} from '@ngneat/transloco-persist-lang';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -20,6 +24,14 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 }
 
 @NgModule({
+  imports: [
+    TranslocoPersistLangModule.forRoot({
+      storage: {
+        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
+        useValue: localStorage,
+      },
+    }),
+  ],
   exports: [TranslocoModule],
   providers: [
     {
