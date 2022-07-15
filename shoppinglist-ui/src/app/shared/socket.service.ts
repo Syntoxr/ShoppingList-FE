@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Socket } from 'ngx-socket-io';
 
@@ -9,7 +10,8 @@ export class SocketService {
 
   constructor(
     private socket: Socket,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private translocoService: TranslocoService
   ) {}
 
   connect(token: string): Promise<void> {
@@ -42,12 +44,20 @@ export class SocketService {
       if (this.hasError) {
         this.hasError = false;
         this.notification.remove(this.currentNotificationId);
+        /**
+         * t(socket.notification.reconnect.title)
+         * t(socket.notification.reconnect.content)
+         */
         this.notification.success(
-          'Socket OK',
-          'Du wirst wieder live Updates erhalten',
+          this.translocoService.translate(
+            'socket.notification.reconnect.title'
+          ),
+          this.translocoService.translate(
+            'socket.notification.reconnect.content'
+          ),
           {
             nzKey: 'socket',
-            nzDuration: 7000,
+            nzDuration: 5000,
           }
         );
       }
@@ -60,9 +70,17 @@ export class SocketService {
     this.socket.on('connect_error', () => {
       console.error('could not connect to backend');
       this.hasError = true;
+      /**
+       * t(socket.notification.connect-error.title)
+       * t(socket.notification.connect-error.content)
+       */
       this.currentNotificationId = this.notification.error(
-        'Konnte nicht mit Server verbinden',
-        'Du wirst keine live Updates erhalten',
+        this.translocoService.translate(
+          'socket.notification.connect-error.title'
+        ),
+        this.translocoService.translate(
+          'socket.notification.connect-error.content'
+        ),
         {
           nzKey: 'socket',
           nzDuration: 600000,
@@ -73,9 +91,15 @@ export class SocketService {
     this.socket.on('disconnect', () => {
       console.error('disconnected from backend');
       this.hasError = true;
+      /**
+       * t(socket.notification.disconnect.title)
+       * t(socket.notification.disconnect.content)
+       */
       this.currentNotificationId = this.notification.error(
-        'Verbindung zu Server unterbrochen',
-        'Du wirst keine live Updates erhalten',
+        this.translocoService.translate('socket.notification.disconnect.title'),
+        this.translocoService.translate(
+          'socket.notification.disconnect.content'
+        ),
         {
           nzKey: 'socket',
           nzDuration: 600000,

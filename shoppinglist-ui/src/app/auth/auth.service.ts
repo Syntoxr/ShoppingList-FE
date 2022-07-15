@@ -44,6 +44,13 @@ export class AuthService {
       });
   }
 
+  logout() {
+    this.token = null;
+    this.isAuthorized = false;
+    this.deleteToken();
+    this.router.navigate(['/auth']);
+  }
+
   autoLogin() {
     try {
       const storedToken = this.readToken();
@@ -65,15 +72,15 @@ export class AuthService {
 
   // #region local storage operations
 
-  storeToken(token: string) {
+  protected storeToken(token: string) {
     localStorage.setItem('JWT', token);
   }
 
-  readToken() {
+  protected readToken() {
     return localStorage.getItem('JWT');
   }
 
-  deleteToken() {
+  protected deleteToken() {
     localStorage.removeItem('JWT');
   }
 

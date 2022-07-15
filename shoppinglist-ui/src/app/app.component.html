@@ -1,35 +1,16 @@
+<nz-layout style="min-height: 100vh;">
+  <app-header></app-header>
+  <nz-layout>
+    <nz-content>
 
-<nz-layout style="min-height: 100vh">
-  <nz-header style="position: relative;">
-    <app-header></app-header>
-
-    <div nz-row style="position: absolute; top: 0; right: 10px; height: 100%;">
-      <!-- display suggestion button when in mock environment -->
-      <button nz-col *ngIf="mock" nz-button nzType="primary" style="margin-top: auto; margin-bottom: auto; margin-right: 10px;"><a
-          href='https://github.com/Syntoxr/ShoppingList/issues/new/choose'>Verbesserung?</a></button>
-
-      <ng-container *ngIf="status$ |async as status">
-        <div nz-col style="width: 30px;">
-          <nz-spin nzSimple *ngIf="status === 'loading' || status === 'saving' || status === 'pending'"></nz-spin>
-          <i *ngIf="status === 'error'" nz-icon nzType="warning" nzTheme="outline"
-            style="font-size: 30px; color: orangered;"></i>
+      <nz-row nzJustify="center">
+        <!-- <div nz-col nzFlex="auto"></div> -->
+        <div nz-col nzXs="22" nzSm="22" nzMd="12">
+          <router-outlet></router-outlet>
         </div>
-      </ng-container>
-    </div>
-
-
-  </nz-header>
-
-
-
-  <nz-content style="position: relative;">
-
-    <nz-row nzJustify="center">
-      <!-- <div nz-col nzFlex="auto"></div> -->
-      <div nz-col nzXs="22" nzSm="22" nzMd="12">
-        <router-outlet></router-outlet>
-      </div>
-      <!-- <div nz-col nzFlex="auto"></div> -->
-    </nz-row>
-  </nz-content>
+        <!-- <div nz-col nzFlex="auto"></div> -->
+      </nz-row>
+    </nz-content>
+  </nz-layout>
 </nz-layout>
+
