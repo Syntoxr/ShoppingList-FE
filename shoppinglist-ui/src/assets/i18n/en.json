@@ -1,0 +1,47 @@
+{
+  "auth": {
+    "Login": "Login",
+    "Username": "Username",
+    "Password": "Password",
+    "Stay logged in": "Stay logged in"
+  },
+  "layout": {
+    "menu": {
+      "Shopping list": "Shopping list",
+      "Language": "Language",
+      "Menu": "Menu",
+      "Logout": "Logout"
+    }
+  },
+  "shopping-list": {
+    "add-item": {
+      "Add to list": "Add to list"
+    },
+    "edit-item": {
+      "Amount": "Amount",
+      "Edit": "Edit",
+      "Update": "Update",
+      "Cancel": "Cancel",
+      "Delete": "Delete"
+    },
+    "list": {
+      "Sort": "Sort"
+    }
+  },
+  "socket": {
+    "notification": {
+      "reconnect": {
+        "title": "Connection OK",
+        "content": "You will recieve live updates again"
+      },
+      "connect-error": {
+        "title": "Could not connect to Server",
+        "content": "You won't recieve live updates"
+      },
+      "disconnect": {
+        "title": "Connection to server interrupted",
+        "content": "You won't recieve live updates"
+      }
+    }
+  }
+}

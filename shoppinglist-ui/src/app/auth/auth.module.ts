@@ -13,6 +13,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 import { AuthMockService } from './auth.mock.service';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [AuthComponent],
@@ -26,6 +27,7 @@ import { AuthMockService } from './auth.mock.service';
     NzButtonModule,
     NzCheckboxModule,
     NzNotificationModule,
+    TranslocoModule,
   ],
   providers: [...generateMockProviders()],
   exports: [AuthComponent],

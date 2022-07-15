@@ -20,6 +20,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 import { EffectsModule } from '@ngrx/effects';
 
@@ -31,6 +32,8 @@ import { AuthModule } from './auth/auth.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HeaderComponent } from './layout/header/header.component';
 import { MenuComponent } from './layout/menu/menu.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslocoRootModule } from './transloco-root.module';
 
 registerLocaleData(de);
 
@@ -59,6 +62,7 @@ const mockImports = environment.mock
     NzNotificationModule,
     NzIconModule,
     NzModalModule,
+    NzDropDownModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
@@ -70,6 +74,8 @@ const mockImports = environment.mock
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    HttpClientModule,
+    TranslocoRootModule,
   ],
   providers: [
     ...generateMockProviders(),
