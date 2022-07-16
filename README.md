@@ -2,7 +2,7 @@
 
 A simple selfhosted shopping list
 
-> ## ⚠️ This is still in development and a few cool functions are comming soon - hofepully.
+> ## ⚠️ This is still in development and a few cool functions are comming soon - hopefully.
 
 ## Demo
 
