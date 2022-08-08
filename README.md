@@ -26,14 +26,15 @@ I suggest using docker-compose to run them in a stack:
 
 ```yml
 #docker-compose.yml
-version: "3.9"
+version: '3.9'
 
 volumes:
   backend_data:
 
 services:
   frontend:
-    image: ghcr.io/syntoxr/shoppinglist-ui:latest
+    image: ghcr.io/syntoxr/shoppinglist-fe:latest
+    restart: always
     container_name: shoppinglist-frontend
     ports:
       - 80:80
@@ -43,6 +44,7 @@ services:
 
   backend:
     image: ghcr.io/syntoxr/shoppinglist-be:latest
+    restart: always
     container_name: shoppinglist-backend
     expose:
       - 8080
