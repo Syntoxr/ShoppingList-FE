@@ -1,9 +1,7 @@
 name: Build check
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
-  branches:
-    - master
+    branches: [main]
 
 jobs:
   build:
@@ -20,7 +18,3 @@ jobs:
       - name: Install and build
         working-directory: ./
         run: npm config set legacy-peer-deps true && npm install && npm run build
-        
-        
-        
-        
