@@ -33,25 +33,6 @@ export class AuthMockService extends AuthService {
     });
   }
 
-  // #region mock local storage operations
-
-  protected override storeToken(token: string) {
-    console.log('JWT would be stored in local storage now');
-    this.localMockToken = token;
-  }
-
-  protected override readToken(): string {
-    console.log('JWT would be read from local storage now');
-    return this.localMockToken;
-  }
-
-  protected override deleteToken() {
-    console.log('JWT would be deleted from local storage now');
-    this.localMockToken = null;
-  }
-
-  // #endregion
-
   private getMockResponse(username: string, password: string) {
     if (username === this.mockUsername && password === this.mockPassword) {
       return of({ token: this.mockToken }).pipe(delay(this.delay));
@@ -64,12 +45,14 @@ export class AuthMockService extends AuthService {
   }
 
   /**
-   * build mock token
+   * build 10 minute mock token
    * the signature of the token is not valid, but the payload will be, which is sufficient for mock purposes
    **/
   private get mockToken() {
     const payload = btoa(
-      `{"iss": "user", "exp": 69696969, "iat": ${Date.now()} }`
+      `{"iss": "user", "exp": ${
+        Date.now() / 1000 + 600
+      }, "iat": ${Date.now()} }`
     );
     return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${payload}.Mc3CM9MrTNPSX1b9sZFrEPGKdnYVVp-RjdiZd_2_J2w`;
   }
