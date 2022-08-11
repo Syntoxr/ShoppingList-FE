@@ -14,16 +14,16 @@
     }
   },
   "settings": {
+    "categories": {
+      "title": {
+        "Categories": "Categories"
+      }
+    },
     "general": {
       "title": {
         "General": "General"
       },
       "Language": "Language"
-    },
-    "categories": {
-      "title": {
-        "Categories": "Categories"
-      }
     }
   },
   "shopping-list": {
@@ -38,7 +38,8 @@
       "Delete": "Delete"
     },
     "list": {
-      "Sort": "Sort"
+      "Sort": "Sort",
+      "empty-message": "There are currently no items on the list. Add some by typing in the field above!"
     }
   },
   "socket": {
