@@ -17,6 +17,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
@@ -50,6 +51,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     NzBadgeModule,
     NzDividerModule,
     NzEmptyModule,
+    NzSkeletonModule,
     NzModalModule,
     NzNotificationModule,
     TranslocoModule,
