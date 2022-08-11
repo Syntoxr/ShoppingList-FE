@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { catchError, retry } from 'rxjs';
 import { SocketService } from '../shared/socket.service';
+import { loadItems } from '../shopping-list/store/shopping-list.actions';
 import { handleError, validateToken } from './helpers';
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +18,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private store: Store,
     private socketService: SocketService
   ) {}
 
@@ -66,6 +69,7 @@ export class AuthService {
   onAuthSuccess() {
     this.isAuthorized = true;
     this.socketService.connect(this.token);
+    this.store.dispatch(loadItems());
     console.log('Auth successful. Navigating to', this.requestedUrl ?? '/');
     this.router.navigate([this.requestedUrl ?? '/']);
   }
