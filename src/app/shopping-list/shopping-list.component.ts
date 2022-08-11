@@ -3,14 +3,11 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Item } from '../shared/types';
-import {
-  loadItems,
-  toggleSortOrder,
-  updateItem,
-} from './store/shopping-list.actions';
+import { toggleSortOrder, updateItem } from './store/shopping-list.actions';
 import {
   selectAllItems,
   selectSortOrder,
+  selectStatus,
 } from './store/shopping-list.selectors';
 
 @Component({
@@ -23,6 +20,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   sortOrder$: Observable<string>;
   editItem: Item;
   showEdit = false;
+  listStatus$ = this.store.select(selectStatus);
 
   constructor(private store: Store) {}
 

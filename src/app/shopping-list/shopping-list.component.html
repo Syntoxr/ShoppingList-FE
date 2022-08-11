@@ -24,7 +24,10 @@
           </nz-list-item>
         </nz-list>
 
-        <nz-empty [nzNotFoundContent]="t('empty-message')" *ngIf="shoppingItems.length === 0"></nz-empty>
+        <ng-container *ngIf="shoppingItems.length === 0 && listStatus$ | async as listStatus">
+          <nz-empty [nzNotFoundContent]="t('empty-message')" *ngIf="listStatus != 'loading'"></nz-empty>
+          <nz-skeleton [nzActive]="true" *ngIf="listStatus == 'loading'"></nz-skeleton>
+        </ng-container>
       </ng-container>
     </ng-container>
   </div>
