@@ -7,9 +7,9 @@
           <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
           <span>{{t('Shopping list')}}</span>
         </li>
-        <li nz-menu-item nz-dropdown nzTrigger="click" [nzDropdownMenu]="languages">
-          <i nz-icon nzType="translation" nzTheme="outline"></i>
-          <span>{{t('Language')}}</span>
+        <li nz-menu-item routerLink="settings" (click)="close.emit()">
+          <i nz-icon nzType="setting" nzTheme="outline"></i>
+          <span>{{t('Settings')}}</span>
         </li>
       </ul>
 
@@ -23,11 +23,4 @@
   <ng-template #modalFooter>
     <button nzFlex="auto" nz-button nzDanger nzBlock nzType="primary" type="button" (click)="logout()">{{t('Logout')}}</button>
   </ng-template>
-
-
-  <nz-dropdown-menu #languages="nzDropdownMenu">
-    <ul nz-menu>
-      <li *ngFor="let language of languageList" nz-menu-item (click)="translocoService.setActiveLang(language.id)">{{ language.label}}</li>
-    </ul>
-  </nz-dropdown-menu>
 </ng-container>

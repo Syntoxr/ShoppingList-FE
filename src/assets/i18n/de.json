@@ -12,11 +12,24 @@
     "layout": {
         "menu": {
             "Shopping list": "Einkaufsliste",
-            "Language": "Sprache",
+            "Settings": "Einstellungen",
             "Menu": "Menü",
             "Logout": "Ausloggen"
         }
     },
+    "settings": {
+    "general": {
+      "title": {
+        "General": "Allgemein"
+      },
+      "Language": "Sprache"
+    },
+    "categories": {
+      "title": {
+        "Categories": "Kategorien"
+      }
+    }
+  },
     "shopping-list": {
         "add-item": {
             "Add to list": "Zu Liste hinzufügen"

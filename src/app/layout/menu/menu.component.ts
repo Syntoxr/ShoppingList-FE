@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -11,17 +10,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class MenuComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
 
-  languageList: AvailableLangs = [];
+  constructor(public authService: AuthService, private router: Router) {}
 
-  constructor(
-    public authService: AuthService,
-    private router: Router,
-    public translocoService: TranslocoService
-  ) {}
-
-  ngOnInit(): void {
-    this.languageList = this.translocoService.getAvailableLangs();
-  }
+  ngOnInit(): void {}
 
   logout() {
     this.close.emit();

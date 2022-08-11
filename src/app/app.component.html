@@ -1,16 +1,7 @@
 <nz-layout style="min-height: 100vh;">
   <app-header></app-header>
-  <nz-layout>
-    <nz-content>
-
-      <nz-row nzJustify="center">
-        <!-- <div nz-col nzFlex="auto"></div> -->
-        <div nz-col nzXs="22" nzSm="22" nzMd="12">
-          <router-outlet></router-outlet>
-        </div>
-        <!-- <div nz-col nzFlex="auto"></div> -->
-      </nz-row>
-    </nz-content>
-  </nz-layout>
+  <nz-content>
+    <router-outlet></router-outlet>
+  </nz-content>
 </nz-layout>
 
