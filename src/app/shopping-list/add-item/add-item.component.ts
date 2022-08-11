@@ -6,8 +6,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
 import { equalizeString } from 'src/app/shared/helper-functions';
 import { Item } from 'src/app/shared/types';
-import { addItem, updateItem } from '../store/shopping-list.actions';
-import { selectAllItems } from '../store/shopping-list.selectors';
+import { ShoppingListActions } from '../store/shopping-list.actions';
+import { shoppingListFeature } from '../store/shopping-list.reducer';
 
 @Component({
   selector: 'app-add-item',
@@ -33,10 +33,12 @@ export class AddItemComponent implements OnInit, OnDestroy {
     });
 
     //assign observable containing the item list to this.items
-    this.itemsSub$ = this.store.select(selectAllItems).subscribe(items => {
-      this.items = items;
-      this.shoppingItems = items.filter(item => item.onShoppinglist);
-    });
+    this.itemsSub$ = this.store
+      .select(shoppingListFeature.selectItems)
+      .subscribe(items => {
+        this.items = items;
+        this.shoppingItems = items.filter(item => item.onShoppinglist);
+      });
   }
 
   onSubmit() {
@@ -61,7 +63,9 @@ export class AddItemComponent implements OnInit, OnDestroy {
         onShoppinglist: true,
       };
 
-      this.store.dispatch(updateItem({ item: updatedItem }));
+      this.store.dispatch(
+        ShoppingListActions.updateItem({ item: updatedItem })
+      );
       this.clearForm();
       return;
     }
@@ -74,7 +78,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
       onShoppinglist: true,
     };
     //dispath new item to store
-    this.store.dispatch(addItem({ item: newItem }));
+    this.store.dispatch(ShoppingListActions.addItem({ item: newItem }));
     this.clearForm();
   }
 
@@ -99,7 +103,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
     };
 
     //dispatch updated item
-    this.store.dispatch(updateItem({ item: updatedItem }));
+    this.store.dispatch(ShoppingListActions.updateItem({ item: updatedItem }));
 
     this.showSelectDropdown = false;
     this.clearForm();
@@ -138,7 +142,9 @@ export class AddItemComponent implements OnInit, OnDestroy {
               ...item,
               amount: item.amount + 1,
             };
-            this.store.dispatch(updateItem({ item: updatedItem }));
+            this.store.dispatch(
+              ShoppingListActions.updateItem({ item: updatedItem })
+            );
             this.modal.closeAll();
             this.clearForm();
           },

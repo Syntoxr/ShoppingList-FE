@@ -27,10 +27,10 @@ import { EditItemComponent } from './edit-item/edit-item.component';
 import { ShoppingListService } from './shopping-list.service';
 import { ShoppingListMockService } from './shopping-list.mock.service';
 import { StoreModule } from '@ngrx/store';
-import { shoppingListReducer } from './store/shopping-list.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListEffects } from './store/shopping-list.effects';
 import { TranslocoModule } from '@ngneat/transloco';
+import { shoppingListFeature } from './store/shopping-list.reducer';
 
 @NgModule({
   declarations: [ShoppingListComponent, AddItemComponent, EditItemComponent],
@@ -55,7 +55,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     NzModalModule,
     NzNotificationModule,
     TranslocoModule,
-    StoreModule.forFeature('shoppingList', shoppingListReducer),
+    StoreModule.forFeature(shoppingListFeature),
     EffectsModule.forFeature([ShoppingListEffects]),
   ],
   providers: [...generateMockProviders()],

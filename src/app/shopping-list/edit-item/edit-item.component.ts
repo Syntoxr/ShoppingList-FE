@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Item } from 'src/app/shared/types';
-import { deleteItem, updateItem } from '../store/shopping-list.actions';
+import { ShoppingListActions } from '../store/shopping-list.actions';
 
 @Component({
   selector: 'app-edit-item',
@@ -30,7 +30,9 @@ export class EditItemComponent implements OnInit {
   }
 
   onDelete() {
-    this.store.dispatch(deleteItem({ item: this.editItem }));
+    this.store.dispatch(
+      ShoppingListActions.deleteItem({ item: this.editItem })
+    );
     this.close.emit();
   }
 
@@ -55,7 +57,7 @@ export class EditItemComponent implements OnInit {
       id: id,
       onShoppinglist: true,
     };
-    this.store.dispatch(updateItem({ item: updatedItem }));
+    this.store.dispatch(ShoppingListActions.updateItem({ item: updatedItem }));
     this.editForm.reset();
     this.close.emit();
   }

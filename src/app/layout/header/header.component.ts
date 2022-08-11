@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/auth/auth.service';
-import { selectStatus } from 'src/app/shopping-list/store/shopping-list.selectors';
+import { shoppingListFeature } from 'src/app/shopping-list/store/shopping-list.reducer';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +10,7 @@ import { selectStatus } from 'src/app/shopping-list/store/shopping-list.selector
 })
 export class HeaderComponent {
   showMenu = false;
-  status$ = this.store.select(selectStatus);
+  status$ = this.store.select(shoppingListFeature.selectStatus);
 
   constructor(private store: Store, public authService: AuthService) {}
 }

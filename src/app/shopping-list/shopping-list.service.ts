@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { Item, SocketResponse, SocketRooms } from '../shared/types';
 import { Socket } from 'ngx-socket-io';
 import { Store } from '@ngrx/store';
-import {
-  socketAddItem,
-  socketDeleteItem,
-  socketUpdateItem,
-} from './store/shopping-list.actions';
+import { ShoppingListActions } from './store/shopping-list.actions';
 
 @Injectable({ providedIn: 'root' })
 export class ShoppingListService {
@@ -22,7 +18,9 @@ export class ShoppingListService {
           data
         )}`
       );
-      this.store.dispatch(socketAddItem({ item: data.item }));
+      this.store.dispatch(
+        ShoppingListActions.socketAddItem({ item: data.item })
+      );
     });
 
     this.socket.on(SocketRooms.updateItem, (data: { item: Item }) => {
@@ -31,7 +29,9 @@ export class ShoppingListService {
           data
         )}`
       );
-      this.store.dispatch(socketUpdateItem({ item: data.item }));
+      this.store.dispatch(
+        ShoppingListActions.socketUpdateItem({ item: data.item })
+      );
     });
 
     this.socket.on(SocketRooms.deleteItem, (data: { id: number }) => {
@@ -40,7 +40,9 @@ export class ShoppingListService {
           data
         )}`
       );
-      this.store.dispatch(socketDeleteItem({ id: +data.id }));
+      this.store.dispatch(
+        ShoppingListActions.socketDeleteItem({ id: +data.id })
+      );
     });
 
     // #endregion

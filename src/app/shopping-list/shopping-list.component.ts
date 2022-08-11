@@ -3,12 +3,8 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Item } from '../shared/types';
-import { toggleSortOrder, updateItem } from './store/shopping-list.actions';
-import {
-  selectAllItems,
-  selectSortOrder,
-  selectStatus,
-} from './store/shopping-list.selectors';
+import { ShoppingListActions } from './store/shopping-list.actions';
+import { shoppingListFeature } from './store/shopping-list.reducer';
 
 @Component({
   selector: 'app-shopping-list',
@@ -20,13 +16,13 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   sortOrder$: Observable<string>;
   editItem: Item;
   showEdit = false;
-  listStatus$ = this.store.select(selectStatus);
+  listStatus$ = this.store.select(shoppingListFeature.selectStatus);
 
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.sortOrder$ = this.store.select(selectSortOrder);
-    this.store.select(selectAllItems).subscribe(items => {
+    this.sortOrder$ = this.store.select(shoppingListFeature.selectSortOrder);
+    this.store.select(shoppingListFeature.selectItems).subscribe(items => {
       this.shoppingItems$.next(items.filter(item => item.onShoppinglist));
     });
   }
@@ -35,7 +31,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     const updatedItem: Item = JSON.parse(JSON.stringify(item));
     updatedItem.onShoppinglist = false;
     updatedItem.amount = 1;
-    this.store.dispatch(updateItem({ item: updatedItem }));
+    this.store.dispatch(ShoppingListActions.updateItem({ item: updatedItem }));
   }
 
   onEditItem(item: Item) {
@@ -44,7 +40,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onTogleSorting() {
-    this.store.dispatch(toggleSortOrder());
+    this.store.dispatch(ShoppingListActions.toggleSortOrder());
   }
 
   ngOnDestroy(): void {

@@ -4,25 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { ShoppingListService } from '../shopping-list.service';
-import {
-  addItem,
-  addItemFailure,
-  addItemSuccess,
-  deleteItem,
-  deleteItemFailure,
-  deleteItemSuccess,
-  loadItems,
-  loadItemsFailure,
-  loadItemsSuccess,
-  socketAddItem,
-  socketDeleteItem,
-  socketUpdateItem,
-  sortList,
-  toggleSortOrder,
-  updateItem,
-  updateItemFailure,
-  updateItemSuccess,
-} from './shopping-list.actions';
+import { ShoppingListActions } from './shopping-list.actions';
 
 @Injectable()
 export class ShoppingListEffects {
@@ -31,13 +13,13 @@ export class ShoppingListEffects {
   //sends added item to backend
   saveAddedItem = createEffect(() =>
     this.actions$.pipe(
-      ofType(addItem),
+      ofType(ShoppingListActions.addItem),
       switchMap(payload =>
         from(this.shoppingListService.addItem(payload.item)).pipe(
           map(({ oldId, newId }) => {
-            return addItemSuccess({ oldId, newId });
+            return ShoppingListActions.addItemSuccess({ oldId, newId });
           }),
-          catchError(error => of(addItemFailure({ error })))
+          catchError(error => of(ShoppingListActions.addItemFailure({ error })))
         )
       )
     )
@@ -46,14 +28,16 @@ export class ShoppingListEffects {
   // get all shopping list items from backend
   loadItems = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadItems),
+      ofType(ShoppingListActions.loadItems),
       switchMap(() =>
         // Call getItems method, convert it to an observable
         from(this.shoppingListService.getItems()).pipe(
           // Take the returned value and return a new success action containing items
-          map(items => loadItemsSuccess({ items })),
+          map(items => ShoppingListActions.loadItemsSuccess({ items })),
           // Or... if an error occurs, return a new failure action containing the error string
-          catchError(error => of(loadItemsFailure({ error })))
+          catchError(error =>
+            of(ShoppingListActions.loadItemsFailure({ error }))
+          )
         )
       )
     )
@@ -63,13 +47,15 @@ export class ShoppingListEffects {
   //Returns old- and new id in order to update the local temp id
   saveUpdatedItem = createEffect(() =>
     this.actions$.pipe(
-      ofType(updateItem),
+      ofType(ShoppingListActions.updateItem),
       switchMap(payload =>
         from(this.shoppingListService.updateItem(payload.item)).pipe(
           map(() => {
-            return updateItemSuccess();
+            return ShoppingListActions.updateItemSuccess();
           }),
-          catchError(error => of(updateItemFailure({ error })))
+          catchError(error =>
+            of(ShoppingListActions.updateItemFailure({ error }))
+          )
         )
       )
     )
@@ -78,13 +64,15 @@ export class ShoppingListEffects {
   //delete item from backend
   deleteItem = createEffect(() =>
     this.actions$.pipe(
-      ofType(deleteItem),
+      ofType(ShoppingListActions.deleteItem),
       switchMap(payload =>
         from(this.shoppingListService.deleteItem(payload.item.id)).pipe(
           map(() => {
-            return deleteItemSuccess();
+            return ShoppingListActions.deleteItemSuccess();
           }),
-          catchError(error => of(deleteItemFailure({ error })))
+          catchError(error =>
+            of(ShoppingListActions.deleteItemFailure({ error }))
+          )
         )
       )
     )
@@ -96,22 +84,26 @@ export class ShoppingListEffects {
   sortList = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        toggleSortOrder,
-        addItem,
-        updateItem,
-        loadItemsSuccess,
-        socketAddItem,
-        socketUpdateItem,
-        socketDeleteItem
+        ShoppingListActions.toggleSortOrder,
+        ShoppingListActions.addItem,
+        ShoppingListActions.updateItem,
+        ShoppingListActions.loadItemsSuccess,
+        ShoppingListActions.socketAddItem,
+        ShoppingListActions.socketUpdateItem,
+        ShoppingListActions.socketDeleteItem
       ),
-      map(() => sortList())
+      map(() => ShoppingListActions.sortList())
     )
   );
 
   notifyOnError = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(loadItemsFailure, addItemFailure, updateItemFailure),
+        ofType(
+          ShoppingListActions.loadItemsFailure,
+          ShoppingListActions.addItemFailure,
+          ShoppingListActions.updateItemFailure
+        ),
         tap(error => {
           const httpError = <HttpErrorResponse>(
             JSON.parse(JSON.stringify(error.error))
