@@ -27,7 +27,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.store.dispatch(loadItems());
     this.sortOrder$ = this.store.select(selectSortOrder);
     this.store.select(selectAllItems).subscribe(items => {
       this.shoppingItems$.next(items.filter(item => item.onShoppinglist));
