@@ -8,9 +8,22 @@
   "layout": {
     "menu": {
       "Shopping list": "Shopping list",
-      "Language": "Language",
+      "Settings": "Settings",
       "Menu": "Menu",
       "Logout": "Logout"
+    }
+  },
+  "settings": {
+    "categories": {
+      "title": {
+        "Categories": "Categories"
+      }
+    },
+    "general": {
+      "title": {
+        "General": "General"
+      },
+      "Language": "Language"
     }
   },
   "shopping-list": {
@@ -25,7 +38,8 @@
       "Delete": "Delete"
     },
     "list": {
-      "Sort": "Sort"
+      "Sort": "Sort",
+      "empty-message": "There are currently no items on the list. Add some by typing in the field above!"
     }
   },
   "socket": {
