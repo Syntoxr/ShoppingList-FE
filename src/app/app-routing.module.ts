@@ -3,10 +3,24 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
+import { SettingsModule } from './settings/settings.module';
 
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
-const routes: Routes = [...getEnvironmentPaths()];
+const wildcardPath = environment.mock
+  ? { path: '**', redirectTo: '' }
+  : { path: '**', redirectTo: '/shopping-list' };
+
+const routes: Routes = [
+  ...getEnvironmentPaths(),
+  { path: 'auth', component: AuthComponent },
+  {
+    path: 'settings',
+    loadChildren: () => SettingsModule,
+    canActivate: [AuthGuard],
+  },
+  wildcardPath,
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
@@ -23,8 +37,6 @@ function getEnvironmentPaths(): Route[] {
         pathMatch: 'full',
         canActivate: [AuthGuard],
       },
-      { path: 'auth', component: AuthComponent },
-      { path: '**', redirectTo: '' },
     ];
   } else {
     return [
@@ -34,8 +46,6 @@ function getEnvironmentPaths(): Route[] {
         component: ShoppingListComponent,
         canActivate: [AuthGuard],
       },
-      { path: 'auth', component: AuthComponent },
-      { path: '**', redirectTo: '/shopping-list' },
     ];
   }
 }

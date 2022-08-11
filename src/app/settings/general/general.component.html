@@ -1,0 +1,11 @@
+<ng-container *transloco="let t; read: 'settings.general'">
+  <nz-page-header class="site-page-header" [nzTitle]="t('title.General')"></nz-page-header>
+
+  <nz-divider [nzText]="t('Language')" nzOrientation="left"></nz-divider>
+    <div>
+      <nz-select class="language-select" [(ngModel)]="selectedLanguage" (ngModelChange)="translocoService.setActiveLang(selectedLanguage)">
+        <nz-option *ngFor="let language of languageList" [nzLabel]="language.label" [nzValue]="language.id"></nz-option>
+      </nz-select>
+    </div>
+</ng-container>
+

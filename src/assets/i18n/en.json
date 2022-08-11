@@ -8,9 +8,22 @@
   "layout": {
     "menu": {
       "Shopping list": "Shopping list",
-      "Language": "Language",
+      "Settings": "Settings",
       "Menu": "Menu",
       "Logout": "Logout"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": {
+        "General": "General"
+      },
+      "Language": "Language"
+    },
+    "categories": {
+      "title": {
+        "Categories": "Categories"
+      }
     }
   },
   "shopping-list": {

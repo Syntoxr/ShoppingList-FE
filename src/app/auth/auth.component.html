@@ -1,30 +1,35 @@
-<ng-container *transloco="let t; read: 'auth'">
-  <h2 nz-typography>{{t('Login')}}</h2>
+<nz-row nzJustify="center" style="margin-top: 20px;">
+  <div nz-col nzXs="22" nzSm="22" nzMd="12">
+    <ng-container *transloco="let t; read: 'auth'">
+      <h2 nz-typography>{{t('Login')}}</h2>
 
-  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group nzPrefixIcon="user">
-          <input type="text" [placeholder]="t('Username')" nz-input formControlName="username">
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="user">
+              <input type="text" [placeholder]="t('Username')" nz-input formControlName="username">
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group nzPrefixIcon="lock">
-          <input type="password" [placeholder]="t('Password')" nz-input formControlName="password">
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="lock">
+              <input type="password" [placeholder]="t('Password')" nz-input formControlName="password">
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
 
-    <div style="margin-bottom: 16px;">
-      <label nz-checkbox formControlName="remember">
-        <span>{{t('Stay logged in')}}</span>
-      </label>
-    </div>
+        <div style="margin-bottom: 16px;">
+          <label nz-checkbox formControlName="remember">
+            <span>{{t('Stay logged in')}}</span>
+          </label>
+        </div>
 
-    <button type="submit" [disabled]="!authForm.valid" nz-button nzType="primary" nzBlock>{{t('Login')}}</button>
+        <button type="submit" [disabled]="!authForm.valid" nz-button nzType="primary" nzBlock>{{t('Login')}}</button>
 
-  </form>
-</ng-container>
+      </form>
+    </ng-container>
+  </div>
+</nz-row>
+

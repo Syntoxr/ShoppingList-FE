@@ -1,0 +1,28 @@
+<ng-container *transloco="let t; read: 'settings'">
+    <nz-layout class="layout">
+      <nz-sider nzCollapsible nzBreakpoint="md" [nzCollapsedWidth]="0">
+        <div class="logo"></div>
+        <ul nz-menu nzTheme="dark" nzMode="inline">
+          <li nz-menu-item routerLink="general">
+            <i nz-icon nzType="setting"></i>
+            <span>{{t('general.title.General')}}</span>
+          </li>
+          <li nz-menu-item routerLink="categories">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>{{t('categories.title.Categories')}}</span>
+          </li>
+        </ul>
+      </nz-sider>
+      <nz-layout>
+        <nz-row nzJustify="center" style="margin-top: 20px;">
+          <div nz-col nzXs="22" nzSm="22" nzMd="12">
+            <nz-content>
+              <router-outlet></router-outlet>
+            </nz-content>
+          </div>
+        </nz-row>
+      </nz-layout>
+    </nz-layout>
+</ng-container>
+
+
