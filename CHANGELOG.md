@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.2.0](https://github.com/Syntoxr/ShoppingList-FE/compare/v2.1.2...v2.2.0) (2022-08-11)
+
+
+### Features
+
+* added empty message for empty list ([d29aef1](https://github.com/Syntoxr/ShoppingList-FE/commit/d29aef1fbb28cd38df3182407bd361a17739dc45))
+* added settings page ([f221a21](https://github.com/Syntoxr/ShoppingList-FE/commit/f221a215aeb8b62a4e8cb01ffc6f2af8ec419f08))
+* show skeleton when loading items ([46688a4](https://github.com/Syntoxr/ShoppingList-FE/commit/46688a458326cfa8d1dc16d394e636b821222c82))
+
+
+### Bug Fixes
+
+* **auth:** save mock token in local storage too ([5386fb9](https://github.com/Syntoxr/ShoppingList-FE/commit/5386fb9ca767b6b1319b5f7bd9b7218b78984eec))
+* format logo link ([ca5c4ea](https://github.com/Syntoxr/ShoppingList-FE/commit/ca5c4ea34726ef6f1210efb5c617cb5ab614f15f))
+* only load items on login ([6551c0f](https://github.com/Syntoxr/ShoppingList-FE/commit/6551c0fd50a8d7ea4abda84afdcd1b3fa767b5ed))
+
 ## 2.1.2 (2022-08-08)
 
 
