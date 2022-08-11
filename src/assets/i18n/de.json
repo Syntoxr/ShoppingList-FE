@@ -42,7 +42,8 @@
             "Delete": "Löschen"
         },
         "list": {
-            "Sort": "Sortieren"
+            "Sort": "Sortieren",
+            "empty-message": "Es stehen aktuell keine Gegenstände auf der Liste. Füge welche hinzu, indem du in das Feld oben schreibst!"
         }
     },
     "socket": {

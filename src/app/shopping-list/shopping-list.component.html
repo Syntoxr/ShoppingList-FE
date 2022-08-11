@@ -24,7 +24,7 @@
           </nz-list-item>
         </nz-list>
 
-        <nz-skeleton [nzActive]="true" *ngIf="shoppingItems.length === 0"></nz-skeleton>
+        <nz-empty [nzNotFoundContent]="t('empty-message')" *ngIf="shoppingItems.length === 0"></nz-empty>
       </ng-container>
     </ng-container>
   </div>
