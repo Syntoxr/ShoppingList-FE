@@ -29,7 +29,6 @@ import { SocketService } from './shared/socket.service';
 import { SocketMockService } from './shared/socket.mock.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './auth/auth.module';
-import { SettingsModule } from './settings/settings.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HeaderComponent } from './layout/header/header.component';
 import { MenuComponent } from './layout/menu/menu.component';
@@ -68,7 +67,6 @@ const mockImports = environment.mock
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     AuthModule,
-    SettingsModule,
     ShoppingListModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,

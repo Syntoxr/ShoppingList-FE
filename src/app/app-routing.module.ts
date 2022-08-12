@@ -3,7 +3,6 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
-import { SettingsModule } from './settings/settings.module';
 
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
@@ -16,7 +15,8 @@ const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   {
     path: 'settings',
-    loadChildren: () => SettingsModule,
+    loadChildren: () =>
+      import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard],
   },
   wildcardPath,
