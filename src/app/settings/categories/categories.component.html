@@ -1,3 +1,17 @@
 <ng-container *transloco="let t; read: 'settings.categories'">
   <nz-page-header class="site-page-header" [nzTitle]="t('title.Categories')"></nz-page-header>
+  <nz-divider [nzText]="t('Current categories')" nzOrientation="left"></nz-divider>
+
+  <nz-list>
+    <nz-list-item *ngFor="let category of categories$ | async" style="padding: 5px;">
+      <app-category style="width: 100%;" [category]="category"></app-category>
+    </nz-list-item>
+  </nz-list>
+
+  <nz-divider [nzText]="t('New Category')" nzOrientation="left"></nz-divider>
+
+  <app-new-category></app-new-category>
 </ng-container>
+
+
+

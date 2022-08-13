@@ -17,3 +17,10 @@ export interface SocketResponse {
   body?: any;
   error?: any;
 }
+
+export interface Category {
+  name: string;
+  color: string;
+  icon?: string;
+  id: number;
+}

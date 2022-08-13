@@ -1,65 +1,70 @@
 {
+  "auth": {
+    "Login": "Einloggen",
+    "Username": "Benutzername",
+    "Password": "Passwort",
+    "Stay logged in": "Eingeloggt bleiben"
+  },
+  "layout": {
     "menu": {
-        "Shopping list": "Einkaufsliste",
-        "Language": "Sprache"
+      "Shopping list": "Einkaufsliste",
+      "Settings": "Einstellungen",
+      "Menu": "Menü",
+      "Logout": "Ausloggen"
+    }
+  },
+  "settings": {
+    "categories": {
+      "title": {
+        "Categories": "Kategorien"
+      },
+      "Current categories": "Aktuelle Kategorien",
+      "New Category": "Neue Kategorie",
+      "Name": "Name",
+      "Color": "Farbe",
+      "Icon": "Icon"
     },
-    "auth": {
-        "Login": "Einloggen",
-        "Username": "Benutzername",
-        "Password": "Passwort",
-        "Stay logged in": "Eingeloggt bleiben"
-    },
-    "layout": {
-        "menu": {
-            "Shopping list": "Einkaufsliste",
-            "Settings": "Einstellungen",
-            "Menu": "Menü",
-            "Logout": "Ausloggen"
-        }
-    },
-    "settings": {
     "general": {
       "title": {
         "General": "Allgemein"
       },
       "Language": "Sprache"
+    }
+  },
+  "shopping-list": {
+    "add-item": {
+      "Add to list": "Zu Liste hinzufügen"
     },
-    "categories": {
-      "title": {
-        "Categories": "Kategorien"
+    "edit-item": {
+      "Amount": "Anzahl",
+      "Edit": "Bearbeiten",
+      "Update": "Aktualisieren",
+      "Cancel": "Abbrechen",
+      "Delete": "Löschen"
+    },
+    "list": {
+      "Sort": "Sortieren",
+      "empty-message": "Es stehen aktuell keine Gegenstände auf der Liste. Füge welche hinzu, indem du in das Feld oben schreibst!"
+    }
+  },
+  "socket": {
+    "notification": {
+      "reconnect": {
+        "title": "Verbindung OK",
+        "content": "Du wirst wieder  Live-Updates erhalten"
+      },
+      "connect-error": {
+        "title": "Konnte nicht zu Server verbinden",
+        "content": "Du wirst keine Live-Updates erhalten"
+      },
+      "disconnect": {
+        "title": "Verbindung zu Server unterbrochen",
+        "content": "Du wirst keine Live-Updates erhalten"
       }
     }
   },
-    "shopping-list": {
-        "add-item": {
-            "Add to list": "Zu Liste hinzufügen"
-        },
-        "edit-item": {
-            "Amount": "Anzahl",
-            "Edit": "Bearbeiten",
-            "Update": "Aktualisieren",
-            "Cancel": "Abbrechen",
-            "Delete": "Löschen"
-        },
-        "list": {
-            "Sort": "Sortieren",
-            "empty-message": "Es stehen aktuell keine Gegenstände auf der Liste. Füge welche hinzu, indem du in das Feld oben schreibst!"
-        }
-    },
-    "socket": {
-        "notification": {
-            "reconnect": {
-                "title": "Verbindung OK",
-                "content": "Du wirst wieder  Live-Updates erhalten"
-            },
-            "connect-error": {
-                "title": "Konnte nicht zu Server verbinden",
-                "content": "Du wirst keine Live-Updates erhalten"
-            },
-            "disconnect": {
-                "title": "Verbindung zu Server unterbrochen",
-                "content": "Du wirst keine Live-Updates erhalten"
-            }
-        }
-    }
+  "menu": {
+    "Shopping list": "Einkaufsliste",
+    "Language": "Sprache"
+  }
 }

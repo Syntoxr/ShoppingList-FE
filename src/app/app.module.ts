@@ -34,6 +34,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { MenuComponent } from './layout/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
+import { SharedModule } from './shared/shared.module';
 
 registerLocaleData(de);
 
@@ -66,6 +67,7 @@ const mockImports = environment.mock
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    SharedModule,
     AuthModule,
     ShoppingListModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

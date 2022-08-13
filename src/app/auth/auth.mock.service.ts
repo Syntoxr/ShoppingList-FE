@@ -52,7 +52,7 @@ export class AuthMockService extends AuthService {
   private get mockToken() {
     const payload = btoa(
       `{"iss": "user", "exp": ${
-        Date.now() / 1000 + 600
+        Date.now() / 1000 + 60000
       }, "iat": ${Date.now()} }`
     );
     return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${payload}.Mc3CM9MrTNPSX1b9sZFrEPGKdnYVVp-RjdiZd_2_J2w`;

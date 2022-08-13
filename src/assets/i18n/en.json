@@ -17,7 +17,12 @@
     "categories": {
       "title": {
         "Categories": "Categories"
-      }
+      },
+      "Current categories": "Current categories",
+      "New Category": "New Category",
+      "Name": "Name",
+      "Color": "Color",
+      "Icon": "Icon"
     },
     "general": {
       "title": {

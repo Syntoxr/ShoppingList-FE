@@ -1,0 +1,13 @@
+<ng-container *transloco="let t; read: 'settings.categories'">
+  <app-category [category]="sampleCategory"></app-category>
+  <nz-divider nzPlain [nzText]="t('Name')"></nz-divider>
+  <nz-divider nzPlain [nzText]="t('Color')"></nz-divider>
+  <ngx-colors ngx-colors-trigger [(ngModel)]="sampleCategory.color"></ngx-colors>
+  <nz-divider nzPlain [nzText]="t('Icon')"></nz-divider>
+
+  <nz-avatar (click)="onIconSelect(icon)" class="icon" *ngFor="let icon of iconList"
+    [ngStyle]="{'background-color': sampleCategory.color}" nzIcon="user"
+    nzSrc="assets/icons/categories/{{icon ?? 'dots-horizontal.svg'}}" [nzAlt]="icon"></nz-avatar>
+</ng-container>
+
+
