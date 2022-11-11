@@ -2,16 +2,25 @@
 
 A simple selfhosted shopping list
 
-> ## ⚠️ This is still in development and a few cool functions are comming soon - hopefully.
+## Features
+
+- :electric_plug: Selfhosted
+- :whale: Easy deploy via docker
+- :zap: Shopping list updates in realtime
+- :framed_picture: Fast web frontend (useable through every modern browser)
+- :iphone: Website installable as app (through crome browser on android) (PWA)
+- :secret: Multi language support (currently English and German)
+- :grey_exclamation: Suggests previously added items
+- :construction_worker: Configure multiple user logins
 
 ## Demo
 
 An up to date demo with a simulated backend can be seen here: [https://syntoxr.github.io/ShoppingList-FE/](https://syntoxr.github.io/ShoppingList-FE/):
 
-- user name:`user`
-- password:`notSave`
+- user name: `user`
+- password: `notSave`
 
-This is my first web application so feel free to report any issues you find.
+This is my first web application so feel free to report any issues you notice.
 
 ## Getting started
 
