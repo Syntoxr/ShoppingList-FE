@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1683530797234,
+  "timestamp": 1685088390608,
   "index": "https://syntoxr.github.io/ShoppingList-FE/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "https://syntoxr.github.io/ShoppingList-FE/favicon.ico",
         "https://syntoxr.github.io/ShoppingList-FE/index.html",
-        "https://syntoxr.github.io/ShoppingList-FE/main.9c8fc91b22db465a.js",
+        "https://syntoxr.github.io/ShoppingList-FE/main.3c5db031714df83f.js",
         "https://syntoxr.github.io/ShoppingList-FE/manifest.webmanifest",
         "https://syntoxr.github.io/ShoppingList-FE/polyfills.461c5ac96f98f985.js",
         "https://syntoxr.github.io/ShoppingList-FE/runtime.418c38a7d3c0e2a8.js",
@@ -3224,8 +3224,8 @@
     "https://syntoxr.github.io/ShoppingList-FE/assets/twotone/warning.js": "fb2d7ea232f3a99bf8f080dbc94c65699232ac01",
     "https://syntoxr.github.io/ShoppingList-FE/assets/twotone/warning.svg": "8c7a2d3e765a2e7dd58ac674870c6655cecb0068",
     "https://syntoxr.github.io/ShoppingList-FE/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://syntoxr.github.io/ShoppingList-FE/index.html": "e9b7013a873f721af628f605cc0caf65678881e1",
-    "https://syntoxr.github.io/ShoppingList-FE/main.9c8fc91b22db465a.js": "7be2cfab9b27490a3da957f8bb0385e0bc0232bc",
+    "https://syntoxr.github.io/ShoppingList-FE/index.html": "12e9fb8b5e4e283a5dc17adfac27921f1e86b50a",
+    "https://syntoxr.github.io/ShoppingList-FE/main.3c5db031714df83f.js": "d29230774d1e08502b64327a24f7ca23542a0ae5",
     "https://syntoxr.github.io/ShoppingList-FE/manifest.webmanifest": "d80ad15ff286c5a4f33c6a5924dc598050732b7f",
     "https://syntoxr.github.io/ShoppingList-FE/polyfills.461c5ac96f98f985.js": "0beacc8db73eb50f2ac49cc2810aeec1bcd8308d",
     "https://syntoxr.github.io/ShoppingList-FE/runtime.418c38a7d3c0e2a8.js": "c9bb28d2aee54fdd7a8db2363545855715d51f05",
