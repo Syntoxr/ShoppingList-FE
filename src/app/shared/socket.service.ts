@@ -58,6 +58,7 @@ export class SocketService {
           {
             nzKey: 'socket',
             nzDuration: 5000,
+            nzPlacement: 'bottomRight',
           }
         );
       }
@@ -84,6 +85,7 @@ export class SocketService {
         {
           nzKey: 'socket',
           nzDuration: 600000,
+          nzPlacement: 'bottomRight',
         }
       ).messageId;
     });
@@ -103,6 +105,7 @@ export class SocketService {
         {
           nzKey: 'socket',
           nzDuration: 600000,
+          nzPlacement: 'bottomRight',
         }
       ).messageId;
     });

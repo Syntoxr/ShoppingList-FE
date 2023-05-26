@@ -119,7 +119,10 @@ export class ShoppingListEffects {
           this.notification.create(
             'error',
             'Error ' + httpError.status + ' ' + httpError.statusText,
-            JSON.stringify(httpError.message)
+            JSON.stringify(httpError.message),
+            {
+              nzPlacement: 'bottomRight',
+            }
           );
         })
       ),
