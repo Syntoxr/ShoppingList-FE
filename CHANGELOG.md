@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/Syntoxr/ShoppingList-FE/compare/v2.2.0...v2.3.0) (2023-05-26)
+
+
+### Features
+
+* moved notifications to bottom ([32cad34](https://github.com/Syntoxr/ShoppingList-FE/commit/32cad3419ef9297238aea3362fa3a086994e42f4))
+
 ## [2.2.0](https://github.com/Syntoxr/ShoppingList-FE/compare/v2.1.2...v2.2.0) (2022-08-11)
 
 
